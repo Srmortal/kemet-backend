@@ -2,11 +2,11 @@
   "name": "kemet-backend",
   "version": "1.0.0",
   "description": "Node.js backend API with TypeScript",
-  "main": "dist/server.js",
+  "main": "dist/src/server.js",
   "scripts": {
-    "start": "node dist/server.js",
+    "start": "node dist/src/server.js",
     "dev": "nodemon src/server.ts",
-    "build": "tsc",
+    "build": "tsc && tsc-alias",
     "clean": "rm -rf dist",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
@@ -15,6 +15,8 @@
     "scrape:egypt": "ts-node scripts/scrape-experienceegypt.ts",
     "scrape:tourism": "ts-node scripts/scrape-tourism.ts",
     "scrape:booking": "ts-node scripts/scrape-booking.ts",
+    "scrape:all-places": "ts-node scripts/scrape-all-tourism-places.ts",
+    "merge:tourism-places": "ts-node scripts/merge-tourism-places.ts",
     "pm2:start": "pm2 start ecosystem.config.js",
     "pm2:stop": "pm2 stop all",
     "pm2:restart": "pm2 restart ecosystem.config.js",
@@ -24,6 +26,16 @@
     "pm2:monit": "pm2 monit",
     "pm2:status": "pm2 status",
     "pm2:flush": "pm2 flush"
+  },
+  "_moduleAliases": {
+    "@controllers": "dist/src/controllers",
+    "@routes": "dist/src/routes",
+    "@models": "dist/src/models",
+    "@middleware": "dist/src/middleware",
+    "@utils": "dist/src/utils",
+    "@config": "dist/src/config",
+    "@services": "dist/src/services",
+    "@types": "dist/src/types"
   },
   "keywords": [
     "nodejs",
@@ -47,9 +59,10 @@
     "helmet": "^7.1.0",
     "joi": "^17.11.0",
     "jsonwebtoken": "^9.0.2",
+    "module-alias": "^2.2.3",
     "morgan": "^1.10.0",
-    "pm2": "^5.3.0",
-    "pdf-parse": "^2.4.5"
+    "pdf-parse": "^2.4.5",
+    "pm2": "^5.3.0"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
@@ -69,6 +82,7 @@
     "supertest": "^7.1.1",
     "ts-jest": "^29.1.1",
     "ts-node": "^10.9.2",
+    "tsc-alias": "^1.8.16",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.3.3"
   }

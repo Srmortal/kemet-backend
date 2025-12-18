@@ -224,13 +224,19 @@ GET /accommodations/stats/overview      # Get statistics
    - Log management
 
 4. ✅ **Firestore Integration** - All data stored in separate collections
-   - `tourism_activities_egypt`
-   - `booking_accommodations_egypt`
-   - `experienceegypt_pages`
+  - `tourism_activities_egypt`
+  - `booking_accommodations_egypt`
+  - `experienceegypt_pages`
+  - `egypt_tourism_places`
 
-5. ✅ **Documentation** - Complete API reference and quick start guides
+5. ✅ **Unified Collection (new)** - Consolidated tourism places + activities + monuments
+  - Merge script: `npm run merge:tourism-places`
+  - Sources: `egypt_tourism_places`, `tourism_activities_egypt`, `monuments_clean`
+  - Target collection: `tourism_places_unified` (deduped by name + location)
 
-6. ✅ **TypeScript Compilation** - All files compile successfully to `dist/`
+6. ✅ **Documentation** - Complete API reference and quick start guides
+
+7. ✅ **TypeScript Compilation** - All files compile successfully to `dist/`
 
 ---
 
