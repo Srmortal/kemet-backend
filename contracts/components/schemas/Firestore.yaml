@@ -1,0 +1,45 @@
+FirestoreSetRequest:
+  type: object
+  properties:
+    data:
+      type: object
+      additionalProperties: true
+  required:
+    - data
+FirestoreSetResponse:
+  type: object
+  properties:
+    id:
+      type: string
+  required:
+    - id
+FirestoreQueryRequest:
+  type: object
+  properties:
+    query:
+      type: object
+      additionalProperties: true
+  required:
+    - query
+FirestoreQueryResult:
+  type: object
+  properties:
+    id:
+      type: string
+    data:
+      type: object
+      additionalProperties: true
+  required:
+    - id
+    - data
+FirestoreDocument:
+  type: object
+  properties:
+    id:
+      type: string
+    data:
+      type: object
+      additionalProperties: true
+  required:
+    - id
+    - data

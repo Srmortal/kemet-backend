@@ -1,0 +1,440 @@
+/firebase-admin/custom-token:
+  post:
+    summary: Create custom token for user
+    operationId: createCustomToken
+    security:
+      - adminApiKey: []
+    x-middleware:
+      auth: true
+      role: admin
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              uid:
+                type: string
+            required:
+              - uid
+    responses:
+      '200':
+        description: Custom token created
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                token:
+                  type: string
+              required:
+                - token
+/firebase-admin/users/create:
+  post:
+    summary: Create a new user
+    operationId: createUser
+    security:
+      - adminApiKey: []
+    x-middleware:
+      auth: true
+      role: admin
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../components/schemas/index.yaml#/CreateUserRequest'
+    responses:
+      '201':
+        description: User created
+        content:
+          application/json:
+            schema:
+              $ref: '../components/schemas/index.yaml#/CreateUserResponse'
+/firebase-admin/users:
+  get:
+    summary: List users
+    operationId: listUsers
+    security:
+      - adminApiKey: []
+    x-middleware:
+      auth: true
+      role: admin
+    responses:
+      '200':
+        description: List of users
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '../components/schemas/index.yaml#/User'
+/firebase-admin/users/{uid}:
+  get:
+    summary: Get user by UID
+    operationId: getUserByUid
+    security:
+      - adminApiKey: []
+    x-middleware:
+      auth: true
+      role: admin
+    parameters:
+      - name: uid
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      '200':
+        description: User details
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                uid:
+                  type: string
+                email:
+                  type: string
+              required:
+                - uid
+                - email
+      '404':
+        description: User not found
+  patch:
+    summary: Update user by UID
+    operationId: updateUserByUid
+    security:
+      - adminApiKey: []
+    x-middleware:
+      auth: true
+      role: admin
+    parameters:
+      - name: uid
+        in: path
+        required: true
+        schema:
+          type: string
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              email:
+                type: string
+            required:
+              - email
+    responses:
+      '200':
+        description: User updated
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                uid:
+                  type: string
+              required:
+                - uid
+      '404':
+        description: User not found
+  delete:
+    summary: Delete user by UID
+    operationId: deleteUserByUid
+    security:
+      - adminApiKey: []
+    x-middleware:
+      auth: true
+      role: admin
+    parameters:
+      - name: uid
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      '204':
+        description: User deleted
+      '404':
+        description: User not found
+/firebase-admin/users/by-email/{email}:
+  get:
+    summary: Get user by email
+    operationId: getUserByEmail
+    security:
+      - adminApiKey: []
+    x-middleware:
+      auth: true
+      role: admin
+    parameters:
+      - name: email
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      '200':
+        description: User details
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                uid:
+                  type: string
+                email:
+                  type: string
+              required:
+                - uid
+                - email
+      '404':
+        description: User not found
+/firebase-admin/users/{uid}/claims:
+  post:
+    summary: Set custom claims for user
+    operationId: setCustomClaimsForUser
+    security:
+      - adminApiKey: []
+    x-middleware:
+      auth: true
+      role: admin
+    parameters:
+      - name: uid
+        in: path
+        required: true
+        schema:
+          type: string
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              claims:
+                type: object
+            required:
+              - claims
+    responses:
+      '200':
+        description: Claims set
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                success:
+                  type: boolean
+              required:
+                - success
+/firebase-admin/users/{uid}/revoke-tokens:
+  post:
+    summary: Revoke refresh tokens for user
+    operationId: revokeUserTokens
+    security:
+      - adminApiKey: []
+    x-middleware:
+      auth: true
+      role: admin
+    parameters:
+      - name: uid
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      '200':
+        description: Tokens revoked
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                success:
+                  type: boolean
+              required:
+                - success
+/firebase-admin/email-verification-link:
+  post:
+    summary: Generate email verification link
+    operationId: generateEmailVerificationLink
+    security:
+      - adminApiKey: []
+    x-middleware:
+      auth: true
+      role: admin
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              email:
+                type: string
+            required:
+              - email
+    responses:
+      '200':
+        description: Verification link generated
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                link:
+                  type: string
+              required:
+                - link
+/firebase-admin/password-reset-link:
+  post:
+    summary: Generate password reset link
+    operationId: generatePasswordResetLink
+    security:
+      - adminApiKey: []
+    x-middleware:
+      auth: true
+      role: admin
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              email:
+                type: string
+            required:
+              - email
+    responses:
+      '200':
+        description: Password reset link generated
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                link:
+                  type: string
+              required:
+                - link
+/firebase-admin/firestore/{collection}/{docId}:
+  get:
+    summary: Get Firestore document
+    operationId: getFirestoreDocument
+    security:
+      - adminApiKey: []
+    x-middleware:
+      auth: true
+      role: admin
+    parameters:
+      - name: collection
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: docId
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      '200':
+        description: Document details
+        content:
+          application/json:
+            schema:
+              $ref: '../components/schemas/index.yaml#/FirestoreDocument'
+      '404':
+        description: Document not found
+  put:
+    summary: Set Firestore document
+    operationId: setFirestoreDocument
+    security:
+      - adminApiKey: []
+    x-middleware:
+      auth: true
+      role: admin
+    parameters:
+      - name: collection
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: docId
+        in: path
+        required: true
+        schema:
+          type: string
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../components/schemas/index.yaml#/FirestoreSetRequest'
+    responses:
+      '200':
+        description: Document set
+        content:
+          application/json:
+            schema:
+              $ref: '../components/schemas/index.yaml#/FirestoreSetResponse'
+      '400':
+        description: Invalid request
+  delete:
+    summary: Delete Firestore document
+    operationId: deleteFirestoreDocument
+    security:
+      - adminApiKey: []
+    x-middleware:
+      auth: true
+      role: admin
+    parameters:
+      - name: collection
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: docId
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      '204':
+        description: Document deleted
+      '404':
+        description: Document not found
+/firebase-admin/firestore/{collection}/query:
+  post:
+    summary: Query Firestore collection
+    operationId: queryFirestoreCollection
+    security:
+      - adminApiKey: []
+    x-middleware:
+      auth: true
+      role: admin
+    parameters:
+      - name: collection
+        in: path
+        required: true
+        schema:
+          type: string
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../components/schemas/index.yaml#/FirestoreQueryRequest'
+    responses:
+      '200':
+        description: Query results
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '../components/schemas/index.yaml#/FirestoreDocument'

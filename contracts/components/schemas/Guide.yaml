@@ -1,0 +1,70 @@
+Guide:
+  type: object
+  properties:
+    id:
+      type: string
+      example: "guide_1"
+    name:
+      type: string
+      example: "Dr. Khaled Mostafa"
+    featured:
+      type: boolean
+      description: Whether the guide is featured
+      example: true
+    rating:
+      type: number
+      format: float
+      example: 4.9
+    reviews:
+      type: integer
+      example: 542
+    toursCount:
+      type: integer
+      example: 1240
+    pricePerDay:
+      type: integer
+      example: 1000
+    pricePerHour:
+      type: integer
+      example: 150
+    credentials:
+      type: array
+      items:
+        type: string
+      example: ["Licensed Egyptologist", "PhD", "UNESCO Certified", "First Aid Certified"]
+    languages:
+      type: array
+      items:
+        type: string
+      example: ["English", "Arabic", "French", "German"]
+    specializations:
+      type: array
+      items:
+        type: string
+      example: ["Egyptology", "Ancient History", "Museums"]
+    about:
+      type: string
+      example: "Licensed Egyptologist with PhD in Ancient Egyptian History. Specialized in hieroglyphics and pharaonic dynasties. Published author and consultant for major museums."
+    tours:
+      type: array
+      items:
+        $ref: '#/Tour'
+
+Tour:
+  type: object
+  properties:
+    name:
+      type: string
+      example: "Pyramids of Giza Full Day Tour"
+    description:
+      type: string
+      example: "A full day tour of the Pyramids of Giza."
+    durationHours:
+      type: integer
+      example: 8
+    maxPeople:
+      type: integer
+      example: 8
+    price:
+      type: integer
+      example: 1200

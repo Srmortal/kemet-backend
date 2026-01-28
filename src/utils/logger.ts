@@ -8,7 +8,7 @@ enum LogLevel {
 }
 
 class Logger {
-  private log(level: LogLevel, message: string, data?: any) {
+  private log(level: LogLevel, message: string, data?: unknown) {
     const timestamp = new Date().toISOString();
     const logMessage = `[${timestamp}] [${level}] ${message}`;
 
@@ -27,28 +27,29 @@ class Logger {
     }
   }
 
-  info(message: string, data?: any) {
+  info(message: string, data?: unknown) {
     this.log(LogLevel.INFO, message, data);
   }
 
-  warn(message: string, data?: any) {
+  warn(message: string, data?: unknown) {
     this.log(LogLevel.WARN, message, data);
   }
 
-  error(message: string | { message: string; stack?: string; statusCode?: number }, data?: any) {
+  error(message: string | { message: string; stack?: string; statusCode?: number }, data?: unknown) {
     if (typeof message === 'object') {
+      const additionalData = data && typeof data === 'object' ? data : {};
       this.log(LogLevel.ERROR, message.message, {
         stack: message.stack,
         statusCode: message.statusCode,
-        ...data,
+        ...additionalData,
       });
     } else {
       this.log(LogLevel.ERROR, message, data);
     }
   }
 
-  debug(message: string, data?: any) {
-    if (process.env.NODE_ENV === 'development') {
+  debug(message: string, data?: unknown) {
+    if (process.env['NODE_ENV'] === 'development') {      
       this.log(LogLevel.DEBUG, message, data);
     }
   }

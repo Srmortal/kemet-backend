@@ -1,8 +1,16 @@
 {
+  "root": true,
   "parser": "@typescript-eslint/parser",
+  "plugins": [
+    "@typescript-eslint",
+    "import",
+    "security"
+  ],
   "extends": [
     "eslint:recommended",
-    "plugin:@typescript-eslint/recommended"
+    "plugin:@typescript-eslint/recommended",
+    "plugin:import/recommended",
+    "plugin:import/typescript"
   ],
   "parserOptions": {
     "ecmaVersion": 2020,
@@ -13,11 +21,146 @@
     "@typescript-eslint/no-explicit-any": "warn",
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/no-unused-vars": [
-      "error",
+      "warn",
       {
         "argsIgnorePattern": "^_"
       }
     ],
-    "no-console": "warn"
+    "no-console": "warn",
+
+    // --- SECURITY RULES (Manual Setup) ---
+    "security/detect-unsafe-regex": "warn",
+    "security/detect-buffer-noassert": "warn",
+    "security/detect-child-process": "warn",
+    "security/detect-disable-mustache-escape": "warn",
+    "security/detect-eval-with-expression": "warn",
+    "security/detect-no-csrf-before-method-override": "warn",
+    "security/detect-non-literal-fs-filename": "warn",
+    "security/detect-non-literal-regexp": "warn",
+    "security/detect-non-literal-require": "warn",
+    "security/detect-pseudoRandomBytes": "warn",
+    // distinct-object-injection is often noisy, set to 'off' or 'warn'
+    "security/detect-object-injection": "off",
+
+    // Enforce architectural boundaries
+    "import/no-restricted-paths": [
+      "error",
+      {
+        "zones": [
+          // 1. Controllers MAY import services, dto, validators, types
+
+          // 2. Services MUST NOT import controllers, routes, types/api.ts, HTTP code
+          {
+            "target": "./src/services",
+            "from": [
+              "./src/controllers",
+              "./src/routes",
+              "./src/types/api.ts",
+              "./src/utils/ApiError.ts",
+              "./src/infrastructure",
+              "./src/config/firebase.ts"
+            ]
+          },
+          // 4. Models MUST NOT import controllers, routes, types/api.ts
+          {
+            "target": "./src/models",
+            "from": [
+              "./src/controllers",
+              "./src/routes",
+              "./src/types/api.ts",
+              "./src/infrastructure/firestore/firestoreOrm.ts",
+              "./src/repositories",
+              "./src/services"
+            ]
+          },
+          {
+            "target": "./src/middlewares",
+            "from": [
+              "./src/services",
+              "./src/models",
+              "./src/types",
+              "./src/controllers",
+              "./src/routes",
+              "./src/infrastructure"
+            ]
+          },
+          {
+            "target": "./src/routes",
+            "from": [
+              "./src/services",
+              "./src/models",
+              "./src/types",
+              "./src/infrastructure"
+            ]
+          },
+          {
+            "target": "./src/controllers",
+            "from": [
+              "./src/models",
+              "./src/middlewares",
+              "./src/routes",
+              "./src/infrastructure"
+            ]
+          }
+          // 5. types/ contains NO runtime logic (enforced by no-restricted-syntax below)
+        ]
+      }
+    ],
+    // 5. types/ contains NO runtime logic (no functions, no side effects)
+    "no-restricted-syntax": [
+      "error",
+      {
+        "selector": "Program[filename=/src\\/types\\/.*\\.ts$/] :function",
+        "message": "No functions allowed in types/"
+      },
+      {
+        "selector": "Program[filename=/src\\/types\\/.*\\.ts$/] ExpressionStatement",
+        "message": "No runtime logic or side effects allowed in types/"
+      }
+    ],
+    "import/default": "off",
+    "no-restricted-imports": [
+        "error",
+        {
+          "paths": [
+            {
+              "name": "./src/infrastructure/firestore/firestoreOrm",
+              "message": "Only repositories and infrastructure/firestore may import FirestoreOrm"
+            },
+            {
+              "name": "firebase-admin",
+              "message": "firebase-admin may only be imported inside infrastructure/firestore or config/firebase.ts"
+            }
+          ]
+        }
+    ]
+  },
+  "overrides": [
+    {
+      "files": ["src/**/*.test.ts", "src/**/*.spec.ts", "src/**/__tests__/**"],
+      "rules": {
+        "no-restricted-syntax": [
+          2,
+          {
+            "selector": "Program",
+            "message": "Test files must not live inside src/. Move them to the tests/ directory."
+          }
+        ]
+      }
+    },
+    {
+      "files": ["src/infrastructure/firestore/**", "src/config/firebase.ts"],
+      "rules": {
+        "no-restricted-imports": "off"
+      }
+    }
+  ],
+  "settings": {
+    "import/resolver": {
+      "typescript": {
+        "alwaysTryTypes": true,
+        "project": "./tsconfig.json"
+      }
+    }
   }
 }

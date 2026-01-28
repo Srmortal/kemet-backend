@@ -1,0 +1,20 @@
+extends:
+  - recommended
+
+rules:
+  no-inline-paths:
+    subject:
+      type: Paths
+    message: "Paths must be defined in paths/*.yaml only"
+    severity: error
+  no-inline-schemas:
+    subject:
+      type: Components
+    message: "Schemas must be defined in components/schemas/*.yaml only"
+    severity: error
+  no-giant-openapi:
+    subject:
+      type: Root
+    message: "OpenAPI must be modular. Do not inline paths or schemas."
+    severity: error
+

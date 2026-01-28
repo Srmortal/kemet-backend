@@ -1,0 +1,94 @@
+
+CreateHotelBookingRequest:
+  type: object
+  properties:
+    hotelId:
+      type: string
+    roomId:
+      type: string
+    checkIn:
+      type: string
+      format: date
+    checkOut:
+      type: string
+      format: date
+    guestName:
+      type: string
+    guestEmail:
+      type: string
+      format: email
+    guestPhone:
+      type: string
+      pattern: '^\+\d{1,15}$'
+    guests:
+      type: integer
+    specialRequests:
+      type: string
+  required:
+    - hotelId
+    - roomId
+    - checkIn
+    - checkOut
+    - guestName
+    - guestEmail
+    - guestPhone
+    - guests
+
+CreateHotelBookingResponse:
+  type: object
+  properties:
+    id:
+      type: string
+    hotelId:
+      type: string
+    roomId:
+      type: string
+    checkIn:
+      type: string
+    checkOut:
+      type: string
+    guestName:
+      type: string
+    guestEmail:
+      type: string
+    guestPhone:
+      type: string
+    guests:
+      type: integer
+    status:
+      type: string
+      enum: [pending, confirmed, cancelled, completed]
+    createdAt:
+      type: string
+    updatedAt:
+      type: string
+    pricePerNight:
+      type: number
+    nights:
+      type: integer
+    subtotal:
+      type: number
+    serviceFee:
+      type: number
+    discountPercent:
+      type: number
+    discountAmount:
+      type: number
+    totalPrice:
+      type: number
+    qrCode:
+      type: string
+    paymentStatus:
+      type: string
+      enum: [pending, paid, failed, refunded]
+    paymentMethod:
+      type: string
+      enum: [card, cash, wallet, bank_transfer]
+    paymentTransactionId:
+      type: string
+    paymentAmount:
+      type: number
+    paymentCurrency:
+      type: string
+    paymentDate:
+      type: string

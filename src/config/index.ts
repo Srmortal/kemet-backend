@@ -1,6 +1,6 @@
-import dotenv from 'dotenv';
+import { config as dotenvConfig } from 'dotenv';
 
-dotenv.config();
+dotenvConfig();
 
 interface Config {
   env: string;
@@ -8,10 +8,6 @@ interface Config {
   cors: {
     origin: string | string[];
     credentials: boolean;
-  };
-  jwt: {
-    secret: string;
-    expiresIn: string;
   };
   rateLimit: {
     windowMs: number;
@@ -23,16 +19,12 @@ const config: Config = {
   env: process.env.NODE_ENV || 'development',
   port: parseInt(process.env.PORT || '3000', 10),
   cors: {
-    origin: process.env.CORS_ORIGIN || '*',
+    origin: process.env.CORS_ORIGIN || ['http://localhost:3000', 'http://localhost:3001', 'http://localhost:5173'],
     credentials: true,
   },
-  jwt: {
-    secret: process.env.JWT_SECRET || 'your-secret-key-change-this',
-    expiresIn: process.env.JWT_EXPIRES_IN || '7d',
-  },
   rateLimit: {
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100, // limit each IP to 100 requests per windowMs
+    windowMs: process.env.NODE_ENV === 'test' ? 10000 : 15 * 60 * 1000, // 10 seconds for tests, 15 minutes for production
+    max: process.env.NODE_ENV === 'test' ? 200 : 100, // 200 requests per 10s for tests, 100 per 15 min for production
   },
 };
 

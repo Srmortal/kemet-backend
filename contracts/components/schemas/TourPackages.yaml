@@ -1,0 +1,129 @@
+TourPackageSummary:
+  type: object
+  properties:
+    id:
+      type: string
+    name:
+      type: string
+    image:
+      type: string
+    pricePerPerson:
+      type: number
+    discount:
+      type: number
+      description: Discount percentage (optional)
+    rating:
+      type: number
+    location:
+      type: string
+  required:
+    - id
+    - name
+    - image
+    - pricePerPerson
+    - rating
+    - location
+TourPackageDetail:
+  type: object
+  properties:
+    id:
+      type: string
+    name:
+      type: string
+    image:
+      type: string
+    pricePerPerson:
+      type: number
+    discount:
+      type: number
+      description: Discount percentage (optional)
+    rating:
+      type: number
+    location:
+      type: string
+    availableLanguages:
+      type: array
+      items:
+        type: string
+    included:
+      type: array
+      items:
+        type: string
+    itinerary:
+      type: array
+      items:
+        type: string
+    duration:
+      type: string
+    groupSize:
+      type: object
+      properties:
+        min:
+          type: integer
+        max:
+          type: integer
+      required:
+        - min
+        - max
+  required:
+    - id
+    - name
+    - image
+    - pricePerPerson
+    - rating
+    - location
+    - availableLanguages
+    - included
+    - itinerary
+    - duration
+    - groupSize
+
+# Booking request for tour package
+CreateTourPackageBookingRequest:
+  type: object
+  properties:
+    tourId:
+      type: string
+    tourDate:
+      type: string
+      format: date
+    numberOfPeople:
+      type: integer
+      minimum: 1
+    fullName:
+      type: string
+    email:
+      type: string
+      format: email
+    phoneNumber:
+      type: string
+      pattern: '^\+?[1-9]\d{1,14}$'
+    hotelName:
+      type: string
+      description: Hotel name for pickup (optional)
+    specialRequests:
+      type: string
+      description: Special requests (optional)
+  required:
+    - tourId
+    - tourDate
+    - numberOfPeople
+    - fullName
+    - email
+    - phoneNumber
+
+# Booking response for tour package
+CreateTourPackageBookingResponse:
+  type: object
+  properties:
+    bookingId:
+      type: string
+    status:
+      type: string
+      enum: [confirmed, pending]
+    message:
+      type: string
+  required:
+    - bookingId
+    - status
+    - message

@@ -1,0 +1,187 @@
+AdventureBookingListItem:
+  type: object
+  properties:
+    bookingId:
+      type: string
+    adventureId:
+      type: string
+  required:
+    - bookingId
+    - adventureId
+AdventureListItem:
+  type: object
+  properties:
+    id:
+      type: string
+    name:
+      type: string
+    description:
+      type: string
+    location:
+      type: string
+    rating:
+      type: number
+    price:
+      type: number
+    duration:
+      type: string
+      description: Duration (e.g. "6 hours")
+    maxGroupSize:
+      type: integer
+    difficulty:
+      type: string
+      description: Difficulty level (e.g. "Moderate")
+    tags:
+      type: array
+      items:
+        type: string
+    image:
+      type: string
+      description: Image or icon URL
+      format: uri
+  required:
+    - id
+    - name
+    - description
+    - location
+    - rating
+    - price
+    - duration
+    - maxGroupSize
+    - difficulty
+    - tags
+    - image
+
+# Detail schema for single adventure (matches UI detail page)
+AdventureDetail:
+  type: object
+  properties:
+    id:
+      type: string
+    name:
+      type: string
+    description:
+      type: string
+    location:
+      type: string
+    rating:
+      type: number
+    price:
+      type: number
+    duration:
+      type: string
+      description: Duration (e.g. "6 hours")
+    maxGroupSize:
+      type: integer
+    difficulty:
+      type: string
+    tags:
+      type: array
+      items:
+        type: string
+    image:
+      type: string
+      format: uri
+    included:
+      type: array
+      items:
+        type: string
+      description: Items/services included in the adventure
+    availableLanguages:
+      type: array
+      items:
+        type: string
+      description: Languages available for the adventure
+    highlights:
+      type: array
+      items:
+        type: string
+      description: Key highlights of the adventure
+  required:
+    - id
+    - name
+    - description
+    - location
+    - rating
+    - price
+    - duration
+    - maxGroupSize
+    - difficulty
+    - tags
+    - image
+    - included
+    - availableLanguages
+    - highlights
+CreateAdventureBookingRequest:
+  type: object
+  properties:
+    adventureId:
+      type: string
+    date:
+      type: string
+      format: date
+      description: Date of the adventure (e.g. 2024-12-31)
+    time:
+      type: string
+      format: time
+      description: Time of the adventure (e.g. 02:00 PM)
+    guests:
+      type: integer
+      minimum: 1
+      description: Number of guests/participants
+    specialRequests:
+      type: string
+      description: Special requests (optional)
+  required:
+    - adventureId
+    - date
+    - time
+    - guests
+AdventureBooking:
+  type: object
+  properties:
+    bookingId:
+      type: string
+    activityName:
+      type: string
+      description: Name of the adventure activity
+    category:
+      type: string
+    date:
+      type: string
+      format: date
+      description: Date of the activity (e.g. 2024-12-31)
+    time:
+      type: string
+      format: time
+      description: Time of the activity (e.g. 02:00 PM)
+    participants:
+      type: integer
+      minimum: 1
+      description: Number of participants
+    total:
+      type: number
+      description: Total price for the booking
+    rating:
+      type: number
+      description: Average rating for the adventure
+      minimum: 0.0
+      maximum: 5.0
+    reviewsCount:
+      type: integer
+      description: Number of reviews for the adventure
+    createdAt:
+      type: string
+      format: date-time
+      description: ISO 8601 creation timestamp
+  required:
+    - bookingId
+    - activityName
+    - category
+    - date
+    - time
+    - participants
+    - total
+    - rating
+    - reviewsCount
+    - createdAt

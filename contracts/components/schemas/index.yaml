@@ -1,0 +1,87 @@
+AdventureBookingListItem:
+  $ref: './Adventure.yaml#/AdventureBookingListItem'
+AdventureListItem:
+  $ref: './Adventure.yaml#/AdventureListItem'
+CreateAdventureBookingRequest:
+  $ref: './Adventure.yaml#/CreateAdventureBookingRequest'
+AdventureBooking:
+  $ref: './Adventure.yaml#/AdventureBooking'
+
+CreateHotelBookingRequest:
+  $ref: './Hotel.yaml#/CreateHotelBookingRequest'
+CreateHotelBookingResponse:
+  $ref: './Hotel.yaml#/CreateHotelBookingResponse'
+
+CreateExchangeBookingRequest:
+  $ref: './CurrencyExchange.yaml#/CreateExchangeBookingRequest'
+CreateExchangeBookingResponse:
+  $ref: './CurrencyExchange.yaml#/CreateExchangeBookingResponse'
+ExchangeLocation:
+  $ref: './CurrencyExchange.yaml#/ExchangeLocation'
+
+SendEmailRequest:
+  $ref: './Email.yaml#/SendEmailRequest'
+SendEmailResponse:
+  $ref: './Email.yaml#/SendEmailResponse'
+
+Product:
+  $ref: './KemetMart.yaml#/Product'
+CartItem:
+  $ref: './KemetMart.yaml#/CartItem'
+GetCartResponse:
+  $ref: './KemetMart.yaml#/GetCartResponse'
+CheckoutResponse:
+  $ref: './KemetMart.yaml#/CheckoutResponse'
+GetProductsResponse:
+  $ref: './KemetMart.yaml#/GetProductsResponse'
+
+TourismPlace:
+  $ref: './Tourism.yaml#/TourismPlace'
+GetTourismPlacesResponse:
+  $ref: './Tourism.yaml#/GetTourismPlacesResponse'
+CreateTourismBookingRequest:
+  $ref: './Tourism.yaml#/CreateTourismBookingRequest'
+TourismBooking:
+  $ref: './Tourism.yaml#/TourismBooking'
+
+TourPackageSummary:
+  $ref: './TourPackages.yaml#/TourPackageSummary'
+TourPackageDetail:
+  $ref: './TourPackages.yaml#/TourPackageDetail'
+
+CreateTourPackageBookingRequest:
+  $ref: './TourPackages.yaml#/CreateTourPackageBookingRequest'
+CreateTourPackageBookingResponse:
+  $ref: './TourPackages.yaml#/CreateTourPackageBookingResponse'
+
+VerifyUserIdTokenRequest:
+  $ref: './User.yaml#/VerifyUserIdTokenRequest'
+VerifyUserIdTokenResponse:
+  $ref: './User.yaml#/VerifyUserIdTokenResponse'
+LogoutUserResponse:
+  $ref: './User.yaml#/LogoutUserResponse'
+CreateUserRequest:
+  $ref: './User.yaml#/CreateUserRequest'
+CreateUserResponse:
+  $ref: './User.yaml#/CreateUserResponse'
+User:
+  $ref: './User.yaml#/User'
+
+FirestoreSetRequest:
+  $ref: './Firestore.yaml#/FirestoreSetRequest'
+FirestoreSetResponse:
+  $ref: './Firestore.yaml#/FirestoreSetResponse'
+FirestoreQueryRequest:
+  $ref: './Firestore.yaml#/FirestoreQueryRequest'
+FirestoreQueryResult:
+  $ref: './Firestore.yaml#/FirestoreQueryResult'
+FirestoreDocument:
+  $ref: './Firestore.yaml#/FirestoreDocument'
+
+ActionCodeSettings:
+  $ref: './ActionCodeSettings.yaml#/ActionCodeSettings'
+
+Guide:
+  $ref: './Guide.yaml#/Guide'
+Tour:
+  $ref: './Guide.yaml#/Tour'

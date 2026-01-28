@@ -1,0 +1,172 @@
+[
+  {
+    "title": "Tell El-Qulzum (Clysma)",
+    "district": "El-Arbaeen",
+    "era": "Pharaonic / Roman",
+    "description": "The ancient mounds of Clysma, a vital port city linking the Nile to the Red Sea, featuring remains from Ptolemaic and Roman periods including ancient hydraulic systems.",
+    "location": {
+      "lat": 29.9745,
+      "lng": 32.5432
+    }
+  },
+  {
+    "title": "Qasr Muhammad Ali",
+    "district": "Suez City, Corniche",
+    "era": "Ottoman (Alawiyya Dynasty)",
+    "description": "Historical royal rest house built under the Muhammad Ali dynasty for use during inspections of the shipyard and pilgrimage preparations.",
+    "location": {
+      "lat": 29.9580,
+      "lng": 32.5590
+    }
+  },
+  {
+    "title": "Sidi El-Arbaeen Mosque",
+    "district": "El-Arbaeen",
+    "era": "Islamic",
+    "description": "A historic mosque named after forty scholars; it served as a center of resistance during the popular defense of Suez in 1973.",
+    "location": {
+      "lat": 29.9723,
+      "lng": 32.5515
+    }
+  },
+  {
+    "title": "Sidi El-Gharib Mosque",
+    "district": "El-Gharib",
+    "era": "Fatimid / Ayyubid",
+    "description": "Dedicated to a Moroccan Sufi saint who settled in Suez to guard Islamic frontiers, considered the spiritual patron of the city.",
+    "location": {
+      "lat": 29.9688,
+      "lng": 32.5462
+    }
+  },
+  {
+    "title": "Port Tewfik Memorial",
+    "district": "Port Tewfik",
+    "era": "Modern (1926)",
+    "description": "A stone memorial erected to honor the Indian soldiers who fell during the defense of the Suez Canal in World War I.",
+    "location": {
+      "lat": 29.9288,
+      "lng": 32.5675
+    }
+  },
+  {
+    "title": "Green Island (El-Gezira El-Khadra)",
+    "district": "Suez Bay",
+    "era": "Modern (British Era)",
+    "description": "A fortified island fortress in the Gulf of Suez, site of a major commando raid during the War of Attrition.",
+    "location": {
+      "lat": 29.9045,
+      "lng": 32.5260
+    }
+  },
+  {
+    "title": "Al-Mahmal Square",
+    "district": "El-Arbaeen",
+    "era": "Mamluk / Ottoman",
+    "description": "The historical gathering plaza where the ceremonial Palanquin (Mahmal) carrying the Kiswa for the Kaaba would depart for Mecca.",
+    "location": {
+      "lat": 29.9712,
+      "lng": 32.5495
+    }
+  },
+  {
+    "title": "The Latin Church",
+    "district": "Suez City",
+    "era": "19th Century",
+    "description": "The Church of the Good Shepherd, a testament to the cosmopolitan community brought together by the digging of the Suez Canal.",
+    "location": {
+      "lat": 29.9655,
+      "lng": 32.5538
+    }
+  },
+  {
+    "title": "Old Houses of Port Tewfik",
+    "district": "Port Tewfik",
+    "era": "19th Century",
+    "description": "Colonial-style wooden villas and chalets built for Suez Canal Company employees, featuring distinctive French architectural influences.",
+    "location": {
+      "lat": 29.9355,
+      "lng": 32.5610
+    }
+  },
+  {
+    "title": "Ayoun Moussa (Moses Springs)",
+    "district": "Ras Sudr Road (Suez Border)",
+    "era": "Biblical / Ancient",
+    "description": "Located shortly after the Ahmed Hamdi Tunnel, these springs are the traditional site where Moses turned bitter water sweet.",
+    "location": {
+      "lat": 29.8703,
+      "lng": 32.6558
+    }
+  },
+  {
+    "title": "Baghla Island",
+    "district": "Suez Bay",
+    "era": "Modern / Strategic",
+    "description": "A small strategic islet in the bay, used historically for coastal monitoring and navigational guidance for the canal entrance.",
+    "location": {
+      "lat": 29.9170,
+      "lng": 32.5830
+    }
+  },
+  {
+    "title": "Al-Satati Cemetery",
+    "district": "Old Suez",
+    "era": "Islamic",
+    "description": "One of the oldest cemeteries in the city, containing tombs of significant local figures and reflecting the city's social history.",
+    "location": {
+      "lat": 29.9705,
+      "lng": 32.5408
+    }
+  },
+  {
+    "title": "Awlad El-Sheikh Archeological Area",
+    "district": "Masakin",
+    "era": "Islamic",
+    "description": "A historical area known for its shrines and traditional fabric, representing the spiritual heritage of the canal city.",
+    "location": {
+      "lat": 29.9735,
+      "lng": 32.5485
+    }
+  },
+  {
+    "title": "Old Suez Train Station",
+    "district": "Suez City",
+    "era": "19th Century (1858)",
+    "description": "The terminus of the first railway line in Africa (Cairo-Suez), crucial for the overland route before the canal's completion.",
+    "location": {
+      "lat": 29.9760,
+      "lng": 32.5520
+    }
+  },
+  {
+    "title": "Suez Canal House",
+    "district": "Port Tewfik",
+    "era": "19th Century",
+    "description": "The iconic administrative headquarters of the Suez Canal Company at the southern entrance, offering panoramic views of the waterway.",
+    "location": {
+      "lat": 29.9320,
+      "lng": 32.5645
+    }
+  },
+  {
+    "title": "Ahmed Hamdi Tunnel Memorial",
+    "district": "Suez Canal",
+    "era": "Modern (1980)",
+    "description": "Monument dedicated to General Ahmed Hamdi, located near the vital tunnel connecting Africa and Asia.",
+    "location": {
+      "lat": 30.0917,
+      "lng": 32.5768
+    }
+  },
+  {
+    "title": "Suez National Museum",
+    "district": "Port Tewfik Area",
+    "era": "Modern Institution",
+    "description": "Opened to house artifacts ranging from prehistoric to modern times, documenting the history of the canal and city.",
+    "location": {
+      "lat": 29.9333,
+      "lng": 32.5645
+    }
+  }
+]

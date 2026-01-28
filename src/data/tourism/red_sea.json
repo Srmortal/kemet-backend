@@ -1,0 +1,242 @@
+[
+  {
+    "title": "Monastery of Saint Anthony",
+    "district": "Ras Gharib",
+    "era": "Coptic (4th Century AD)",
+    "description": "The oldest Christian monastery in the world, founded by the followers of Saint Anthony the Great. It is located deep in the Red Sea mountains in the Eastern Desert and contains medieval Coptic wall paintings.",
+    "location": {
+      "lat": 28.9252,
+      "lng": 32.3495
+    }
+  },
+  {
+    "title": "Monastery of Saint Paul the Anchorite",
+    "district": "Ras Gharib",
+    "era": "Coptic (4th Century AD)",
+    "description": "Also known as the Monastery of the Tigers, this complex is built over the cave where Saint Paul lived as a hermit for 80 years. It is located south of St. Anthony's monastery.",
+    "location": {
+      "lat": 28.8475,
+      "lng": 32.5564
+    }
+  },
+  {
+    "title": "Mons Claudianus",
+    "district": "Safaga / Eastern Desert",
+    "era": "Roman (1st-3rd Century AD)",
+    "description": "A remarkably preserved Roman penal colony and quarry site. It was the source of 'granito del foro' (grey granodiorite) used in the Pantheon and Hadrian's Villa in Rome.",
+    "location": {
+      "lat": 26.8114,
+      "lng": 33.4867
+    }
+  },
+  {
+    "title": "Mons Porphyrites",
+    "district": "Hurghada / Gebel Dokhan",
+    "era": "Roman (1st-4th Century AD)",
+    "description": "The only source in the world for Imperial Porphyry (purple rock), highly prized by Roman Emperors. The site includes quarries, temples to Isis and Serapis, and worker villages high in the mountains.",
+    "location": {
+      "lat": 27.2586,
+      "lng": 33.2836
+    }
+  },
+  {
+    "title": "Quseir Fortress",
+    "district": "Quseir",
+    "era": "Ottoman (16th Century)",
+    "description": "A limestone fortification built by Sultan Selim I in 1517 to protect the pilgrimage route to Mecca and defend the port against Portuguese fleets. It now houses a visitors' center.",
+    "location": {
+      "lat": 26.1075,
+      "lng": 34.2814
+    }
+  },
+  {
+    "title": "Myos Hormos (Quseir al-Qadim)",
+    "district": "Quseir",
+    "era": "Ptolemaic / Roman",
+    "description": "An ancient Red Sea port established by Ptolemies and later used by Romans for the spice trade with India. Excavations have revealed harbor installations and amphorae.",
+    "location": {
+      "lat": 26.1564,
+      "lng": 34.2447
+    }
+  },
+  {
+    "title": "Berenike (Berenice Troglodytica)",
+    "district": "Marsa Alam / Foul Bay",
+    "era": "Ptolemaic / Roman (Founded 275 BC)",
+    "description": "A major ancient seaport founded by Ptolemy II. It utilized war elephants and was a key hub for trade between the Roman Empire, India, and Arabia. Recent finds include a Buddha statue.",
+    "location": {
+      "lat": 23.9467,
+      "lng": 35.4847
+    }
+  },
+  {
+    "title": "Wadi Hammamat Inscriptions",
+    "district": "Quseir (Quseir-Qena Road)",
+    "era": "Pharaonic to Roman",
+    "description": "A dry riverbed serving as a major trade route. The canyon walls are covered with thousands of hieroglyphic and graffiti inscriptions from expeditions quarrying Bekhen-stone.",
+    "location": {
+      "lat": 25.9967,
+      "lng": 33.5686
+    }
+  },
+  {
+    "title": "Bir Umm Fawakhir",
+    "district": "Quseir (Quseir-Qena Road)",
+    "era": "Byzantine (5th-6th Century AD)",
+    "description": "A large ancient gold-mining settlement located near Wadi Hammamat. It housed over 1,000 residents and features ruins of over 200 houses and granaries.",
+    "location": {
+      "lat": 26.0128,
+      "lng": 33.6070
+    }
+  },
+  {
+    "title": "Wadi el-Jarf",
+    "district": "Ras Gharib / Zaafarana",
+    "era": "Old Kingdom (4th Dynasty)",
+    "description": "The oldest known artificial harbor in the world, used during the reign of King Khufu to transport resources across the Gulf of Suez. The famous 'Diary of Merer' (papyri) was found here.",
+    "location": {
+      "lat": 29.2322,
+      "lng": 32.5534
+    }
+  },
+  {
+    "title": "Mersa Gawasis (Ancient Saww)",
+    "district": "Safaga",
+    "era": "Middle Kingdom (12th Dynasty)",
+    "description": "An ancient Egyptian pharaonic harbor used for seafaring expeditions to the Land of Punt. Excavations uncovered ship timbers, ropes, and cargo boxes.",
+    "location": {
+      "lat": 26.5617,
+      "lng": 34.0378
+    }
+  },
+  {
+    "title": "Abu Sha'ar",
+    "district": "El Gouna",
+    "era": "Roman (3rd-4th Century AD)",
+    "description": "A well-preserved Roman fort originally built to garrison troops, later converted into a Christian monastic complex in the 4th century.",
+    "location": {
+      "lat": 27.3714,
+      "lng": 33.6767
+    }
+  },
+  {
+    "title": "Ras Gharib Lighthouse",
+    "district": "Ras Gharib",
+    "era": "Modern (1871)",
+    "description": "A historic iron lighthouse designed by Gustave Eiffel, erected in 1871 to secure navigation in the Gulf of Suez. It is a distinctive landmark of the city.",
+    "location": {
+      "lat": 28.3585,
+      "lng": 33.0784
+    }
+  },
+  {
+    "title": "Sikait (Emerald City)",
+    "district": "Marsa Alam (Wadi Gemal)",
+    "era": "Roman",
+    "description": "The main settlement of the 'Mons Smaragdus' region, which was the only source of emeralds for the Roman Empire. The site features rock-cut temples and mining houses.",
+    "location": {
+      "lat": 24.6309,
+      "lng": 34.7964
+    }
+  },
+  {
+    "title": "Temple of Seti I at El Kanais",
+    "district": "Marsa Alam (Edfu Road)",
+    "era": "New Kingdom (19th Dynasty)",
+    "description": "A rock-cut temple built by Pharaoh Seti I in Wadi Miya. It provided a watering station and place of worship for gold miners crossing the Eastern Desert.",
+    "location": {
+      "lat": 25.1325,
+      "lng": 33.4350
+    }
+  },
+  {
+    "title": "Tomb of Sheikh Abu el-Hassan el-Shazly",
+    "district": "Marsa Alam (Wadi Humaysara)",
+    "era": "Islamic (13th Century / Modern)",
+    "description": "The mausoleum of the famous Sufi saint Abu al-Hasan al-Shadhili, located in a remote valley. It is a major site for religious pilgrimage (moulid).",
+    "location": {
+      "lat": 24.5375,
+      "lng": 34.6114
+    }
+  },
+  {
+    "title": "Shrine of Sheikh Salem",
+    "district": "Quseir",
+    "era": "Islamic",
+    "description": "A revered local shrine in Quseir city with a distinctive dome, dedicated to a local holy man. It is a cultural landmark of the old city.",
+    "location": {
+      "lat": 26.1090,
+      "lng": 34.2767
+    }
+  },
+  {
+    "title": "Deir el-Atrash",
+    "district": "Hurghada / Eastern Desert",
+    "era": "Roman",
+    "description": "A Roman fortlet or 'hydreuma' (watering station) guarding the route to Mons Porphyrites. Its high walls of unmortared stone are still visible.",
+    "location": {
+      "lat": 27.0503,
+      "lng": 33.3670
+    }
+  },
+  {
+    "title": "Umm Balad",
+    "district": "Hurghada / Eastern Desert",
+    "era": "Roman",
+    "description": "An ancient station and quarry settlement located at the foot of the Red Sea mountains, associated with the operations at Mons Porphyrites.",
+    "location": {
+      "lat": 27.1836,
+      "lng": 33.2336
+    }
+  },
+  {
+    "title": "Wadi Barramiya Mines",
+    "district": "Marsa Alam (Edfu Road)",
+    "era": "Pharaonic / Roman",
+    "description": "An area of extensive ancient gold mining activity. The site includes workman huts, stone mills, and inscriptions dating back to the Old Kingdom.",
+    "location": {
+      "lat": 25.0720,
+      "lng": 33.7920
+    }
+  },
+  {
+    "title": "Bir Samut",
+    "district": "Marsa Alam (Edfu Road)",
+    "era": "Ptolemaic",
+    "description": "A massive Ptolemaic fortress and watering station used to support gold mining operations in the surrounding desert.",
+    "location": {
+      "lat": 24.8170,
+      "lng": 33.9170
+    }
+  },
+  {
+    "title": "Umm Hovaytat (Ghost City)",
+    "district": "Safaga",
+    "era": "Modern (20th Century)",
+    "description": "An abandoned phosphate mining town surrounded by white canyon walls. It offers a unique look at Egypt's industrial heritage in the early 1900s.",
+    "location": {
+      "lat": 26.6803,
+      "lng": 33.9003
+    }
+  },
+  {
+    "title": "Apollonos Hydreuma (Wadi Gemal)",
+    "district": "Marsa Alam",
+    "era": "Roman",
+    "description": "A large Roman fortified watering station (praesidium) on the route between Berenike and the Nile. Located within the Wadi Gemal National Park.",
+    "location": {
+      "lat": 24.5500,
+      "lng": 34.9333
+    }
+  },
+  {
+    "title": "Gebel Elba Cultural Region",
+    "district": "Halaib Triangle",
+    "era": "Prehistoric / Modern",
+    "description": "A unique ecosystem and cultural area. While primarily a nature reserve, it contains rock art and tribal heritage sites of the Bishari and Ababda people.",
+    "location": {
+      "lat": 22.1833,
+      "lng": 36.3667
+    }
+  }
+]

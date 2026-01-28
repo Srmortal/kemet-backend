@@ -1,22 +1,25 @@
 import { Router } from 'express';
-import userRoutes from './user.routes';
+
 import authRoutes from './auth.routes';
-import testRoutes from './test.routes';
-import monumentsRoutes from './monuments.routes';
-import tazkartiRoutes from './tazkarti.routes';
-import shoufRoutes from './shouf.routes';
 import tourismRoutes from './tourism.routes';
-import bookingRoutes from './booking.routes';
+//import adminRoutes from './firebase-admin.routes';
+//import kemetMartRoutes from './kemetMart.routes';
+import adventureRoutes from './adventure.routes';
+import tourPackagesRoutes from './tourPackages.routes';
+import guidesRoutes from './guides.routes';
+//import currencyExchangeRoutes from './currencyExchange.routes';
 
 const router = Router();
 
+
 router.use('/auth', authRoutes);
-router.use('/users', userRoutes);
-router.use('/test', testRoutes);
-router.use('/monuments', monumentsRoutes);
-router.use('/tazkarti', tazkartiRoutes);
-router.use('/shouf', shoufRoutes);
 router.use('/tourism', tourismRoutes);
-router.use('/accommodations', bookingRoutes);
+//router.use('/hotels', hotelRoutes);
+//router.use('/admin', adminRoutes);
+//router.use('/kemetmart', kemetMartRoutes);
+router.use('/adventures', adventureRoutes);
+//router.use('/exchange', currencyExchangeRoutes);
+router.use('/tour-packages', tourPackagesRoutes);
+router.use('/guides', guidesRoutes);
 
 export default router;

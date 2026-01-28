@@ -1,0 +1,122 @@
+TourismPlace:
+  type: object
+  properties:
+    id:
+      type: string
+    title:
+      type: string
+    description:
+      type: string
+    location:
+      type: string
+    category:
+      type: string
+    rating:
+      type: number
+    price:
+      type: number
+    address:
+      type: string
+      description: Full address of the place
+    reviewsCount:
+      type: integer
+      description: Number of reviews
+    isOpen:
+      type: boolean
+      description: Whether the place is currently open
+    hours:
+      type: object
+      properties:
+        open:
+          type: string
+          description: Opening time (e.g. 8:00 AM)
+        close:
+          type: string
+          description: Closing time (e.g. 5:00 PM)
+      required:
+        - open
+        - close
+      description: Opening hours
+    features:
+      type: array
+      items:
+        type: string
+      description: List of features/tags (e.g. Guided Tours, Photography)
+    image:
+      type: string
+      description: Image URL (may be empty)
+  additionalProperties: false
+GetTourismPlacesResponse:
+  type: object
+  properties:
+    items:
+      type: array
+      items:
+        $ref: '#/TourismPlace'
+    total:
+      type: integer
+    page:
+      type: integer
+    limit:
+      type: integer
+    filters:
+      type: object
+      properties:
+        location:
+          type: string
+          nullable: true
+        category:
+          type: string
+          nullable: true
+        sortBy:
+          type: string
+CreateTourismBookingRequest:
+  type: object
+  properties:
+    siteId:
+      type: string
+    date:
+      type: string
+      format: date
+    guests:
+      type: integer
+      description: Number of guests
+      minimum: 1
+      maximum: 20
+    time:
+      type: string
+      format: time
+    specialRequests:
+      type: string
+      description: Special requests (optional)
+      maximum: 500
+  required:
+    - siteId
+    - date
+    - time
+    - guests
+TourismBooking:
+  type: object
+  properties:
+    bookingId:
+      type: string
+    siteId:
+      type: string
+    date:
+      type: string
+      format: date
+    guests:
+      type: integer
+      description: Number of guests
+    time:
+      type: string
+      format: time
+      description: Time of booking (optional)
+    specialRequests:
+      type: string
+      description: Special requests (optional)
+  required:
+    - bookingId
+    - siteId
+    - date
+    - guests

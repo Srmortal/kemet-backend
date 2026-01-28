@@ -1,0 +1,170 @@
+[
+  {
+    "title": "Temple of the Oracle (Aghurmi)",
+    "description": "Famous temple dedicated to Amun, visited by Alexander the Great to confirm his divinity. Built on the acropolis of Aghurmi.",
+    "location": { "lat": 29.2033, "lng": 25.5528 },
+    "era": "Pharaonic / Ptolemaic (26th Dynasty)",
+    "district": "Siwa Oasis"
+  },
+  {
+    "title": "Temple of Umm Ubayd",
+    "description": "Ruins of a temple dedicated to Amun, located near the Oracle Temple. Known for its inscribed wall depicting Wenamun.",
+    "location": { "lat": 29.2010, "lng": 25.5510 },
+    "era": "Pharaonic (30th Dynasty)",
+    "district": "Siwa Oasis"
+  },
+  {
+    "title": "Gebel al-Mawta (Mountain of the Dead)",
+    "description": "A conical hill containing rock-cut tombs from the Pharaonic, Ptolemaic, and Roman periods. Contains several important painted tombs.",
+    "location": { "lat": 29.2081, "lng": 25.5222 },
+    "era": "Pharaonic / Ptolemaic / Roman",
+    "district": "Siwa Oasis"
+  },
+  {
+    "title": "Tomb of Si Amun",
+    "description": "Calculated as the most beautiful tomb in the Western Desert. Si Amun was likely a wealthy Greek landowner living in Siwa who adopted Egyptian customs.",
+    "location": { "lat": 29.2083, "lng": 25.5224 },
+    "era": "Ptolemaic",
+    "district": "Siwa Oasis"
+  },
+  {
+    "title": "Tomb of Mesu-Isis",
+    "description": "Contains depictions of Osiris and Isis. The owner's name means 'Born of Isis'.",
+    "location": { "lat": 29.2082, "lng": 25.5223 },
+    "era": "Ptolemaic",
+    "district": "Siwa Oasis"
+  },
+  {
+    "title": "Tomb of Niperpathot",
+    "description": "One of the oldest tombs in Siwa, belonging to the 'Prophet of Osiris' and scribe of divine documents.",
+    "location": { "lat": 29.2081, "lng": 25.5221 },
+    "era": "Pharaonic (26th Dynasty)",
+    "district": "Siwa Oasis"
+  },
+  {
+    "title": "Tomb of the Crocodile",
+    "description": "Named after a painting of a yellow crocodile. The tomb has three chambers and dates to the late Ptolemaic period.",
+    "location": { "lat": 29.2080, "lng": 25.5220 },
+    "era": "Ptolemaic / Roman",
+    "district": "Siwa Oasis"
+  },
+  {
+    "title": "Shali Fortress (Old Shali)",
+    "description": "The 13th-century organic mud-brick fortress located in the center of Siwa town. Built from 'kershef' (salt-impregnated mud).",
+    "location": { "lat": 29.2036, "lng": 25.5192 },
+    "era": "Islamic / Medieval (1203 AD)",
+    "district": "Siwa Oasis"
+  },
+  {
+    "title": "Cleopatra’s Bath (Spring of the Sun)",
+    "description": "A popular natural spring where the water is warm in winter and cool in summer. Not actually connected to Queen Cleopatra historically, but a key site.",
+    "location": { "lat": 29.1994, "lng": 25.5647 },
+    "era": "Ancient / Natural",
+    "district": "Siwa Oasis"
+  },
+  {
+    "title": "Dakrur Mountain",
+    "description": "Site of the annual Siyaha festival. Known for its healing hot sand baths and limestone caves.",
+    "location": { "lat": 29.1764, "lng": 25.5483 },
+    "era": "Natural / Traditional",
+    "district": "Siwa Oasis"
+  },
+  {
+    "title": "Archaeological Site of Marina El Alamein (Leucaspis)",
+    "description": "An extensive Greco-Roman harbor city discovered in the 1980s. Contains patrician houses, a forum, and a basilica.",
+    "location": { "lat": 30.8250, "lng": 29.0250 },
+    "era": "Ptolemaic / Roman",
+    "district": "Marina El Alamein"
+  },
+  {
+    "title": "Roman Baths at Marina",
+    "description": "Well-preserved public bath complex featuring hypocaust heating systems and mosaics.",
+    "location": { "lat": 30.8260, "lng": 29.0260 },
+    "era": "Roman",
+    "district": "Marina El Alamein"
+  },
+  {
+    "title": "House H9 & H10 (Marina)",
+    "description": "Examples of affluent dwelling houses with peristyle courtyards and porticos found in the ancient city.",
+    "location": { "lat": 30.8270, "lng": 29.0270 },
+    "era": "Roman (1st-3rd Century AD)",
+    "district": "Marina El Alamein"
+  },
+  {
+    "title": "Marina Necropolis",
+    "description": "A vast cemetery with varied tomb types including pillar tombs and pyramid tombs.",
+    "location": { "lat": 30.8240, "lng": 29.0240 },
+    "era": "Ptolemaic / Roman",
+    "district": "Marina El Alamein"
+  },
+  {
+    "title": "Temple of Ramesses II (Zawiyyat Umm El Rakham)",
+    "description": "A fortress-town built by Ramesses II to defend Egypt's western border from Libyan tribes. Contains temple ruins and chapels.",
+    "location": { "lat": 31.3917, "lng": 27.0389 },
+    "era": "Pharaonic (New Kingdom)",
+    "district": "Marsa Matrouh (Umm El Rakham)"
+  },
+  {
+    "title": "Cleopatra’s Bath (Matrouh)",
+    "description": "A rock formation in the sea with a natural pool, believed to be used by Cleopatra and Marc Antony.",
+    "location": { "lat": 31.3780, "lng": 27.1950 },
+    "era": "Ptolemaic / Natural",
+    "district": "Marsa Matrouh City"
+  },
+  {
+    "title": "Rommel’s Cave Museum",
+    "description": "A U-shaped cave in the rock used by Erwin Rommel as headquarters during WWII. Now a military museum.",
+    "location": { "lat": 31.3650, "lng": 27.2519 },
+    "era": "Modern (WWII) / Roman (Originally a granary)",
+    "district": "Marsa Matrouh City"
+  },
+  {
+    "title": "Ruins of the Coptic Chapel",
+    "description": "Early Coptic Christian ruins located near the corniche, indicating the spread of Christianity in the region.",
+    "location": { "lat": 31.3530, "lng": 27.2350 },
+    "era": "Coptic / Byzantine",
+    "district": "Marsa Matrouh City"
+  },
+  {
+    "title": "Commonwealth War Cemetery (El Alamein)",
+    "description": "Resting place for thousands of Allied soldiers who died in the Western Desert campaigns.",
+    "location": { "lat": 30.8406, "lng": 28.9525 },
+    "era": "Modern (WWII)",
+    "district": "El Alamein"
+  },
+  {
+    "title": "El Alamein War Museum",
+    "description": "Museum documenting the North African battles with outdoor displays of tanks and artillery.",
+    "location": { "lat": 30.8368, "lng": 28.9482 },
+    "era": "Modern",
+    "district": "El Alamein"
+  },
+  {
+    "title": "German War Memorial",
+    "description": "An ossuary built in the style of a fortress, overlooking the sea, holding the remains of German soldiers.",
+    "location": { "lat": 30.8654, "lng": 28.9897 },
+    "era": "Modern (WWII)",
+    "district": "El Alamein"
+  },
+  {
+    "title": "Italian War Memorial",
+    "description": "A white marble tower dedicated to Italian soldiers. The interior leads to the top for a view of the battlefield.",
+    "location": { "lat": 30.8520, "lng": 28.9700 },
+    "era": "Modern (WWII)",
+    "district": "El Alamein"
+  },
+  {
+    "title": "Qara Oasis (Gara)",
+    "description": "A tiny, isolated oasis on the edge of the Qattara Depression. Features a ruined fortress-village atop a mushroom rock.",
+    "location": { "lat": 29.6167, "lng": 26.5000 },
+    "era": "Islamic / Bedouin",
+    "district": "Qara Oasis"
+  },
+  {
+    "title": "Mersa Matruh Naval Base Ruins",
+    "description": "Underwater remains of ancient breakwaters and jetties from the Roman port of Paraetonium.",
+    "location": { "lat": 31.3550, "lng": 27.2400 },
+    "era": "Roman",
+    "district": "Marsa Matrouh City"
+  }
+]

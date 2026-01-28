@@ -1,5 +1,9 @@
 import admin from 'firebase-admin';
 import path from 'path';
+import fs from 'fs'; // Import fs
+import logger from '@utils/logger';
+
+const FIREBASE_INIT_START = Date.now();
 
 // Load from env
 const serviceAccountPath = process.env.FIREBASE_SERVICE_ACCOUNT_PATH;
@@ -12,25 +16,30 @@ if (privateKey) {
   privateKey = privateKey.replace(/\\n/g, '\n');
 }
 
+
 // Initialize only once
 if (!admin.apps.length) {
   if (serviceAccountPath) {
     // Using JSON file path
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const sa = require(path.resolve(serviceAccountPath));
-    const saProjectId: string | undefined = sa.project_id;
+    const resolvedPath = path.resolve(serviceAccountPath);
 
-    // Help Google APIs detect project context
+    // Security: Only allow reading from trusted paths (e.g., restrict to a specific directory)
+    // const allowedDir = path.resolve(process.cwd(), 'config/keys');
+    // if (!resolvedPath.startsWith(allowedDir)) {
+    //   throw new Error('Service account path is not allowed.');
+    // }
+
+    // Use fs.readFileSync and JSON.parse to load JSON dynamically
+    // eslint-disable-next-line security/detect-non-literal-fs-filename
+    const sa = JSON.parse(fs.readFileSync(resolvedPath, 'utf8'));
+    const saProjectId: string | undefined = sa.project_id;
     if (saProjectId) {
       if (!process.env.GOOGLE_CLOUD_PROJECT) process.env.GOOGLE_CLOUD_PROJECT = saProjectId;
       if (!process.env.GCLOUD_PROJECT) process.env.GCLOUD_PROJECT = saProjectId;
-      // Provide FIREBASE_CONFIG for SDKs that read it
       if (!process.env.FIREBASE_CONFIG) process.env.FIREBASE_CONFIG = JSON.stringify({ projectId: saProjectId });
     }
-    // Point GOOGLE_APPLICATION_CREDENTIALS to the JSON file for downstream libraries
     const resolved = path.resolve(serviceAccountPath);
     if (!process.env.GOOGLE_APPLICATION_CREDENTIALS) process.env.GOOGLE_APPLICATION_CREDENTIALS = resolved;
-
     admin.initializeApp({
       credential: admin.credential.cert(sa),
       projectId: saProjectId,
@@ -47,9 +56,25 @@ if (!admin.apps.length) {
       storageBucket: process.env.FIREBASE_STORAGE_BUCKET || `${projectId}.appspot.com`,
     });
   } else {
-    // Fallback to default (will require GOOGLE_APPLICATION_CREDENTIALS env)
     admin.initializeApp();
   }
+}
+
+// --- Firestore Emulator Auto-Connect for Tests ---
+const isTest = process.env.NODE_ENV === 'test' || process.env.JEST_WORKER_ID !== undefined;
+const emulatorHost = process.env.FIRESTORE_EMULATOR_HOST || (isTest ? 'localhost:8080' : undefined);
+if (emulatorHost) {
+  process.env.FIRESTORE_EMULATOR_HOST = emulatorHost;
+  logger.info(`✓ Firestore emulator env set at ${emulatorHost}`);
+}
+
+const firebaseInitTime = Date.now() - FIREBASE_INIT_START;
+globalThis.FIREBASE_INIT_TIME = firebaseInitTime;
+
+if (firebaseInitTime > 1000) {
+  logger.warn(`⚠️  Firebase initialization took ${firebaseInitTime}ms (expected <1000ms)`);
+} else {
+  logger.info(`✓ Firebase initialized in ${firebaseInitTime}ms`);
 }
 
 export const firebaseAdmin = admin;

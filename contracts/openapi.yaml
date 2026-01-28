@@ -1,0 +1,89 @@
+
+openapi: 3.0.3
+info:
+  title: Kemet API
+  version: 1.0.0
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: https://kemet.com/v1/api
+    description: Production server
+  - url: http://localhost:3000/api
+    description: Development and Testing server
+
+components:
+  schemas:
+    $ref: './components/schemas/index.yaml'
+  securitySchemes:
+    $ref: './components/securitySchemes.yaml'
+
+paths:
+  /adventures:
+    $ref: './paths/Adventure.yaml#/~1adventures'
+  /adventures/{id}:
+    $ref: './paths/Adventure.yaml#/~1adventures~1{id}'
+  /adventures/book:
+    $ref: './paths/Adventure.yaml#/~1adventures~1book'
+  /adventures/bookings:
+    $ref: './paths/Adventure.yaml#/~1adventures~1bookings'
+
+
+  /auth/verify:
+    $ref: './paths/User.yaml#/~1auth~1verify'
+  /auth/logout:
+    $ref: './paths/User.yaml#/~1auth~1logout'
+
+  /tourism:
+    $ref: './paths/Tourism.yaml#/~1tourism'
+  /tourism/bookings:
+    $ref: './paths/Tourism.yaml#/~1tourism~1bookings'
+  /tourism/stats/overview:
+    $ref: './paths/Tourism.yaml#/~1tourism~1stats~1overview'
+  /tourism/locations/list:
+    $ref: './paths/Tourism.yaml#/~1tourism~1locations~1list'
+  /tourism/categories/list:
+    $ref: './paths/Tourism.yaml#/~1tourism~1categories~1list'
+  /tourism/{id}:
+    $ref: './paths/Tourism.yaml#/~1tourism~1{id}'
+
+  /tour-packages:
+    $ref: './paths/TourPackages.yaml#/~1tour-packages'
+  /tour-packages/{id}:
+    $ref: './paths/TourPackages.yaml#/~1tour-packages~1{id}'
+
+  /tour-packages/book:
+    $ref: './paths/TourPackages.yaml#/~1tour-packages~1book'
+
+  /kemet-mart/products:
+    $ref: './paths/KemetMart.yaml#/~1kemet-mart~1products'
+
+  /guides:
+    $ref: './paths/Guides.yaml#/~1guides'
+  /guides/{id}:
+    $ref: './paths/Guides.yaml#/~1guides~1{id}'
+
+  /kemet-mart/cart:
+    $ref: './paths/KemetMart.yaml#/~1kemet-mart~1cart'
+  /kemet-mart/checkout:
+    $ref: './paths/KemetMart.yaml#/~1kemet-mart~1checkout'
+
+  /firebase-admin/custom-token:
+    $ref: './paths/FirebaseAdmin.yaml#/~1firebase-admin~1custom-token'
+  /firebase-admin/users/create:
+    $ref: './paths/FirebaseAdmin.yaml#/~1firebase-admin~1users~1create'
+  /firebase-admin/users:
+    $ref: './paths/FirebaseAdmin.yaml#/~1firebase-admin~1users'
+  /firebase-admin/users/{uid}:
+    $ref: './paths/FirebaseAdmin.yaml#/~1firebase-admin~1users~1{uid}'
+  /firebase-admin/users/by-email/{email}:
+    $ref: './paths/FirebaseAdmin.yaml#/~1firebase-admin~1users~1by-email~1{email}'
+  /firebase-admin/users/{uid}/claims:
+    $ref: './paths/FirebaseAdmin.yaml#/~1firebase-admin~1users~1{uid}~1claims'
+  /firebase-admin/users/{uid}/revoke-tokens:
+    $ref: './paths/FirebaseAdmin.yaml#/~1firebase-admin~1users~1{uid}~1revoke-tokens'
+  /firebase-admin/email-verification-link:
+    $ref: './paths/FirebaseAdmin.yaml#/~1firebase-admin~1email-verification-link'
+  /firebase-admin/password-reset-link:
+    $ref: './paths/FirebaseAdmin.yaml#/~1firebase-admin~1password-reset-link'

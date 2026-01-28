@@ -1,0 +1,82 @@
+VerifyUserIdTokenRequest:
+  type: object
+  properties:
+    idToken:
+      type: string
+    additionalData:
+      type: object
+      description: Additional profile fields to upsert in Firestore
+      additionalProperties: true
+  required:
+    - idToken
+VerifyUserIdTokenResponse:
+  type: object
+  properties:
+    userId:
+      type: string
+    email:
+      type: string
+      format: email
+  required:
+    - userId
+    - email
+LogoutUserResponse:
+  type: object
+  properties:
+    status:
+      type: string
+  required:
+    - status
+CreateUserRequest:
+  type: object
+  properties:
+    email:
+      type: string
+      format: email
+    password:
+      type: string
+    displayName:
+      type: string
+    emailVerified:
+      type: boolean
+  required:
+    - email
+CreateUserResponse:
+  type: object
+  properties:
+    uid:
+      type: string
+    email:
+      type: string
+    displayName:
+      type: string
+    emailVerified:
+      type: boolean
+  required:
+    - uid
+User:
+  type: object
+  properties:
+    uid:
+      type: string
+    email:
+      type: string
+      format: email
+    emailVerified:
+      type: boolean
+    displayName:
+      type: string
+    photoURL:
+      type: string
+      format: uri
+    disabled:
+      type: boolean
+    metadata:
+      type: object
+      properties:
+        creationTime:
+          type: string
+          format: date-time
+        lastSignInTime:
+          type: string
+          format: date-time

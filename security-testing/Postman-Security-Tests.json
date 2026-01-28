@@ -1,0 +1,593 @@
+{
+  "info": {
+    "name": "🔒 Backend Security Testing Suite",
+    "description": "Hacker-style security tests for the Kemet Backend API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1️⃣ Authentication Tests",
+      "item": [
+        {
+          "name": "Test: Missing Auth Header",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/users/profile",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "users", "profile"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Should reject missing auth header', function () {",
+                  "    pm.response.to.have.status(401);",
+                  "});",
+                  "",
+                  "pm.test('Should mention Authorization in error', function () {",
+                  "    pm.expect(pm.response.text()).to.include('Authorization');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Test: Invalid Bearer Token",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer invalid.token.here"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/users/profile",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "users", "profile"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Should reject invalid token', function () {",
+                  "    pm.response.to.have.status(401);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Test: Empty Bearer Token",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer "
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/users/profile",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "users", "profile"]
+            }
+          }
+        },
+        {
+          "name": "Test: Wrong Auth Scheme (Basic)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Basic dXNlcjpwYXNz"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/users/profile",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "users", "profile"]
+            }
+          }
+        },
+        {
+          "name": "Test: Token Algorithm None",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJub25lIn0.eyJpc3MiOiJmYWtlIiwidWlkIjoiaGFja2VyIn0."
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/users/profile",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "users", "profile"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "2️⃣ Injection Attack Tests",
+      "item": [
+        {
+          "name": "Test: NoSQL Injection",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/hotels?hotelId={\"$ne\":null}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "hotels"],
+              "query": [
+                {
+                  "key": "hotelId",
+                  "value": "{\"$ne\":null}"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Test: SQL-like Injection",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/hotels?name=1' OR '1'='1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "hotels"],
+              "query": [
+                {
+                  "key": "name",
+                  "value": "1' OR '1'='1"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Test: XSS in POST",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"hotelName\": \"<script>alert('xss')</script>\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/bookings",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "bookings"]
+            }
+          }
+        },
+        {
+          "name": "Test: Command Injection",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/hotels?name=test;cat /etc/passwd",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "hotels"],
+              "query": [
+                {
+                  "key": "name",
+                  "value": "test;cat /etc/passwd"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Test: Template Injection",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"message\": \"{{7*7}}\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/email",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "email"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "3️⃣ Authorization & IDOR Tests",
+      "item": [
+        {
+          "name": "Test: Access Other User Bookings",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/users/999999/bookings",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "users", "999999", "bookings"]
+            }
+          }
+        },
+        {
+          "name": "Test: Access Admin Endpoint",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/users",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "users"]
+            }
+          }
+        },
+        {
+          "name": "Test: Privilege Escalation",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"role\": \"admin\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/users/profile",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "users", "profile"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "4️⃣ Input Validation Tests",
+      "item": [
+        {
+          "name": "Test: Negative Amount",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"hotelId\": \"123\", \"amount\": -100}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/bookings",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "bookings"]
+            }
+          }
+        },
+        {
+          "name": "Test: Zero Amount",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"hotelId\": \"123\", \"amount\": 0}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/bookings",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "bookings"]
+            }
+          }
+        },
+        {
+          "name": "Test: Missing Required Fields",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/bookings",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "bookings"]
+            }
+          }
+        },
+        {
+          "name": "Test: Invalid Email Format",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"email\": \"not-a-valid-email\", \"password\": \"test123\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/users",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "users"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "5️⃣ Rate Limiting Tests",
+      "item": [
+        {
+          "name": "Test: Rapid Fire Requests",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "// Send 50 rapid requests to test rate limiting",
+                  "for (let i = 0; i < 50; i++) {",
+                  "    pm.sendRequest({",
+                  "        url: pm.environment.get('baseUrl') + '/api/users/profile',",
+                  "        method: 'GET',",
+                  "        header: {",
+                  "            'Authorization': 'Bearer ' + pm.environment.get('token')",
+                  "        }",
+                  "    }, function(err, response) {",
+                  "        if (response.code === 429) {",
+                  "            console.log('Rate limit hit at request ' + (i+1));",
+                  "        }",
+                  "    });",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/users/profile",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "users", "profile"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "6️⃣ Security Headers Tests",
+      "item": [
+        {
+          "name": "Test: Check Security Headers",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/",
+              "host": ["{{baseUrl}}"],
+              "path": [""]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Should have X-Content-Type-Options header', function () {",
+                  "    pm.response.to.have.header('X-Content-Type-Options');",
+                  "});",
+                  "",
+                  "pm.test('Should have X-Frame-Options header', function () {",
+                  "    pm.response.to.have.header('X-Frame-Options');",
+                  "});",
+                  "",
+                  "pm.test('Should NOT expose Server header', function () {",
+                  "    pm.response.to.not.have.header('Server');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "7️⃣ Error Message Leakage Tests",
+      "item": [
+        {
+          "name": "Test: Stack Trace Exposure",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/invalid-endpoint",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "invalid-endpoint"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Should NOT expose stack traces', function () {",
+                  "    pm.expect(pm.response.text()).to.not.match(/at Function|at Object|line \\d+/);",
+                  "});",
+                  "",
+                  "pm.test('Should NOT expose file paths', function () {",
+                  "    pm.expect(pm.response.text()).to.not.match(/\\/home\\/|\\/var\\/|C:\\\\/);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Test: Database Error Exposure",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"invalid_db_field\": \"test\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/bookings",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "bookings"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Should NOT expose database details', function () {",
+                  "    pm.expect(pm.response.text()).to.not.match(/mongodb|firestore|database|schema/i);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "8️⃣ CORS Tests",
+      "item": [
+        {
+          "name": "Test: CORS with Malicious Origin",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Origin",
+                "value": "http://evil.com"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/users/profile",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "users", "profile"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Should NOT allow malicious origin', function () {",
+                  "    var corsHeader = pm.response.headers.get('Access-Control-Allow-Origin');",
+                  "    if (corsHeader) {",
+                  "        pm.expect(corsHeader).to.not.include('evil.com');",
+                  "    }",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "your-test-token-here",
+      "type": "string"
+    }
+  ]
+}

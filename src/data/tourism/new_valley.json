@@ -1,0 +1,240 @@
+[
+  {
+    "title": "Temple of Hibis",
+    "district": "Kharga Oasis",
+    "era": "26th Dynasty (Saite) / Persian / Ptolemaic",
+    "description": "The finest example of Persian period architecture in Egypt, dedicated to the Theban triad (Amun, Mut, and Khonsu). It is the largest and best-preserved temple in the Western Desert.",
+    "location": { "lat": 25.4744, "lng": 30.5564 }
+  },
+  {
+    "title": "Bagawat Necropolis",
+    "district": "Kharga Oasis",
+    "era": "Coptic (3rd-7th Century AD)",
+    "description": "One of the oldest and best-preserved Christian cemeteries in the world, featuring hundreds of mudbrick chapels, some with vivid biblical murals like the Chapel of the Exodus and Chapel of Peace.",
+    "location": { "lat": 25.5167, "lng": 30.5500 }
+  },
+  {
+    "title": "Temple of Nadura",
+    "district": "Kharga Oasis",
+    "era": "Roman (Antoninus Pius)",
+    "description": "A temple fortress situated on a strategic hill offering panoramic views of the oasis. Dedicated to Amun and Mut, built during the reign of Emperor Antoninus Pius.",
+    "location": { "lat": 25.4500, "lng": 30.5600 }
+  },
+  {
+    "title": "Temple of Ghweita (Qasr Al-Ghueita)",
+    "district": "Kharga Oasis",
+    "era": "25th Dynasty / Ptolemaic",
+    "description": "A fortified temple settlement atop a hill, dedicated to the Theban Triad. The current structure dates largely to Darius I and the Ptolemies.",
+    "location": { "lat": 25.2833, "lng": 30.5500 }
+  },
+  {
+    "title": "Temple of Qasr Al-Zayan",
+    "district": "Kharga Oasis (South)",
+    "era": "Ptolemaic / Roman",
+    "description": "A sandstone temple dedicated to Amenebis (Amun of Hibis), located within a mudbrick fortress in the village of Qasr Al-Zayan.",
+    "location": { "lat": 25.2333, "lng": 30.5333 }
+  },
+  {
+    "title": "Temple of Dush (Kysis)",
+    "district": "Baris Oasis",
+    "era": "Roman (Trajan / Hadrian)",
+    "description": "Located in the ancient border town of Kysis. Features a sandstone temple dedicated to Isis and Serapis, adjacent to a massive mudbrick fortress that guarded caravan routes.",
+    "location": { "lat": 24.5667, "lng": 30.7000 }
+  },
+  {
+    "title": "Qasr Al-Labkha",
+    "district": "Kharga Oasis (North)",
+    "era": "Roman",
+    "description": "A spectacular remote site featuring two temples, a rock-cut shrine, and a massive fortress (The White House) connected to spring sources by intricate ancient aqueducts.",
+    "location": { "lat": 25.6667, "lng": 30.5833 }
+  },
+  {
+    "title": "Umm El-Dabadib",
+    "district": "Kharga Oasis (North)",
+    "era": "Roman",
+    "description": "An imposing remote fortress with high towers, accompanied by a settlement and an extensive, sophisticated underground aqueduct system (qanats) descending from the cliffs.",
+    "location": { "lat": 25.7500, "lng": 30.4167 }
+  },
+  {
+    "title": "Ain Manawir",
+    "district": "Kharga Oasis (South)",
+    "era": "Persian / Roman",
+    "description": "An ancient settlement excavated recently, revealing a unique system of qanats (water tunnels) irrigating fields and a mudbrick temple dedicated to Osiris-Io.",
+    "location": { "lat": 24.5800, "lng": 30.6800 }
+  },
+  {
+    "title": "Gebel Al-Teir",
+    "district": "Kharga Oasis",
+    "era": "Prehistoric / Coptic",
+    "description": "The 'Mountain of Birds', known for its rock inscriptions ranging from Prehistoric times to Coptic graffiti written by hermits, including prayers to the Virgin Mary.",
+    "location": { "lat": 25.5500, "lng": 30.5300 }
+  },
+  {
+    "title": "Deir El-Hagar",
+    "district": "Dakhla Oasis",
+    "era": "Roman (Nero, Vespasian, Titus)",
+    "description": "The 'Monastery of Stone', a well-preserved sandstone temple on the western edge of Dakhla dedicated to the Theban Triad and Thoth, featuring clear astronomical ceilings.",
+    "location": { "lat": 25.6660, "lng": 28.8500 }
+  },
+  {
+    "title": "Al-Qasr Islamic Village",
+    "district": "Dakhla Oasis",
+    "era": "Ayyubid / Ottoman",
+    "description": "A magnificently preserved medieval mudbrick town built over a Roman site. Features covered streets, cool courtyards, an Ayyubid mosque, and carved wooden lintels with Quranic inscriptions.",
+    "location": { "lat": 25.6958, "lng": 28.8783 }
+  },
+  {
+    "title": "Qaret Al-Muzawaka",
+    "district": "Dakhla Oasis",
+    "era": "Roman",
+    "description": "The 'Decorated Hill', a necropolis featuring rock-cut tombs, most notably the colorful tombs of Petosiris and Sadosiris which blend Egyptian pharaonic and Roman art styles.",
+    "location": { "lat": 25.6600, "lng": 28.8400 }
+  },
+  {
+    "title": "Bashendi Village",
+    "district": "Dakhla Oasis",
+    "era": "Old Kingdom / Roman / Islamic",
+    "description": "A picturesque village built over an ancient site. Contains the Roman sandstone tomb of Kitines and the Islamic domed mausoleum of Sheikh Bashendi.",
+    "location": { "lat": 25.5800, "lng": 29.1500 }
+  },
+  {
+    "title": "Balat (Qila' El-Dabba)",
+    "district": "Dakhla Oasis",
+    "era": "Old Kingdom (6th Dynasty)",
+    "description": "The necropolis of the Governors of the Oasis. Features large mudbrick mastabas, including those of Khentika and Medunefer, marking Dakhla's importance in early history.",
+    "location": { "lat": 25.5600, "lng": 29.2700 }
+  },
+  {
+    "title": "Ain Asil",
+    "district": "Dakhla Oasis",
+    "era": "Old Kingdom",
+    "description": "The ancient administrative settlement associated with the Balat necropolis. Provides rare evidence of Old Kingdom urban life and administration in the desert.",
+    "location": { "lat": 25.5650, "lng": 29.2750 }
+  },
+  {
+    "title": "Ismant El-Kharab (Kellis)",
+    "district": "Dakhla Oasis",
+    "era": "Roman / Coptic",
+    "description": "The ruins of ancient Kellis, a major town deserted in the 4th century. Features the Temple of Tutu, early Christian churches, and domestic architecture.",
+    "location": { "lat": 25.5390, "lng": 29.0770 }
+  },
+  {
+    "title": "Amheida (Trimithis)",
+    "district": "Dakhla Oasis",
+    "era": "Roman",
+    "description": "A buried city featuring a temple of Thoth and the House of Serenos, which contained elaborate mythological wall paintings now displayed in the Visitors Center.",
+    "location": { "lat": 25.7300, "lng": 28.8700 }
+  },
+  {
+    "title": "Teneida",
+    "district": "Dakhla Oasis",
+    "era": "Prehistoric / Pharaonic",
+    "description": "Site of ancient rock carvings and hieroglyphic inscriptions, historically a key water stop on caravan routes coming from the Nile Valley.",
+    "location": { "lat": 25.5000, "lng": 29.3500 }
+  },
+  {
+    "title": "Mut Al-Kharab",
+    "district": "Dakhla Oasis (Mut)",
+    "era": "New Kingdom - Roman",
+    "description": "The ancient capital of Dakhla (Mothis), site of the Temple of Seth. Archaeological works have yielded ostraca and temple remains within the modern city walls.",
+    "location": { "lat": 25.4900, "lng": 29.0000 }
+  },
+  {
+    "title": "Bir Al-Shaghala",
+    "district": "Dakhla Oasis (Mut)",
+    "era": "Roman",
+    "description": "A necropolis recently discovered near Mut containing multi-level tombs with well-preserved colorful paintings and mummies.",
+    "location": { "lat": 25.4850, "lng": 28.9800 }
+  },
+  {
+    "title": "Ain El-Sabil",
+    "district": "Dakhla Oasis",
+    "era": "Roman",
+    "description": "Features a small temple dedicated to Amun and remains of a settlement, located near Ismant el-Kharab.",
+    "location": { "lat": 25.5300, "lng": 29.0500 }
+  },
+  {
+    "title": "Deir El-Munira",
+    "district": "Kharga Oasis",
+    "era": "Roman",
+    "description": "A large Roman mudbrick fortress located on the road between Kharga and Asyut, likely serving as a tax collection point and defensive outpost.",
+    "location": { "lat": 25.8000, "lng": 30.6500 }
+  },
+  {
+    "title": "Ain Amur",
+    "district": "Between Kharga and Dakhla",
+    "era": "Roman",
+    "description": "A remote temple and settlement situated on the ancient darb (track) connecting the two oases, dedicated to Amun, providing a vital rest stop.",
+    "location": { "lat": 25.6000, "lng": 29.8000 }
+  },
+  {
+    "title": "Qasr El-Sumaira",
+    "district": "Kharga Oasis (North)",
+    "era": "Roman",
+    "description": "A square Roman fortress located north of Qasr Al-Labkha, part of the defensive network guarding the oasis approaches.",
+    "location": { "lat": 25.6800, "lng": 30.5800 }
+  },
+  {
+    "title": "Qasr El-Geb",
+    "district": "Kharga Oasis (North)",
+    "era": "Roman",
+    "description": "A mudbrick fortress located near Qasr El-Sumaira, positioned to control desert routes.",
+    "location": { "lat": 25.6900, "lng": 30.5900 }
+  },
+  {
+    "title": "Qasr Farafra",
+    "district": "Farafra Oasis",
+    "era": "Roman / Medieval",
+    "description": "The ruins of the ancient Roman fortress which served as the foundation for the traditional clay village of Farafra (largely modernized now).",
+    "location": { "lat": 27.0600, "lng": 27.9700 }
+  },
+  {
+    "title": "Ain Dallaf",
+    "district": "Farafra Oasis",
+    "era": "Roman",
+    "description": "Located north of Qasr Farafra, this area contains ruins of a Roman agricultural settlement and ancient springs.",
+    "location": { "lat": 27.2000, "lng": 28.0000 }
+  },
+  {
+    "title": "Wadi Hennis",
+    "district": "Farafra Oasis",
+    "era": "Roman",
+    "description": "Contains ruins of a Roman village near the White Desert, showing evidence of ancient cultivation.",
+    "location": { "lat": 27.0000, "lng": 28.1000 }
+  },
+  {
+    "title": "Cave of Swimmers",
+    "district": "Gilf Kebir / Wadi Sura",
+    "era": "Neolithic (Prehistoric)",
+    "description": "Famous rock art site featuring depictions of people swimming, suggesting a much wetter climate in the past. Popularized by the film 'The English Patient'.",
+    "location": { "lat": 23.5950, "lng": 25.2280 }
+  },
+  {
+    "title": "Cave of Beasts (Foggini Cave)",
+    "district": "Gilf Kebir / Wadi Sura",
+    "era": "Neolithic (Prehistoric)",
+    "description": "A massive rock shelter discovered in 2002, containing thousands of well-preserved paintings, including mysterious headless beasts and negative handprints.",
+    "location": { "lat": 23.6500, "lng": 25.1500 }
+  },
+  {
+    "title": "Abu Ballas",
+    "district": "South-West of Dakhla",
+    "era": "Pharaonic / Roman",
+    "description": "'Hill of Pottery'. An ancient station on a desert track discovered with hundreds of large pottery jars used as water depots for caravans.",
+    "location": { "lat": 24.3800, "lng": 27.5000 }
+  },
+  {
+    "title": "Maghetta",
+    "district": "Dakhla Oasis (South)",
+    "era": "Prehistoric / Roman",
+    "description": "Site of rock inscriptions and Roman water management systems.",
+    "location": { "lat": 25.3000, "lng": 29.1000 }
+  },
+  {
+    "title": "Deir Abu Metta",
+    "district": "Dakhla Oasis",
+    "era": "Coptic",
+    "description": "Ruins of a Coptic church basilica and monastery buried in the sand dunes near Al-Qasr.",
+    "location": { "lat": 25.6800, "lng": 28.9000 }
+  }
+]

@@ -1,0 +1,177 @@
+[
+  {
+    "title": "Citadel of Qaitbay (Fort St. Julien)",
+    "description": "Located in Rashid. Mamluk era (15th Century). A coastal fortress built by Sultan Qaitbay, famously where the Rosetta Stone was discovered.",
+    "location": { "lat": 31.4312, "lng": 30.4069 }
+  },
+  {
+    "title": "Zaghloul Mosque",
+    "description": "Located in Rashid. Ottoman era. The oldest mosque in Rashid, a complex of colonnades played a central role in the resistance against the Fraser expedition.",
+    "location": { "lat": 31.4015, "lng": 30.4182 }
+  },
+  {
+    "title": "El-Abbasi Mosque",
+    "description": "Located in Rashid. Ottoman era (1809). Characterized by its beautiful ornate minaret and dome, situated directly on the Nile bank.",
+    "location": { "lat": 31.4020, "lng": 30.4200 }
+  },
+  {
+    "title": "Mosque of Dumqsis",
+    "description": "Located in Rashid. Ottoman era (1704). A 'hanging mosque' accessed by stairs, built above shops, noted for its fine brickwork.",
+    "location": { "lat": 31.4030, "lng": 30.4195 }
+  },
+  {
+    "title": "Mosque of Abu Mandour",
+    "description": "Located in Rashid. Ottoman era. Located on a hill (Tell Abu Mandour) South of the city, famous for its leaning minaret and panoramic Nile view.",
+    "location": { "lat": 31.3910, "lng": 30.4150 }
+  },
+  {
+    "title": "House of Amasyali",
+    "description": "Located in Rashid. Ottoman era (1808). renowned for its intricate ceilings and mashrabiya woodwork, typical of the Delta style.",
+    "location": { "lat": 31.4025, "lng": 30.4190 }
+  },
+  {
+    "title": "House of Arab Killy",
+    "description": "Located in Rashid. Ottoman era (18th Century). Now the Rashid National Museum, this house showcases the governorate's history and Islamic architecture.",
+    "location": { "lat": 31.4028, "lng": 30.4188 }
+  },
+  {
+    "title": "House of Hassiba Ghazzal",
+    "description": "Located in Rashid. Ottoman era (1808). A merchant house featuring fine woodwork, distinct reception halls, and traditional Islamic layout.",
+    "location": { "lat": 31.4022, "lng": 30.4192 }
+  },
+  {
+    "title": "House of Asfour",
+    "description": "Located in Rashid. Ottoman era (1754). A large residence with a grand durqa'a (central hall) and courtyard.",
+    "location": { "lat": 31.4024, "lng": 30.4185 }
+  },
+  {
+    "title": "House of El-Mizouni",
+    "description": "Located in Rashid. Ottoman era (1740). Historic house linked to the notable El-Mizouni family, featuring preserved architectural details.",
+    "location": { "lat": 31.4018, "lng": 30.4180 }
+  },
+  {
+    "title": "House of Thabet",
+    "description": "Located in Rashid. Ottoman era. A smaller but well-preserved example of 18th-century domestic architecture near the souq.",
+    "location": { "lat": 31.4026, "lng": 30.4183 }
+  },
+  {
+    "title": "House of Ramadan",
+    "description": "Located in Rashid. Ottoman era. Key example of Rashid's unique black and red brick masonry style.",
+    "location": { "lat": 31.4029, "lng": 30.4187 }
+  },
+  {
+    "title": "House of Moharam",
+    "description": "Located in Rashid. Ottoman era. Features a distinctive facade and interior ventilation systems typical of the period.",
+    "location": { "lat": 31.4031, "lng": 30.4189 }
+  },
+  {
+    "title": "House of El-Gamal",
+    "description": "Located in Rashid. Ottoman era. Known for its external staircase and decorative brickwork.",
+    "location": { "lat": 31.4033, "lng": 30.4191 }
+  },
+  {
+    "title": "House of Abu Shaheen",
+    "description": "Located in Rashid. Ottoman era. A major house complex connected to a historic mill.",
+    "location": { "lat": 31.4035, "lng": 30.4193 }
+  },
+  {
+    "title": "Mill of Abu Shaheen",
+    "description": "Located in Rashid. Ottoman era. A rare surviving example of a traditional animal-powered grain mill attached to a residence.",
+    "location": { "lat": 31.4036, "lng": 30.4194 }
+  },
+  {
+    "title": "Hammam Azouz",
+    "description": "Located in Rashid. Ottoman era. An ancient public bathhouse (hammam) with domed warm rooms, reflecting social life in old Rashid.",
+    "location": { "lat": 31.4010, "lng": 30.4175 }
+  },
+  {
+    "title": "Bab El-Rasul",
+    "description": "Located in Rashid. Ottoman era. The site of one of the old city gates, historically significant for trade and defense.",
+    "location": { "lat": 31.4005, "lng": 30.4170 }
+  },
+  {
+    "title": "El-Mahalli Mosque",
+    "description": "Located in Rashid. Ottoman era (1721). Large mosque with a unique ceiling structure supported by 99 columns.",
+    "location": { "lat": 31.4012, "lng": 30.4185 }
+  },
+  {
+    "title": "El-Jundi Mosque",
+    "description": "Located in Rashid. Ottoman era. A mosque noted for its stylistic similarities to the larger Zaghloul mosque.",
+    "location": { "lat": 31.4018, "lng": 30.4178 }
+  },
+  {
+    "title": "Paromeos Monastery (Deir El-Baramous)",
+    "description": "Located in Wadi El Natrun. Coptic (4th Century). The oldest surviving monastery in the Wadi, founded by St. Macarius.",
+    "location": { "lat": 30.3582, "lng": 30.2646 }
+  },
+  {
+    "title": "Monastery of Saint Macarius (Deir Abu Maqar)",
+    "description": "Located in Wadi El Natrun. Coptic (4th Century). Home to the relics of St. Macarius the Great and John the Baptist, residence of many Coptic Popes.",
+    "location": { "lat": 30.4283, "lng": 30.3422 }
+  },
+  {
+    "title": "Monastery of Saint Bishoy",
+    "description": "Located in Wadi El Natrun. Coptic (4th Century). Contains the incorrupt body of St. Bishoy and a defensive keep (tower).",
+    "location": { "lat": 30.4350, "lng": 30.4950 }
+  },
+  {
+    "title": "Monastery of the Syrians (Deir El-Surian)",
+    "description": "Located in Wadi El Natrun. Coptic (6th Century). Famous for its exquisite frescoes, ancient library, and the Tree of St. Ephrem.",
+    "location": { "lat": 30.4370, "lng": 30.4930 }
+  },
+  {
+    "title": "Church of St. Michael (Paromeos)",
+    "description": "Located in Wadi El Natrun. Coptic. An ancient church located within the walls of the Paromeos monastery.",
+    "location": { "lat": 30.3585, "lng": 30.2650 }
+  },
+  {
+    "title": "Kom El-Hisn (Ancient Imu)",
+    "description": "Located in Kom Hamada. Old/Middle Kingdom. Archaeological mound of the ancient capital of the 3rd Lower Egyptian Nome.",
+    "location": { "lat": 30.8115, "lng": 30.7912 }
+  },
+  {
+    "title": "Kom Abu Billo (Terenuthis)",
+    "description": "Located near Tarrana. Greco-Roman/Coptic. Extensive necropolis and town site with catacombs and a temple dedicated to Hathor.",
+    "location": { "lat": 30.4520, "lng": 30.8250 }
+  },
+  {
+    "title": "Kom El-Giza",
+    "description": "Located near Kafr El-Dawar. Greco-Roman. Settlement mound revealing industrial and domestic remains from the classical period.",
+    "location": { "lat": 31.1300, "lng": 30.1300 }
+  },
+  {
+    "title": "Barnougi",
+    "description": "Located near Damanhour. Pharaonic. Site containing ancient tombs and settlement remains.",
+    "location": { "lat": 31.0200, "lng": 30.4500 }
+  },
+  {
+    "title": "Kom El-Ahmar (Sawaris)",
+    "description": "Located near Nubariya. Greco-Roman. Site of ancient baths and settlement ruins closer to the desert edge.",
+    "location": { "lat": 30.6800, "lng": 30.6500 }
+  },
+  {
+    "title": "Kom Firin",
+    "description": "Located in Kom Hamada. Ramesside/Saite Period. Notable for a fortified enclosure and temple remains.",
+    "location": { "lat": 30.8500, "lng": 30.6000 }
+  },
+  {
+    "title": "Edfina Palace",
+    "description": "Located in Edfina (near Rashid). Royal Era (20th Century). A royal retreat built by Khedive Abbas II and used by King Farouk, surrounded by gardens.",
+    "location": { "lat": 31.2950, "lng": 30.5080 }
+  },
+  {
+    "title": "Damanhour Opera House",
+    "description": "Located in Damanhour. Modern History (1930). An architectural landmark originally built as the municipality and cinema, hosting cultural events.",
+    "location": { "lat": 31.0365, "lng": 30.4685 }
+  },
+  {
+    "title": "Sidi Damanhour Mosque",
+    "description": "Located in Damanhour. Islamic. The principal mosque and shrine of the city's patron saint.",
+    "location": { "lat": 31.0380, "lng": 30.4700 }
+  },
+  {
+    "title": "Tell El-Naqula",
+    "description": "Located in Beheira. Greco-Roman. An archaeological hill located on the route between the Delta and Alexandria.",
+    "location": { "lat": 31.1000, "lng": 30.3000 }
+  }
+]

@@ -1,0 +1,38 @@
+SendEmailRequest:
+  type: object
+  properties:
+    email:
+      type: string
+      format: email
+    userName:
+      type: string
+    bookingId:
+      type: string
+    placeTitle:
+      type: string
+    date:
+      type: string
+      format: date
+    guests:
+      type: integer
+      minimum: 1
+    totalPrice:
+      type: number
+  required:
+    - email
+    - userName
+    - bookingId
+    - placeTitle
+    - date
+    - guests
+    - totalPrice
+SendEmailResponse:
+  type: object
+  properties:
+    success:
+      type: boolean
+    message:
+      type: string
+  required:
+    - success
+    - message

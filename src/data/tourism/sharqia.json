@@ -1,0 +1,247 @@
+[
+  {
+    "title": "Tanis (San El-Hagar) Archaeological Site",
+    "district": "San El-Hagar, Husseiniya District",
+    "era": "Third Intermediate Period (21st & 22nd Dynasties) to Ptolemaic",
+    "description": "The 'Thebes of the North', serving as the capital of Egypt during the Third Intermediate Period. It contains a massive temple enclosure and royal necropolis.",
+    "location": { "lat": 30.9772, "lng": 31.8808 }
+  },
+  {
+    "title": "Temple of Amun (Tanis)",
+    "district": "San El-Hagar, Husseiniya District",
+    "era": "21st Dynasty",
+    "description": "The Great Temple dedicated to Amun-Ra, built using reused blocks and statues from Pi-Ramesses, featuring massive pylons and column bases.",
+    "location": { "lat": 30.9780, "lng": 31.8810 }
+  },
+  {
+    "title": "Royal Tomb of Psusennes I",
+    "district": "San El-Hagar, Husseiniya District",
+    "era": "21st Dynasty",
+    "description": "Discovered intact in 1940, this tomb belonged to the 'Silver King' and contained a magnificent silver coffin and golden mask.",
+    "location": { "lat": 30.9775, "lng": 31.8805 }
+  },
+  {
+    "title": "Royal Tomb of Sheshonq III",
+    "district": "San El-Hagar, Husseiniya District",
+    "era": "22nd Dynasty",
+    "description": "The burial place of King Sheshonq III, part of the royal necropolis within the temple precinct.",
+    "location": { "lat": 30.9776, "lng": 31.8804 }
+  },
+  {
+    "title": "Royal Tomb of Osorkon II",
+    "district": "San El-Hagar, Husseiniya District",
+    "era": "22nd Dynasty",
+    "description": "A large tomb constructed for Osorkon II, containing a massive granite sarcophagus.",
+    "location": { "lat": 30.9774, "lng": 31.8806 }
+  },
+  {
+    "title": "Sacred Lake of Tanis",
+    "district": "San El-Hagar, Husseiniya District",
+    "era": "Late Period",
+    "description": "A well-preserved rectangular sacred lake used for ritual purity by the priests of Amun.",
+    "location": { "lat": 30.9785, "lng": 31.8820 }
+  },
+  {
+    "title": "Obelisks Field",
+    "district": "San El-Hagar, Husseiniya District",
+    "era": "New Kingdom (Reused)",
+    "description": "An area within the temple containing numerous broken obelisks of Ramesses II, transported from Pi-Ramesses.",
+    "location": { "lat": 30.9778, "lng": 31.8815 }
+  },
+  {
+    "title": "Temple of Mut & Khonsu",
+    "district": "San El-Hagar, Husseiniya District",
+    "era": "Late Period / Ptolemaic",
+    "description": "Smaller temple structures dedicated to the other members of the Theban Triad.",
+    "location": { "lat": 30.9760, "lng": 31.8800 }
+  },
+  {
+    "title": "Tell Basta (Bubastis) Archaeological Site",
+    "district": "Zagazig",
+    "era": "Old Kingdom to Roman",
+    "description": "The ancient city of Bubastis, center of the worship of the cat goddess Bastet and capital of the 18th Lower Egyptian nome.",
+    "location": { "lat": 30.5711, "lng": 31.5117 }
+  },
+  {
+    "title": "Temple of Bastet",
+    "district": "Zagazig (Tell Basta)",
+    "era": "New Kingdom / Late Period",
+    "description": "The red granite temple of the goddess Bastet, described by Herodotus. Now largely a field of ruins and blocks.",
+    "location": { "lat": 30.5715, "lng": 31.5120 }
+  },
+  {
+    "title": "Temple of Pepi I / Teti",
+    "district": "Zagazig (Tell Basta)",
+    "era": "Old Kingdom (6th Dynasty)",
+    "description": "Vestiges of a Ka-chapel or temple dating back to the Old Kingdom monarchs Pepi I and Teti.",
+    "location": { "lat": 30.5720, "lng": 31.5110 }
+  },
+  {
+    "title": "Cat Cemetery",
+    "district": "Zagazig (Tell Basta)",
+    "era": "Late Period / Ptolemaic",
+    "description": "A series of mudbrick vaulted galleries where thousands of mummified cats were buried as votive offerings.",
+    "location": { "lat": 30.5705, "lng": 31.5130 }
+  },
+  {
+    "title": "Holy Family Well",
+    "district": "Zagazig (Tell Basta)",
+    "era": "1st Century AD (Tradition)",
+    "description": "An ancient well believed to have been blessed by Jesus during the Holy Family's stay in Bubastis.",
+    "location": { "lat": 30.5710, "lng": 31.5115 }
+  },
+  {
+    "title": "Colossal Statue of Meritamun",
+    "district": "Zagazig (Tell Basta)",
+    "era": "New Kingdom (19th Dynasty)",
+    "description": "A magnificent colossal statue of Queen Meritamun, daughter/wife of Ramesses II, re-erected at the site.",
+    "location": { "lat": 30.5712, "lng": 31.5118 }
+  },
+  {
+    "title": "Tell El-Daba'a (Avaris)",
+    "district": "Faqous",
+    "era": "Middle Kingdom / Hyksos / New Kingdom",
+    "description": "The site of the Hyksos capital Avaris. It revealed Minoan-style frescoes and a Thutmosid palace.",
+    "location": { "lat": 30.7874, "lng": 31.8213 }
+  },
+  {
+    "title": "Pi-Ramesses (Qantir)",
+    "district": "Faqous (Qantir)",
+    "era": "New Kingdom (19th & 20th Dynasties)",
+    "description": "The Delta capital of Ramesses II. Excavations have revealed a horse stable, weapons factories, and statue bases.",
+    "location": { "lat": 30.8000, "lng": 31.8333 }
+  },
+  {
+    "title": "Tell El-Shuqafiya",
+    "district": "El-Tell El-Kabir (Border)",
+    "era": "Greco-Roman",
+    "description": "Archaeological mound with visible remains of mudbrick structures and a Roman settlement.",
+    "location": { "lat": 30.5500, "lng": 31.8500 }
+  },
+  {
+    "title": "Saft El-Hinna Archaeological Site",
+    "district": "Abu Hammad",
+    "era": "New Kingdom / Late Period",
+    "description": "Ancient Per-Sopdu, capital of the 20th Lower Egyptian nome. Known for the black granite naos found there.",
+    "location": { "lat": 30.5500, "lng": 31.6167 }
+  },
+  {
+    "title": "Tell Phacusa (Faqous)",
+    "district": "Faqous",
+    "era": "Greco-Roman",
+    "description": "The ancient city of Phacusa, capital of the Arabian nome during the Roman period.",
+    "location": { "lat": 30.7333, "lng": 31.8000 }
+  },
+  {
+    "title": "Tell El-Rataba",
+    "district": "Wadi Tumilat (Kassassin)",
+    "era": "19th & 20th Dynasties",
+    "description": "A major fortress guarding the approach to Egypt. Features walls of Ramesses II and Ramesses III.",
+    "location": { "lat": 30.5510, "lng": 31.9790 }
+  },
+  {
+    "title": "Tell Iswid",
+    "district": "Faqous",
+    "era": "Predynastic / Early Dynastic",
+    "description": "An important settlement site dating back to the formation of the Egyptian state (Naqada culture in Delta).",
+    "location": { "lat": 30.7500, "lng": 31.8100 }
+  },
+  {
+    "title": "Tell Ibrahim Awad",
+    "district": "Faqous",
+    "era": "Predynastic / Old Kingdom",
+    "description": "Site containing a sequence of shrines and tombs, crucial for understanding early religion in the Delta.",
+    "location": { "lat": 30.7600, "lng": 31.8200 }
+  },
+  {
+    "title": "Gezira Sangaha",
+    "district": "Diyarb Negm / Husseiniya",
+    "era": "Historical",
+    "description": "Archaeological site in the northern part of the governorate.",
+    "location": { "lat": 30.9500, "lng": 31.7000 }
+  },
+  {
+    "title": "Tell Nabasha (Tell Farun)",
+    "district": "Husseiniya",
+    "era": "New Kingdom / Late Period",
+    "description": "Ancient Imet. Contains remains of a temple to Wadjet, a granite sarcophagus, and colossal statues.",
+    "location": { "lat": 30.9000, "lng": 31.9000 }
+  },
+  {
+    "title": "Mosque of Sadat Quraish",
+    "district": "Bilbeis",
+    "era": "Early Islamic (Foundation) / Historic",
+    "description": "Considered possibly the oldest mosque in Egypt (older than Amr Ibn Al-Aas in foundation legend), renovated over centuries.",
+    "location": { "lat": 30.4167, "lng": 31.5667 }
+  },
+  {
+    "title": "Ahmed Orabi's House Museum",
+    "district": "Hirriya Raznah (Zagazig)",
+    "era": "Modern (19th Century)",
+    "description": "The birthplace of the nationalist leader Ahmed Orabi, now a museum dedicated to his life and the 1882 revolution.",
+    "location": { "lat": 30.6000, "lng": 31.5200 }
+  },
+  {
+    "title": "King Farouk Rest House",
+    "district": "Inshas",
+    "era": "Modern (Royal Era)",
+    "description": "A royal retreat belonging to King Farouk in the Inshas area.",
+    "location": { "lat": 30.3800, "lng": 31.4300 }
+  },
+  {
+    "title": "Tell El-Qirqfa",
+    "district": "Faqous",
+    "era": "Hyksos / New Kingdom",
+    "description": "Settlement site revealing domestic architecture from the Second Intermediate Period.",
+    "location": { "lat": 30.8000, "lng": 31.8500 }
+  },
+  {
+    "title": "Tell Abu Yasin",
+    "district": "Abu Kebir",
+    "era": "Greco-Roman",
+    "description": "Archaeological mound near Abu Kebir with extensive Roman remains.",
+    "location": { "lat": 30.7200, "lng": 31.6700 }
+  },
+  {
+    "title": "Tell Umm Hagar",
+    "district": "Husseiniya",
+    "era": "Greco-Roman",
+    "description": "Site containing granaries and domestic structures.",
+    "location": { "lat": 30.9200, "lng": 31.8800 }
+  },
+  {
+    "title": "Zagazig University Museum",
+    "district": "Zagazig",
+    "era": "Modern",
+    "description": "University museum housing artifacts excavated by the university missions in Tell Basta and nearby tells.",
+    "location": { "lat": 30.5800, "lng": 31.4800 }
+  },
+  {
+    "title": "Umm Kulthum Statue",
+    "district": "Zagazig",
+    "era": "Modern",
+    "description": "Monument dedicated to the 'Star of the East', who was born in the governorate.",
+    "location": { "lat": 30.5750, "lng": 31.5000 }
+  },
+  {
+    "title": "Talami Island",
+    "district": "Husseiniya (Lake Manzala)",
+    "era": "Historical",
+    "description": "One of the archaeological islands in the lake, similar to Tinnis.",
+    "location": { "lat": 31.1000, "lng": 31.9500 }
+  },
+  {
+    "title": "Tell Belim",
+    "district": "Husseiniya",
+    "era": "Pharaonic",
+    "description": "Archaeological site with remains of a temple enclosure.",
+    "location": { "lat": 30.9300, "lng": 31.8700 }
+  },
+  {
+    "title": "Tell El-Daba'a (Ezbet Rushdi)",
+    "district": "Faqous",
+    "era": "Middle Kingdom",
+    "description": "Part of the greater Avaris complex, specifically the Middle Kingdom settlement of Amenemhat I.",
+    "location": { "lat": 30.7900, "lng": 31.8200 }
+  }
+]

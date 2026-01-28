@@ -1,66 +1,73 @@
 import { Request, Response, NextFunction } from 'express';
-import { AuthService } from '../services/auth.service';
-import { asyncHandler } from '../utils/asyncHandler';
+import { asyncHandler } from '@utils/asyncHandler';
+import type { components } from '../types/api';
+import { upsertUserWithRole, updateUserWithAdditionalData } from '@services/user.service';
+import { ApiError } from '@utils/ApiError';
+import { DomainError } from 'types/domain-error.type';
 
-const authService = new AuthService();
+// OpenAPI-generated types
+type VerifyRequest = Request<unknown, unknown, components['schemas']['VerifyUserIdTokenRequest']>;
+type VerifyResponse = Response<components['schemas']['VerifyUserIdTokenResponse']>;
+
+type LogoutRequest = Request;
+type LogoutResponse = Response<components['schemas']['LogoutUserResponse']>;
 
 export class AuthController {
-  register = asyncHandler(async (req: Request, res: Response, _next: NextFunction) => {
-    const { email, password, name } = req.body;
+  verify = asyncHandler(async (req: VerifyRequest, res: VerifyResponse, next: NextFunction) => {
+    // req.user is set by the authentication middleware after decoding idToken
+    const firebaseUser = req.user!;
+    const { additionalData } = req.body;
 
-    const result = await authService.register({ email, password, name });
 
-    res.status(201).json({
-      success: true,
-      message: 'User registered successfully',
-      data: result,
+    // Upsert user and role/admin logic
+    let user = await upsertUserWithRole({
+      email: firebaseUser.email,
+      name: firebaseUser.name,
+      ...firebaseUser
     });
-  });
-
-  login = asyncHandler(async (req: Request, res: Response, _next: NextFunction) => {
-    const { email, password } = req.body;
-
-    const result = await authService.login({ email, password });
-
-    res.status(200).json({
-      success: true,
-      message: 'Login successful',
-      data: result,
-    });
-  });
-
-  refreshToken = asyncHandler(async (req: Request, res: Response, _next: NextFunction) => {
-    const { refreshToken } = req.body;
-
-    const result = await authService.refreshToken(refreshToken);
-
-    res.status(200).json({
-      success: true,
-      data: result,
-    });
-  });
-
-  logout = asyncHandler(async (_req: Request, res: Response, _next: NextFunction) => {
-    // Implement logout logic (e.g., blacklist token, clear session)
-    res.status(200).json({
-      success: true,
-      message: 'Logout successful',
-    });
-  });
-
-  firebaseLogin = asyncHandler(async (req: Request, res: Response, _next: NextFunction) => {
-    const firebaseUser = req.firebaseUser as { uid: string; email?: string; name?: string } | undefined;
-    if (!firebaseUser?.uid) {
-      res.status(401).json({ success: false, message: 'Unauthorized' });
-      return;
+    if (!user.ok) {
+      const err = user.error as DomainError;
+      let apiError;
+      switch (err.type) {
+        case 'NotFound':
+          apiError = new ApiError(404, err.message);
+          break;
+        case 'Conflict':
+          apiError = new ApiError(409, err.message);
+          break;
+        default:
+          apiError = new ApiError(500, err.message || 'Internal Server Error');
+      }
+      return next(apiError);
+    }
+    
+    if (additionalData && Object.keys(additionalData).length > 0) {
+      user = await updateUserWithAdditionalData(user.value.id, additionalData);
     }
 
-    const result = await authService.loginWithFirebase(firebaseUser.uid, firebaseUser.email, firebaseUser.name);
+    if (!user.ok) {
+      const err = user.error as DomainError;
+      let apiError;
+      switch (err.type) {
+        case 'NotFound':
+          apiError = new ApiError(404, err.message);
+          break;
+        case 'Conflict':
+          apiError = new ApiError(409, err.message);
+          break;
+        default:
+          apiError = new ApiError(500, err.message || 'Internal Server Error');
+      }
+      return next(apiError);
+    }
+    const payload: components['schemas']['VerifyUserIdTokenResponse'] = {
+      userId: user.value.id,
+      email: user.value.email!,
+    };
+    res.status(201).json(payload);
+  });
 
-    res.status(200).json({
-      success: true,
-      message: 'Firebase login successful',
-      data: result,
-    });
+  logout = asyncHandler(async (_req: LogoutRequest, res: LogoutResponse, _next: NextFunction) => {
+    res.status(200).json({ status: 'success' });
   });
 }

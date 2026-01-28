@@ -1,32 +1,42 @@
-import { firebaseAdmin } from '../config/firebase';
+// ...existing code...
+import { HybridCache } from '@utils/hybridCache';
+import type { Result } from '../types/result.types';
+import { ok, err } from '../types/result.types';
+import type { DomainError } from '../types/domain-error.type';
+import { tourismRepository } from '@repositories/tourism.repository';
 
-const COLLECTION = 'tourism_places_unified';
-const PAGE_SIZE = 20;
+// --- Define plain object shapes instead of DTOs ---
+type TourismPlace = {
+  id?: string;
+  title: string;
+  description?: string;
+  location?: string;
+  governorate?: string;
+  category?: string;
+  price?: number;
+  rating?: number;
+  createdAt?: Date;
+  [key: string]: unknown;
+};
 
-type SortBy = 'rating' | '-rating' | 'price' | '-price' | 'duration' | '-duration';
-
-type GetActivitiesParams = {
+type GetPlacesParams = {
   location?: string;
   category?: string;
+  sortBy?: string;
   page?: number;
   limit?: number;
-  sortBy?: SortBy | string;
 };
 
-type Pagination = {
-  page: number;
-  limit: number;
-  total: number;
-  totalPages: number;
-  hasNext: boolean;
-  hasPrev: boolean;
-};
-
-type Activity = Record<string, unknown>;
-
-type ActivitiesResult = {
-  data: Activity[];
-  pagination: Pagination;
+type PlacesResult = {
+  data: TourismPlace[];
+  pagination: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+    hasNext: boolean;
+    hasPrev: boolean;
+  };
   filters: {
     location: string | null;
     category: string | null;
@@ -34,18 +44,18 @@ type ActivitiesResult = {
   };
 };
 
-type SearchResult = {
-  data: Activity[];
-  pagination: Pagination;
-  query: string;
+type LocationsResult = {
+  locations: string[];
+  count: number;
 };
 
-type LocationsResult = { locations: string[]; count: number };
-
-type CategoriesResult = { categories: string[]; count: number };
+type CategoriesResult = {
+  categories: string[];
+  count: number;
+};
 
 type StatsResult = {
-  totalActivities: number;
+  totalPlaces: number;
   locations: string[];
   locationCount: number;
   categories: string[];
@@ -53,9 +63,26 @@ type StatsResult = {
   avgRating: number | string;
   priceRange: { min: number; max: number };
 };
+// ---------------------------------------------------
+
+const PAGE_SIZE = 20;
+const CACHE_TTL = 2 * 60 * 1000; // 2 minutes
+
+// Hybrid cache: Redis (distributed) + In-memory (fast)
+const cache = new HybridCache(20, 5, CACHE_TTL);
+
+// ...existing code...
 
 class TourismService {
-  private collection = firebaseAdmin.firestore().collection(COLLECTION);
+  private async getCache<T>(key: string): Promise<T | null> {
+    return (await cache.get<T>(key)) || null;
+  }
+
+  private async setCache(key: string, data: unknown): Promise<void> {
+    await cache.set(key, data);
+  }
+
+  // ...existing code...
 
   private normalizePagination(page?: number, limit?: number) {
     const pageNum = Math.max(1, page || 1);
@@ -63,40 +90,31 @@ class TourismService {
     return { pageNum, pageSize };
   }
 
-  private buildSort(query: FirebaseFirestore.Query, sortBy?: SortBy | string) {
-    const sortMap: Record<string, string> = {
-      rating: 'rating',
-      '-rating': 'rating',
-      price: 'price',
-      '-price': 'price',
-      duration: 'duration',
-      '-duration': 'duration',
-    };
+  // NOTE: FirestoreOrm does not support advanced queries out of the box.
+  // For filtering/sorting, we use the underlying Firestore query API, but always through the ORM's collection reference.
+  // ...existing code...
 
-    const sortField = sortMap[String(sortBy)] || 'rating';
-    const isDescending = String(sortBy).startsWith('-');
-    return isDescending ? query.orderBy(sortField, 'desc') : query.orderBy(sortField, 'asc');
-  }
+  async getPlaces(params: GetPlacesParams): Promise<Result<PlacesResult>> {
+    const cacheKey = `places:${JSON.stringify(params)}`;
+    const cached = await this.getCache<PlacesResult>(cacheKey);
+    if (cached) return ok(cached);
 
-  async getActivities(params: GetActivitiesParams): Promise<ActivitiesResult> {
-    const { location, category, sortBy = 'rating', page, limit } = params;
+    const { location, category, sortBy = '-date', page, limit } = params;
     const { pageNum, pageSize } = this.normalizePagination(page, limit);
 
-    let query: FirebaseFirestore.Query = this.collection;
-    if (location) query = query.where('location', '==', String(location));
-    if (category) query = query.where('category', '==', String(category));
-    query = this.buildSort(query, sortBy);
+    // Use repository method for all query logic
+    const { places, totalCount } = await tourismRepository.getPlacesWithFilters({
+      location,
+      category,
+      sortBy,
+      pageNum,
+      pageSize,
+    });
 
-    const countSnapshot = await query.count().get();
-    const totalCount = countSnapshot.data().count;
-
-    const skip = (pageNum - 1) * pageSize;
-    const snapshot = await query.offset(skip).limit(pageSize).get();
-    const activities = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
     const totalPages = Math.ceil(totalCount / pageSize);
 
-    return {
-      data: activities,
+    const result: PlacesResult = {
+      data: places,
       pagination: {
         page: pageNum,
         limit: pageSize,
@@ -111,77 +129,66 @@ class TourismService {
         sortBy,
       },
     };
+    this.setCache(cacheKey, result);
+    return ok(result);
   }
 
-  async getActivityById(id: string): Promise<Activity | null> {
-    const doc = await this.collection.doc(id).get();
-    if (!doc.exists) return null;
-    return { id: doc.id, ...doc.data() };
+  async getPlaceById(id: string): Promise<Result<TourismPlace, DomainError>> {
+    const cacheKey = `place:${id}`;
+    const cached = await this.getCache<TourismPlace>(cacheKey);
+    if (cached) return ok(cached);
+
+    const place = await tourismRepository.getById(id);
+    if (!place) return err({ type: 'NotFound', message: 'Tourism place not found' });
+    
+    const enriched = tourismRepository.enrichPlaceData(place);
+    await this.setCache(cacheKey, enriched);
+    return ok(enriched);
   }
 
-  async searchActivities(queryText: string, page?: number, limit?: number): Promise<SearchResult> {
-    const query = String(queryText || '').toLowerCase();
-    if (!query) throw new Error('Search query required');
+  async getLocations(): Promise<Result<LocationsResult>> {
+    const cacheKey = 'locations';
+    const cached = await this.getCache<LocationsResult>(cacheKey);
+    if (cached) return ok(cached);
 
-    const { pageNum, pageSize } = this.normalizePagination(page, limit);
-
-    const snapshot = await this.collection.get();
-    const filtered = snapshot.docs
-      .filter(doc => {
-        const data = doc.data();
-        const searchFields = [
-          data.title?.toLowerCase() || '',
-          data.description?.toLowerCase() || '',
-          data.category?.toLowerCase() || '',
-          data.location?.toLowerCase() || '',
-        ].join(' ');
-        return searchFields.includes(query);
-      })
-      .map(doc => ({ id: doc.id, ...doc.data() }));
-
-    const skip = (pageNum - 1) * pageSize;
-    const results = filtered.slice(skip, skip + pageSize);
-    const totalCount = filtered.length;
-    const totalPages = Math.ceil(totalCount / pageSize);
-
-    return {
-      data: results,
-      pagination: {
-        page: pageNum,
-        limit: pageSize,
-        total: totalCount,
-        totalPages,
-        hasNext: pageNum < totalPages,
-        hasPrev: pageNum > 1,
-      },
-      query,
-    };
-  }
-
-  async getLocations(): Promise<LocationsResult> {
-    const snapshot = await this.collection.get();
+    const allPlaces = await tourismRepository.getAll();
     const locations = new Set<string>();
-    snapshot.docs.forEach(doc => {
-      const data = doc.data();
-      if (data.location) locations.add(data.location);
+    allPlaces.forEach(place => {
+      if (place.governorate) {
+        locations.add(place.governorate);
+      } else if (typeof place.location === 'string') {
+        locations.add(place.location);
+      }
     });
-    return { locations: Array.from(locations).sort(), count: locations.size };
+
+    const result: LocationsResult = { locations: Array.from(locations).sort(), count: locations.size };
+    await this.setCache(cacheKey, result);
+    return ok(result);
   }
 
-  async getCategories(): Promise<CategoriesResult> {
-    const snapshot = await this.collection.get();
+  async getCategories(): Promise<Result<CategoriesResult>> {
+    const cacheKey = 'categories';
+    const cached = await this.getCache<CategoriesResult>(cacheKey);
+    if (cached) return ok(cached);
+
+    const allPlaces = await tourismRepository.getAll();
     const categories = new Set<string>();
-    snapshot.docs.forEach(doc => {
-      const data = doc.data();
-      if (data.category) categories.add(data.category);
+    allPlaces.forEach(place => {
+      if (place.category) categories.add(place.category);
     });
-    return { categories: Array.from(categories).sort(), count: categories.size };
+    const result: CategoriesResult = { categories: Array.from(categories).sort(), count: categories.size };
+    await this.setCache(cacheKey, result);
+    return ok(result);
   }
 
-  async getStats(): Promise<StatsResult> {
-    const snapshot = await this.collection.get();
+  async getStats(): Promise<Result<StatsResult>> {
+    const cacheKey = 'stats';
+    const cached = await this.getCache<StatsResult>(cacheKey);
+    if (cached) return ok(cached);
+
+    const allPlaces = await tourismRepository.getAll();
     const stats = {
-      totalActivities: snapshot.size,
+      totalPlaces: allPlaces.length,
       locations: new Set<string>(),
       categories: new Set<string>(),
       avgRating: 0,
@@ -190,22 +197,23 @@ class TourismService {
     let totalRating = 0;
     let ratingCount = 0;
 
-    snapshot.docs.forEach(doc => {
-      const data = doc.data();
-      if (data.location) stats.locations.add(data.location);
-      if (data.category) stats.categories.add(data.category);
-      if (data.rating) {
-        totalRating += data.rating;
+    allPlaces.forEach(place => {
+      if (place.governorate) stats.locations.add(place.governorate);
+      else if (typeof place.location === 'string') stats.locations.add(place.location);
+
+      if (place.category) stats.categories.add(place.category);
+      if (typeof place.rating === 'number') {
+        totalRating += place.rating;
         ratingCount += 1;
       }
-      if (data.price) {
-        stats.priceRange.min = Math.min(stats.priceRange.min, data.price);
-        stats.priceRange.max = Math.max(stats.priceRange.max, data.price);
+      if (typeof place.price === 'number') {
+        stats.priceRange.min = Math.min(stats.priceRange.min, place.price);
+        stats.priceRange.max = Math.max(stats.priceRange.max, place.price);
       }
     });
 
-    return {
-      totalActivities: stats.totalActivities,
+    const result: StatsResult = {
+      totalPlaces: stats.totalPlaces,
       locations: Array.from(stats.locations),
       locationCount: stats.locations.size,
       categories: Array.from(stats.categories),
@@ -216,6 +224,8 @@ class TourismService {
         max: stats.priceRange.max,
       },
     };
+    await this.setCache(cacheKey, result);
+    return ok(result);
   }
 }
 

@@ -1,0 +1,91 @@
+CreateExchangeBookingRequest:
+  type: object
+  properties:
+    fromCurrency:
+      type: string
+    toCurrency:
+      type: string
+    amountSent:
+      type: number
+    amountReceived:
+      type: number
+    exchangeRate:
+      type: number
+    locationId:
+      type: string
+    appointmentDate:
+      type: string
+      format: date
+    appointmentTime:
+      type: string
+      format: time
+    name:
+      type: string
+    phone:
+      type: string
+      pattern: '^\+\d{1,15}$'
+    email:
+      type: string
+      format: email
+  required:
+    - fromCurrency
+    - toCurrency
+    - amountSent
+    - amountReceived
+    - exchangeRate
+    - locationId
+    - appointmentDate
+    - appointmentTime
+    - name
+    - phone
+    - email
+CreateExchangeBookingResponse:
+  type: object
+  properties:
+    bookingReference:
+      type: string
+    status:
+      type: string
+      enum: [confirmed, pending]
+    reminderSent:
+      type: boolean
+    appointmentDate:
+      type: string
+    appointmentTime:
+      type: string
+    location:
+      $ref: '#/ExchangeLocation'
+    exchangeDetails:
+      type: object
+      properties:
+        fromCurrency:
+          type: string
+        toCurrency:
+          type: string
+        amountSent:
+          type: number
+        amountReceived:
+          type: number
+        exchangeRate:
+          type: number
+ExchangeLocation:
+  type: object
+  properties:
+    id:
+      type: string
+    name:
+      type: string
+    address:
+      type: string
+    distanceKm:
+      type: number
+    rating:
+      type: number
+      minimum: 0.0
+      maximum: 5.0
+    openHours:
+      type: string
+    features:
+      type: array
+      items:
+        type: string

@@ -1,28 +1,43 @@
 import { Request, Response, NextFunction } from 'express';
-import { verifyIdToken } from '../config/firebase';
-import { ApiError } from '../utils/ApiError';
+import { verifyIdToken } from '@config/firebase';
+import { ApiError } from '@utils/ApiError';
 
 export async function firebaseAuth(req: Request, _res: Response, next: NextFunction) {
   try {
-    // Optional dev bypass for local testing without a client
-    if (process.env.FIREBASE_AUTH_BYPASS === 'true' && process.env.NODE_ENV === 'development') {
-      (req as any).firebaseUser = { uid: 'dev-bypass-uid' };
-      return next();
-    }
-
     const authHeader = req.headers.authorization;
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    if (!authHeader || typeof authHeader !== 'string') {
       return next(new ApiError(401, 'Missing Authorization header'));
     }
+    if (!authHeader.startsWith('Bearer ')) {
+      return next(new ApiError(401, 'Invalid Authorization header format'));
+    }
 
-    const idToken = authHeader.substring(7);
-    const decoded = await verifyIdToken(idToken);
+    const idToken = authHeader.substring(7).trim();
+    if (!idToken) {
+      return next(new ApiError(401, 'Empty Bearer token'));
+    }
 
-    // Attach Firebase user info onto request
-    (req as any).firebaseUser = decoded;
+    // Optionally: reject tokens with extra spaces or wrong scheme
+    if (authHeader.match(/^Bearer\s+$/) || authHeader.match(/^bearer /i) === null) {
+      return next(new ApiError(401, 'Malformed Bearer token'));
+    }
+
+    let decoded;
+    try {
+      decoded = await verifyIdToken(idToken);
+    } catch (err) {
+      return next(new ApiError(401, 'Invalid Firebase credentials'));
+    }
+
+    if (!decoded || !decoded.uid) {
+      return next(new ApiError(401, 'Invalid Firebase user'));
+    }
+    req.user = {
+      ...decoded,
+      id: decoded.uid
+    };
     next();
   } catch (err) {
-    const message = err instanceof Error ? err.message : 'Invalid Firebase credentials';
-    next(new ApiError(401, message));
+    next(new ApiError(401, 'Authentication failed'));
   }
 }

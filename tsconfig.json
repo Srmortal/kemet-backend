@@ -3,24 +3,42 @@
     "target": "ES2020",
     "module": "commonjs",
     "lib": ["ES2020"],
-    "types": ["node"],
-    "typeRoots": ["./node_modules/@types", "./src/types"],
+    "types": ["node", "jest"],
+    "typeRoots": [
+      "./node_modules/@types",
+      "./src/@types"
+    ],
     "outDir": "./dist",
+    "rootDir": "./",
+    // === Strict Type Checking ===
     "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    "strictPropertyInitialization": true,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
+    // === Additional Strictness ===
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    // "exactOptionalPropertyTypes": true,  // TODO: Enable after refactoring in-memory user store to Firestore
+    // "noPropertyAccessFromIndexSignature": true,  // TODO: Enable after wrapping process.env in a typed config object
+    // === Module Resolution ===
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
+    // === Source Maps & Declarations ===
     "sourceMap": true,
     "declaration": true,
     "declarationMap": true,
     "removeComments": true,
+    // === Path Aliases ===
     "baseUrl": "./src",
     "paths": {
       "@controllers/*": ["controllers/*"],
@@ -30,10 +48,14 @@
       "@utils/*": ["utils/*"],
       "@config/*": ["config/*"],
       "@services/*": ["services/*"],
-      "@types/*": ["types/*"]
-    }
+      "@validators/*": ["validators/*"],
+      "@dto/*": ["dto/*"],
+      "@infrastructure/*": ["infrastructure/*"],
+      "@repositories/*": ["repositories/*"]
+    },
+    "experimentalDecorators": true
   },
-  "include": ["src/**/*", "scripts/**/*"],
+  "include": ["src/**/*", "scripts/**/*", "tests/exampleResultService.test.ts", "tests/kemetMart.service.test.ts", "tests/tourPackage.service.test.ts", "tests/mockProductsGenerator.test.ts", "tests/auth.service.test.ts"],
   "exclude": ["node_modules", "dist", "**/*.test.ts"],
   "ts-node": {
     "files": true,
