@@ -3,7 +3,17 @@ import { adventureRepository } from '@repositories/adventure.repository';
 import { ok, err } from '../types/result.types';
 import type { Result } from '../types/result.types';
 import type { DomainError } from '../types/domain-error.type';
+
+import Joi from 'joi';
 import { AdventureBooking } from '@models/avdenturesBokking.model';
+// Joi schema for AdventureBooking input (excluding id and createdAt)
+const adventureBookingSchema = Joi.object({
+  userId: Joi.string().required(),
+  adventureId: Joi.string().required(),
+  guests: Joi.number().integer().min(1).required(),
+  date: Joi.date().iso().required(), // expects ISO 8601 date string
+  // Add other fields as needed, matching AdventureBooking model
+});
 
 
 export class AdventureBookingService {
@@ -13,6 +23,11 @@ export class AdventureBookingService {
    * @returns Result<AdventureBooking>
    */
   async createBooking(booking: Omit<AdventureBooking, 'id' | 'createdAt'>): Promise<Result<unknown, DomainError>> {
+    // Validate input using Joi
+    const { error } = adventureBookingSchema.validate(booking);
+    if (error) {
+      return err({ type: 'ValidationError', message: error.message });
+    }
     try {
       const bookingWithDate: Omit<AdventureBooking, 'id'> = {
         ...booking,

@@ -4,6 +4,8 @@
     operationId: getKemetMartProducts
     security:
       - bearerAuth: []
+    x-middleware:
+      auth: true
     responses:
       '200':
         description: Success
@@ -17,6 +19,8 @@
         description: Forbidden
 /kemet-mart/cart:
   get:
+    x-middleware:
+      auth: true
     summary: Get cart
     operationId: getKemetMartCart
     security:
@@ -34,6 +38,8 @@
         description: Forbidden
 /kemet-mart/checkout:
   post:
+    x-middleware:
+      auth: true
     summary: Checkout
     operationId: kemetMartCheckout
     security:

@@ -7,10 +7,18 @@ export interface AppUser {
   id: string;
   email?: string;
   name?: string;
-  role?: string;
+  phoneNumber?: string;
+  avatarUrl?: string;
+  bookingsCount: number;
+  favouritesCount: number;
+  bio?: string;
+  role?: 'user' | 'admin';
   admin?: boolean;
-  customClaims?: Record<string, unknown>;
-  // Add other fields as needed
+  passportNumber?: string;
+  nationality?: string;
+  dateOfBirth?: Date | string;
+  gender?: 'M' | 'F';
+  expiryDate?: Date | string;
 }
 
 
@@ -23,9 +31,8 @@ export async function upsertUserWithRole(firebaseUser: {
   id: string;
   email?: string;
   name?: string;
-  role?: string;
+  role?: 'user' | 'admin';
   admin?: boolean;
-  customClaims?: Record<string, unknown>;
   [key: string]: unknown;
 }): Promise<Result<AppUser, DomainError>> {
   // Fetch user record from Auth repository
@@ -44,7 +51,8 @@ export async function upsertUserWithRole(firebaseUser: {
       name: firebaseUser.name,
       role: firebaseUser.role ?? 'user',
       admin: firebaseUser.admin ?? false,
-      customClaims: firebaseUser.customClaims ?? {},
+      bookingsCount: 0,
+      favouritesCount: 0,
     };
     await userRepository.create(userData);
   }
@@ -72,7 +80,6 @@ export async function upsertUserWithRole(firebaseUser: {
     name: userRecord.displayName,
     role,
     admin,
-    customClaims: { ...customClaims, role, admin },
     ...userData,
   });
 }
@@ -96,11 +103,32 @@ export async function updateUserWithAdditionalData(
     }
     return ok({ ...user, id: user.id ?? id });
   } else {
-    const newUser: AppUser = { id, ...additionalData };
+    const newUser: AppUser = {
+      id, ...additionalData,
+      bookingsCount: 0,
+      favouritesCount: 0
+    };
     const createResult = await userRepository.create(newUser);
     if (!createResult) {
       return err({ type: 'Unknown', message: 'Failed to create user with additional data' });
     }
     return ok(newUser);
+  }
+}
+
+/**
+ * Retrieves a user profile by user ID.
+ * Returns Result<AppUser, DomainError> and never throws.
+ * @param id User ID
+ */
+export async function getUserProfileService(id: string): Promise<Result<AppUser, DomainError>> {
+  try {
+    const user = await userRepository.getById(id);
+    if (!user) {
+      return err({ type: 'NotFound', message: 'User not found' });
+    }
+    return ok(user as AppUser);
+  } catch (e) {
+    return err({ type: 'Unknown', message: 'Failed to get user profile' });
   }
 }

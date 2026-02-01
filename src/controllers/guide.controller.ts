@@ -9,6 +9,37 @@ import * as guideService from '../services/guide.service';
 import { DomainError } from '../types/domain-error.type';
 import { ApiError } from '@utils/ApiError';
 
+type BookGuideRequest = Request<unknown, unknown, paths["/guides/book"]["post"]["requestBody"]["content"]["application/json"]>;
+type BookGuideResponse = Response<
+  paths["/guides/book"]["post"]["responses"][201]["content"]["application/json"]
+>;
+
+// POST /guides/book
+export async function bookGuide(req: BookGuideRequest, res: BookGuideResponse, next: NextFunction) {
+  const result = await guideService.bookGuide(req.body);
+
+  if (!result.ok) {
+    const err = result.error as DomainError;
+    let apiError;
+    switch (err.type) {
+      case 'NotFound':
+        apiError = new ApiError(404, err.message);
+        break;
+      case 'Conflict':
+        apiError = new ApiError(409, err.message);
+        break;
+      case 'ValidationError':
+        apiError = new ApiError(400, err.message);
+        break;
+      default:
+        apiError = new ApiError(500, err.message || 'Internal Server Error');
+    }
+    return next(apiError);
+  }
+
+  return res.status(201).json(result.value);
+}
+
 type GetGuidesRequest = Request<unknown,unknown,unknown, paths["/guides"]["get"]["parameters"]["query"]>;
 type GetGuidesResponse = Response<
   paths["/guides"]["get"]["responses"]["200"]["content"]["application/json"]

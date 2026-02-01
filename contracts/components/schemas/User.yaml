@@ -1,14 +1,30 @@
 VerifyUserIdTokenRequest:
   type: object
   properties:
-    idToken:
+    fullName:
       type: string
-    additionalData:
-      type: object
-      description: Additional profile fields to upsert in Firestore
-      additionalProperties: true
+    passportNumber:
+      type: string
+      pattern: '^[A-PR-WYa-pr-wy][1-9]\d\s?\d{4}[1-9]$'
+    nationality:
+      type: string
+      maxLength: 3
+    dateOfBirth:
+      type: string
+      format: date
+    gender:
+      type: string
+      enum: [M, F]
+    expiryDate:
+      type: string
+      format: date
   required:
-    - idToken
+    - fullName
+    - passportNumber
+    - nationality
+    - dateOfBirth
+    - gender
+    - expiryDate
 VerifyUserIdTokenResponse:
   type: object
   properties:
@@ -80,3 +96,34 @@ User:
         lastSignInTime:
           type: string
           format: date-time
+
+# DTO for user profile details
+ProfileDetailsDto:
+  type: object
+  properties:
+    firstName:
+      type: string
+    lastName:
+      type: string
+    bio:
+      type: string
+    phoneNumber:
+      type: string
+    countryName:
+      type: string
+    email:
+      type: string
+      format: email
+    dob:
+      type: string
+      format: date
+    bookingsCount:
+      type: integer
+    favouritesCount:
+      type: integer
+  required:
+    - firstName
+    - lastName
+    - email
+    - bookingsCount
+    - favouritesCount

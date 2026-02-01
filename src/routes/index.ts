@@ -7,9 +7,12 @@ import tourismRoutes from './tourism.routes';
 import adventureRoutes from './adventure.routes';
 import tourPackagesRoutes from './tourPackages.routes';
 import guidesRoutes from './guides.routes';
+import { firebaseAuth } from '@middleware/firebaseAuth';
 //import currencyExchangeRoutes from './currencyExchange.routes';
 
 const router = Router();
+
+router.use(firebaseAuth);
 
 
 router.use('/auth', authRoutes);

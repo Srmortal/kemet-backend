@@ -32,6 +32,8 @@ module.exports = {
     '^@routes/(.*)$': '<rootDir>/src/routes/$1',
     '^@validators/(.*)$': '<rootDir>/src/validators/$1',
     '^@dto/(.*)$': '<rootDir>/src/types/dto/$1',
+    '^@repositories/(.*)$': '<rootDir>/src/repositories/$1',
+    '^@infrastructure/(.*)$': '<rootDir>/src/infrastructure/$1',
   },
   modulePathIgnorePatterns: ["<rootDir>/dist/"],
   setupFiles: ["<rootDir>/jest.setup.js"],

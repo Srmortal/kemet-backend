@@ -1,7 +1,9 @@
 import { Router } from 'express';
-import { getGuides, getGuideById } from '../controllers/guide.controller';
+import { getGuides, getGuideById, bookGuide } from '../controllers/guide.controller';
 
 const router = Router();
+
+router.post('/book',bookGuide);
 
 router.get('/', getGuides);
 

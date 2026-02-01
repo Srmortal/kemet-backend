@@ -5,13 +5,8 @@ declare global {
         id: string; // local user id or firebase uid
         email?: string;
         name?: string;
-        role?: string;
+        role?: 'user' | 'admin';
         admin?: boolean;
-        customClaims?: {
-          role?: string;
-          admin?: boolean;
-          [key: string]: unknown;
-        };
         // Any other fields from firebaseUser or local user
         [key: string]: unknown;
       };

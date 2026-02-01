@@ -40,3 +40,21 @@
           application/json:
             schema:
               $ref: '../components/schemas/index.yaml#/LogoutUserResponse'
+/user/profile:
+  get:
+    summary: Get authenticated user profile
+    operationId: getUserProfile
+    security:
+      - bearerAuth: []
+    x-middleware:
+      auth: true
+      role: user
+    responses:
+      '200':
+        description: User profile
+        content:
+          application/json:
+            schema:
+              $ref: '../components/schemas/index.yaml#/ProfileDetailsDto'
+      '401':
+        description: Unauthorized

@@ -1,5 +1,6 @@
 import { faker } from '@faker-js/faker';
-import { Hotel, Room } from '../types/hotel.types';
+import { Hotel } from '@models/hotel.model';
+import { Room } from '@models/room.model';
 
 // --- Constants for Egyptian Context ---
 

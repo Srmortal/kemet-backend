@@ -1,4 +1,3 @@
-
 openapi: 3.0.3
 info:
   title: Kemet API
@@ -29,11 +28,13 @@ paths:
   /adventures/bookings:
     $ref: './paths/Adventure.yaml#/~1adventures~1bookings'
 
-
   /auth/verify:
     $ref: './paths/User.yaml#/~1auth~1verify'
   /auth/logout:
     $ref: './paths/User.yaml#/~1auth~1logout'
+
+  /user/profile:
+    $ref: './paths/User.yaml#/~1user~1profile'
 
   /tourism:
     $ref: './paths/Tourism.yaml#/~1tourism'
@@ -52,7 +53,6 @@ paths:
     $ref: './paths/TourPackages.yaml#/~1tour-packages'
   /tour-packages/{id}:
     $ref: './paths/TourPackages.yaml#/~1tour-packages~1{id}'
-
   /tour-packages/book:
     $ref: './paths/TourPackages.yaml#/~1tour-packages~1book'
 
@@ -63,6 +63,8 @@ paths:
     $ref: './paths/Guides.yaml#/~1guides'
   /guides/{id}:
     $ref: './paths/Guides.yaml#/~1guides~1{id}'
+  /guides/book:
+    $ref: './paths/Guides.yaml#/~1guides~1book'
 
   /kemet-mart/cart:
     $ref: './paths/KemetMart.yaml#/~1kemet-mart~1cart'

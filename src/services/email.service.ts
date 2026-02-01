@@ -1,6 +1,6 @@
 import logger from '@utils/logger';
 import {createTransport} from 'nodemailer';
-import type { BookingEmailDetails } from '../types/email.types';
+import type { BookingEmailDetails } from '../models/email.model';
 import type { Result } from '../types/result.types';
 import { ok, err } from '../types/result.types';
 import type { DomainError } from '../types/domain-error.type';

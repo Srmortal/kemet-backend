@@ -1,15 +1,3 @@
-export interface Hotel {
-  id: number;
-  name: string;
-  governorate: string;
-  city: string;
-  stars: 3 | 4 | 5;
-  rating: number;
-  reviewsCount: number;
-  currency: 'EGP';
-  thumbnail: string;
-}
-
 export interface Room {
   id: number;
   hotelId: number;
@@ -24,4 +12,3 @@ export interface Room {
     balcony: boolean;
   };
 }
-

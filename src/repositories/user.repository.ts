@@ -12,18 +12,7 @@ export const userRepository = {
     return orm.create(data);
   },
   async update(id: string, data: Partial<User>): Promise<User | null> {
-    // Only include customClaims if it matches Firestore's expected type
-    const { customClaims, ...rest } = data;
-    const updateData: Partial<User> = { ...rest };
-    if (
-      customClaims !== undefined &&
-      typeof customClaims === 'object' &&
-      customClaims !== null
-    ) {
-      // Only assign if customClaims is a plain object
-      updateData.customClaims = customClaims as Record<string, unknown>;
-    }
-    return orm.update(id, updateData as FirebaseFirestore.UpdateData<User>);
+    return orm.update(id, data);
   },
   async delete(id: string): Promise<void> {
     return orm.delete(id);

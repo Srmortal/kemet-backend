@@ -1,7 +1,10 @@
 /guides:
   get:
+    x-middleware:
+      auth: true
     summary: Get a list of local guides
     description: Returns a paginated list of expert local guides with their details, credentials, languages, specializations, and tours.
+    operationId: listGuides
     tags:
       - Guides
     parameters:
@@ -46,11 +49,14 @@
                   example: 5
       '500':
         description: Server error
-        
+
 /guides/{id}:
   get:
+    x-middleware:
+      auth: true
     summary: Get a specific guide by ID
     description: Returns detailed information about a specific local guide, including credentials, languages, specializations, and tours.
+    operationId: getGuideById
     tags:
       - Guides
     parameters:
@@ -69,5 +75,36 @@
               $ref: '../components/schemas/Guide.yaml#/Guide'
       '404':
         description: Guide not found
+      '500':
+        description: Server error
+        
+/guides/book:
+  post:
+    x-middleware:
+      auth: true
+    summary: Book a private guide
+    description: Book a private guide for a specific date, time, and number of people.
+    operationId: bookGuide
+    tags:
+      - Guides
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../components/schemas/Guide.yaml#/CreateGuideBookingRequest'
+    responses:
+      '201':
+        description: Guide booking confirmed
+        content:
+          application/json:
+            schema:
+              $ref: '../components/schemas/Guide.yaml#/GuideBooking'
+      '400':
+        description: Invalid request
+      '404':
+        description: Guide not found
+      '409':
+        description: Guide not available for selected date/time
       '500':
         description: Server error

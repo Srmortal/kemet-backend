@@ -16,7 +16,7 @@ export class AuthController {
   verify = asyncHandler(async (req: VerifyRequest, res: VerifyResponse, next: NextFunction) => {
     // req.user is set by the authentication middleware after decoding idToken
     const firebaseUser = req.user!;
-    const { additionalData } = req.body;
+    const additionalData = req.body;
 
 
     // Upsert user and role/admin logic

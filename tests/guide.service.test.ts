@@ -1,8 +1,30 @@
-import { getGuides, getGuideById, Guide, GuideRepository } from "../services/guide.service";
-import { Result } from "../types/result.types";
+import { getGuides, getGuideById } from "../src/services/guide.service";
+import { Guide } from "../src/models/guide.model";
+
+jest.mock("../src/repositories/guide.repository", () => {
+  return {
+    __esModule: true,
+    guideRepository: {
+      getAllGuides: jest.fn(),
+      getGuideById: jest.fn(),
+      isGuideAvailable: jest.fn(),
+      createGuideBooking: jest.fn(),
+    },
+  };
+});
+
+// Import the mock after jest.mock so it's the same instance
+import { guideRepository as originalGuideRepository } from "../src/repositories/guide.repository";
+
+// Cast repository methods to jest.Mock for type safety in tests
+const guideRepository = {
+  getAllGuides: originalGuideRepository.getAllGuides as jest.Mock,
+  getGuideById: originalGuideRepository.getGuideById as jest.Mock,
+  isGuideAvailable: originalGuideRepository.isGuideAvailable as jest.Mock,
+  createGuideBooking: originalGuideRepository.createGuideBooking as jest.Mock,
+};
 
 describe("Guide Service", () => {
-  let repo: jest.Mocked<GuideRepository>;
   const sampleGuide: Guide = {
     id: "1",
     name: "Dr. Khaled Mostafa",
@@ -28,45 +50,45 @@ describe("Guide Service", () => {
   };
 
   beforeEach(() => {
-    repo = {
-      getAllGuides: jest.fn(),
-      getGuideById: jest.fn(),
-    };
+    guideRepository.getAllGuides.mockReset();
+    guideRepository.getGuideById.mockReset();
+    guideRepository.isGuideAvailable.mockReset();
+    guideRepository.createGuideBooking.mockReset();
   });
 
   describe("getGuides", () => {
     it("returns all guides", async () => {
-      repo.getAllGuides.mockResolvedValue([sampleGuide]);
-      const result = await getGuides(repo);
+      guideRepository.getAllGuides.mockResolvedValue([sampleGuide]);
+      const result = await getGuides({ page: 1, limit: 10 });
       expect(result.ok).toBe(true);
-      if (result.ok) expect(result.value).toEqual([sampleGuide]);
+      if (result.ok) expect(result.value.guides).toEqual([sampleGuide]);
     });
 
     it("handles repository errors", async () => {
-      repo.getAllGuides.mockRejectedValue(new Error("fail"));
-      const result = await getGuides(repo);
+      guideRepository.getAllGuides.mockRejectedValue(new Error("fail"));
+      const result = await getGuides({ page: 1, limit: 10 });
       expect(result.ok).toBe(false);
     });
   });
 
   describe("getGuideById", () => {
     it("returns guide if found", async () => {
-      repo.getGuideById.mockResolvedValue(sampleGuide);
-      const result = await getGuideById(repo, "1");
+      guideRepository.getGuideById.mockResolvedValue(sampleGuide);
+      const result = await getGuideById("1");
       expect(result.ok).toBe(true);
       if (result.ok) expect(result.value).toEqual(sampleGuide);
     });
 
     it("returns error if not found", async () => {
-      repo.getGuideById.mockResolvedValue(null);
-      const result = await getGuideById(repo, "2");
+      guideRepository.getGuideById.mockResolvedValue(null);
+      const result = await getGuideById("2");
       expect(result.ok).toBe(false);
-      if (!result.ok) expect(result.error).toBe("GuideNotFound");
+      if (!result.ok) expect(result.error.type).toBe("NotFound");
     });
 
     it("handles repository errors", async () => {
-      repo.getGuideById.mockRejectedValue(new Error("fail"));
-      const result = await getGuideById(repo, "1");
+      guideRepository.getGuideById.mockRejectedValue(new Error("fail"));
+      const result = await getGuideById("1");
       expect(result.ok).toBe(false);
     });
   });

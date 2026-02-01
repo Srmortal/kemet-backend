@@ -120,19 +120,42 @@
     ],
     "import/default": "off",
     "no-restricted-imports": [
-        "error",
-        {
-          "paths": [
-            {
-              "name": "./src/infrastructure/firestore/firestoreOrm",
-              "message": "Only repositories and infrastructure/firestore may import FirestoreOrm"
-            },
-            {
-              "name": "firebase-admin",
-              "message": "firebase-admin may only be imported inside infrastructure/firestore or config/firebase.ts"
-            }
-          ]
-        }
+      "error",
+      {
+        "paths": [
+          {
+            "name": "./src/infrastructure/firestore/firestoreOrm",
+            "message": "Only repositories and infrastructure/firestore may import FirestoreOrm"
+          },
+          {
+            "name": "firebase-admin",
+            "message": "firebase-admin may only be imported inside infrastructure/firestore or config/firebase.ts"
+          },
+          {
+            "name": "stripe",
+            "message": "Do not import payment SDKs in services. Use infrastructure adapters."
+          },
+          {
+            "name": "paypal-rest-sdk",
+            "message": "Do not import payment SDKs in services. Use infrastructure adapters."
+          },
+          {
+            "name": "axios",
+            "message": "Do not import HTTP clients in services. Use infrastructure adapters."
+          },
+          {
+            "name": "node-fetch",
+            "message": "Do not import HTTP clients in services. Use infrastructure adapters."
+          }
+        ],
+        "patterns": [
+          {
+            "group": ["stripe", "paypal-rest-sdk", "axios", "node-fetch"],
+            "message": "Do not import payment SDKs or HTTP clients in services. Use infrastructure adapters.",
+            "caseSensitive": true
+          }
+        ]
+      }
     ]
   },
   "overrides": [
@@ -150,6 +173,12 @@
     },
     {
       "files": ["src/infrastructure/firestore/**", "src/config/firebase.ts"],
+      "rules": {
+        "no-restricted-imports": "off"
+      }
+    },
+    {
+      "files": ["src/infrastructure/payments/**"],
       "rules": {
         "no-restricted-imports": "off"
       }

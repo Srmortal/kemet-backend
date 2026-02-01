@@ -53,7 +53,7 @@ export const requireRole = (role: string) => {
       return next(new ApiError(401, 'Unauthorized'));
     }
 
-    const userRole = user.role ?? user.customClaims?.role;
+    const userRole = user.role;
 
     if (userRole !== role) {
       return next(new ApiError(403, `Forbidden: ${role} role required`));

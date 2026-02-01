@@ -111,6 +111,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/user/profile": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get authenticated user profile */
+        get: operations["getUserProfile"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/tourism": {
         parameters: {
             query?: never;
@@ -293,48 +310,7 @@ export interface paths {
          * Get a list of local guides
          * @description Returns a paginated list of expert local guides with their details, credentials, languages, specializations, and tours.
          */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description Page number (default 1) */
-                    page?: number;
-                    /** @description Number of guides per page (default 20) */
-                    limit?: number;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Paginated list of guides */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            guides?: components["schemas"]["Guide"][];
-                            /** @example 1 */
-                            page?: number;
-                            /** @example 20 */
-                            limit?: number;
-                            /** @example 100 */
-                            total?: number;
-                            /** @example 5 */
-                            totalPages?: number;
-                        };
-                    };
-                };
-                /** @description Server error */
-                500: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
+        get: operations["listGuides"];
         put?: never;
         post?: never;
         delete?: never;
@@ -354,45 +330,29 @@ export interface paths {
          * Get a specific guide by ID
          * @description Returns detailed information about a specific local guide, including credentials, languages, specializations, and tours.
          */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The unique identifier of the guide */
-                    id: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Guide details */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["Guide"];
-                    };
-                };
-                /** @description Guide not found */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description Server error */
-                500: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
+        get: operations["getGuideById"];
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/guides/book": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Book a private guide
+         * @description Book a private guide for a specific date, time, and number of people.
+         */
+        post: operations["bookGuide"];
         delete?: never;
         options?: never;
         head?: never;
@@ -662,11 +622,15 @@ export interface components {
             adventureId: string;
         };
         VerifyUserIdTokenRequest: {
-            idToken: string;
-            /** @description Additional profile fields to upsert in Firestore */
-            additionalData?: {
-                [key: string]: unknown;
-            };
+            fullName: string;
+            passportNumber: string;
+            nationality: string;
+            /** Format: date */
+            dateOfBirth: string;
+            /** @enum {string} */
+            gender: "M" | "F";
+            /** Format: date */
+            expiryDate: string;
         };
         VerifyUserIdTokenResponse: {
             userId: string;
@@ -675,6 +639,20 @@ export interface components {
         };
         LogoutUserResponse: {
             status: string;
+        };
+        ProfileDetailsDto: {
+            firstName: string;
+            lastName: string;
+            bio?: string;
+            phoneNumber?: string;
+            countryName?: string;
+            /** Format: email */
+            email: string;
+            city?: string;
+            /** Format: date */
+            dob?: string;
+            bookingsCount: number;
+            favouritesCount: number;
         };
         TourismPlace: {
             id?: string;
@@ -872,6 +850,87 @@ export interface components {
             /** @example Licensed Egyptologist with PhD in Ancient Egyptian History. Specialized in hieroglyphics and pharaonic dynasties. Published author and consultant for major museums. */
             about?: string;
             tours?: components["schemas"]["Tour"][];
+        };
+        CreateGuideBookingRequest: {
+            /**
+             * @description The ID of the guide to book
+             * @example guide_1
+             */
+            guideId: string;
+            /**
+             * Format: date
+             * @description Booking date (YYYY-MM-DD)
+             * @example 2026-01-31
+             */
+            date: string;
+            /**
+             * Format: time
+             * @description Preferred start time (24h format, e.g. 09:00)
+             * @example 09:00
+             */
+            startTime: string;
+            /**
+             * @description Number of hours (full day = 8)
+             * @example 8
+             */
+            hours: number;
+            /**
+             * @description Number of people
+             * @example 2
+             */
+            people: number;
+            /**
+             * @description Full name of the contact person
+             * @example Ahmed Youssef
+             */
+            fullName: string;
+            /**
+             * Format: email
+             * @description Contact email
+             * @example ahmed@example.com
+             */
+            email: string;
+            /**
+             * @description Contact phone number
+             * @example +201234567890
+             */
+            phone: string;
+        };
+        GuideBooking: {
+            /**
+             * @description Unique booking reference
+             * @example GUIDE-96608874
+             */
+            bookingReference: string;
+            guide: components["schemas"]["Guide"];
+            /**
+             * Format: date
+             * @description Booking date (YYYY-MM-DD)
+             * @example 2026-01-31
+             */
+            date: string;
+            /**
+             * @description Number of people
+             * @example 2
+             */
+            people: number;
+            /**
+             * @description Total amount paid in EGP
+             * @example 300
+             */
+            totalPaid: number;
+            paymentSummary?: {
+                /**
+                 * @description Amount paid for guide service
+                 * @example 300
+                 */
+                guideService?: number;
+                /**
+                 * @description Total paid
+                 * @example 300
+                 */
+                total?: number;
+            };
         };
         CartItem: {
             productId?: string;
@@ -1229,6 +1288,33 @@ export interface operations {
             };
         };
     };
+    getUserProfile: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description User profile */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProfileDetailsDto"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     getAllTourismPlaces: {
         parameters: {
             query?: {
@@ -1528,6 +1614,137 @@ export interface operations {
             };
             /** @description Forbidden */
             403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    listGuides: {
+        parameters: {
+            query?: {
+                /** @description Page number (default 1) */
+                page?: number;
+                /** @description Number of guides per page (default 20) */
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Paginated list of guides */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        guides?: components["schemas"]["Guide"][];
+                        /** @example 1 */
+                        page?: number;
+                        /** @example 20 */
+                        limit?: number;
+                        /** @example 100 */
+                        total?: number;
+                        /** @example 5 */
+                        totalPages?: number;
+                    };
+                };
+            };
+            /** @description Server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getGuideById: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The unique identifier of the guide */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Guide details */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Guide"];
+                };
+            };
+            /** @description Guide not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    bookGuide: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateGuideBookingRequest"];
+            };
+        };
+        responses: {
+            /** @description Guide booking confirmed */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GuideBooking"];
+                };
+            };
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Guide not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Guide not available for selected date/time */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Server error */
+            500: {
                 headers: {
                     [name: string]: unknown;
                 };

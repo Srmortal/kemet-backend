@@ -66,6 +66,8 @@ CreateUserResponse:
   $ref: './User.yaml#/CreateUserResponse'
 User:
   $ref: './User.yaml#/User'
+ProfileDetailsDto:
+  $ref: './User.yaml#/ProfileDetailsDto'
 
 FirestoreSetRequest:
   $ref: './Firestore.yaml#/FirestoreSetRequest'
