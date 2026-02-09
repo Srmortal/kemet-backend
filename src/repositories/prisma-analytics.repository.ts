@@ -67,8 +67,10 @@ export class PrismaAnalyticsRepository implements AnalyticsRepository {
 
     return {
         metrics, 
-        startDate: startDate ? new Date(startDate) : undefined, 
-        endDate: endDate ? new Date(endDate) : undefined
+        metricsQuery: {
+            startDate,
+            endDate
+        }
     };
   }
 }

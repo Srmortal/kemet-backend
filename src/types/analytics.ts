@@ -8,6 +8,5 @@ export interface AnalyticsMetricsQuery {
 }
 export interface AnalyticsReport {
   metrics: AnalyticsMetric[];
-  startDate?: Date;
-  endDate?: Date;
+  metricsQuery?: AnalyticsMetricsQuery;
 }

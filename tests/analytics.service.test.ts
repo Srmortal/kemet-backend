@@ -21,7 +21,8 @@ describe('AnalyticsService', () => {
       metrics: [
         { name: 'login', value: 100 },
         { name: 'purchase', value: 20 }
-      ]
+      ],
+      metricsQuery: query
     };
     (repo.getMetrics as jest.Mock).mockResolvedValue(metricsResult);
 
@@ -33,7 +34,8 @@ describe('AnalyticsService', () => {
   it('returns empty metrics if no actions found', async () => {
     const query: AnalyticsMetricsQuery = { startDate: '2026-01-01', endDate: '2026-01-02' };
     const metricsResult: AnalyticsReport = {
-      metrics: []
+      metrics: [],
+      metricsQuery: query
     };
     (repo.getMetrics as jest.Mock).mockResolvedValue(metricsResult);
 
