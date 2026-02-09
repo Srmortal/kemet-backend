@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { adventureService } from '@services/adventure.service';
-import { adventureBookingService } from '@services/adventure.booking.service';
+import { adventureService, adventureBookingService } from '../di';
 import type { components } from '../types/api';
 import { ApiError } from '@utils/ApiError';
 import type { DomainError } from '../types/domain-error.type';

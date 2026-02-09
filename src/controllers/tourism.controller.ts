@@ -1,7 +1,7 @@
 import { ApiError } from '@utils/ApiError';
 import type { DomainError } from '../types/domain-error.type';
 import { NextFunction, Request, Response } from 'express';
-import { tourismService } from '@services/tourism.service';
+import { tourismService } from '../di';
 import type { paths } from '../types/api';
 
 // Controller-local type aliases for OpenAPI types

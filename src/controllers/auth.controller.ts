@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { asyncHandler } from '@utils/asyncHandler';
 import type { components } from '../types/api';
-import { upsertUserWithRole, updateUserWithAdditionalData } from '@services/user.service';
+import { userService } from '../di';
 import { ApiError } from '@utils/ApiError';
 import { DomainError } from 'types/domain-error.type';
 
@@ -20,7 +20,7 @@ export class AuthController {
 
 
     // Upsert user and role/admin logic
-    let user = await upsertUserWithRole({
+    let user = await userService.upsertUserWithRole({
       email: firebaseUser.email,
       name: firebaseUser.name,
       ...firebaseUser
@@ -42,7 +42,7 @@ export class AuthController {
     }
     
     if (additionalData && Object.keys(additionalData).length > 0) {
-      user = await updateUserWithAdditionalData(user.value.id, additionalData);
+      user = await userService.updateUserWithAdditionalData(user.value.id, additionalData);
     }
 
     if (!user.ok) {

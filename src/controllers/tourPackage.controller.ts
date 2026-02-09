@@ -1,9 +1,8 @@
 import { ApiError } from '@utils/ApiError';
 import type { DomainError } from '../types/domain-error.type';
 import { NextFunction, Request, Response } from 'express';
-import { tourPackageService } from '../services/tourPackage.service';
 import type { components } from '../types/api';
-import { bookTourPackage } from '@services/tourPackageBooking.service';
+import { tourPackageService,tourPackageBookingService } from '../di';
 
 // Local type aliases for OpenAPI-generated types
 type GetAllTourPackagesRequest = Request;
@@ -92,7 +91,7 @@ export class TourPackageController {
       specialRequests: bookingRequest.specialRequests,
     };
 
-    const bookingResult = await bookTourPackage(bookingInput);
+    const bookingResult = await tourPackageBookingService.bookTourPackage(bookingInput);
 
     if (bookingResult.ok) {
       res.status(201).json(bookingResult.value);

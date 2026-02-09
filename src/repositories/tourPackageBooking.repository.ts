@@ -1,9 +1,10 @@
 import { FirestoreOrm } from '@infrastructure/firestore/firestoreOrm';
 import { TourPackageBooking } from '../models/tourPackageBooking.model';
+import type { TourPackageBookingRepository as TourPackageBookingRepositoryPort } from '../ports/tour-package-booking-repository';
 
 const tourPackageBookingOrm = FirestoreOrm.fromModel(TourPackageBooking);
 
-export class TourPackageBookingRepository {
+export class TourPackageBookingRepository implements TourPackageBookingRepositoryPort {
   async createBooking(booking: Omit<TourPackageBooking, 'id'>): Promise<TourPackageBooking> {
     return tourPackageBookingOrm.create(booking);
   }

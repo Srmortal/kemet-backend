@@ -1,10 +1,11 @@
 // src/repositories/user.repository.ts
 import { User } from '@models/user.model';
 import { FirestoreOrm } from '@infrastructure/firestore/firestoreOrm';
+import type { UserRepository as UserRepositoryPort } from '../ports/user-repository';
 
 const orm = FirestoreOrm.fromModel(User);
 
-export const userRepository = {
+export const userRepository: UserRepositoryPort = {
   async getById(uid: string): Promise<User | null> {
     return orm.getById(uid);
   },

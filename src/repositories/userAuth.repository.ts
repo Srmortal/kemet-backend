@@ -1,8 +1,9 @@
 // src/repositories/userAuth.repository.ts
 import { firebaseAdmin } from '@config/firebase';
 import { UserRecord } from 'firebase-admin/lib/auth/user-record';
+import type { UserAuthRepository as UserAuthRepositoryPort } from '../ports/user-auth-repository';
 
-export const userAuthRepository = {
+export const userAuthRepository: UserAuthRepositoryPort = {
   async getById(uid: string): Promise<UserRecord | null> {
     try {
       return await firebaseAdmin.auth().getUser(uid);

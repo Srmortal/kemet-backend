@@ -1,6 +1,6 @@
 import 'module-alias/register';
-import app from './app';
 import config from './config';
+import app from './app';
 import logger from './utils/logger';
 import { initializeRedis, closeRedis } from '@config/redis';
 

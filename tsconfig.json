@@ -9,7 +9,7 @@
       "./src/@types"
     ],
     "outDir": "./dist",
-    "rootDir": "./",
+    "rootDir": "./src",
     // === Strict Type Checking ===
     "strict": true,
     "noImplicitAny": true,
@@ -55,8 +55,8 @@
     },
     "experimentalDecorators": true
   },
-  "include": ["src/**/*", "scripts/**/*", "tests/exampleResultService.test.ts", "tests/kemetMart.service.test.ts", "tests/tourPackage.service.test.ts", "tests/mockProductsGenerator.test.ts", "tests/auth.service.test.ts"],
-  "exclude": ["node_modules", "dist", "**/*.test.ts"],
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist", "**/*.test.ts", "scripts/**/*", "tests/**/*"],
   "ts-node": {
     "files": true,
     "compilerOptions": {

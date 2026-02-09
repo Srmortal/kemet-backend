@@ -2,24 +2,12 @@ import { FirestoreOrm } from '@infrastructure/firestore/firestoreOrm';
 
 import { generateTourismPrice, isPricingEnabled } from '@utils/priceGenerator';
 import { generateTourismRating, isRatingEnabled } from '@utils/ratingGenerator';
-
-export type TourismPlace = {
-  id?: string;
-  title: string;
-  description?: string;
-  location?: string;
-  governorate?: string;
-  category?: string;
-  price?: number;
-  rating?: number;
-  createdAt?: Date;
-  [key: string]: unknown;
-};
+import type { TourismPlace, TourismRepository as TourismRepositoryPort } from '../ports/tourism-repository';
 
 const COLLECTION = 'tourism_sites';
 const tourismOrm = new FirestoreOrm<TourismPlace>(COLLECTION);
 
-export class TourismRepository {
+export class TourismRepository implements TourismRepositoryPort {
   /**
    * Build Firestore sort query for tourism places
    */

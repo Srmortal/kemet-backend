@@ -1,29 +1,25 @@
-import { adventureBookingRepository } from '@repositories/adventureBooking.repository';
-import { adventureRepository } from '@repositories/adventure.repository';
 import { ok, err } from '../types/result.types';
 import type { Result } from '../types/result.types';
 import type { DomainError } from '../types/domain-error.type';
-
 import Joi from 'joi';
 import { AdventureBooking } from '@models/avdenturesBokking.model';
-// Joi schema for AdventureBooking input (excluding id and createdAt)
+import type { AdventureBookingRepository } from '../ports/adventure-booking-repository';
+import type { AdventureRepository } from '../ports/adventure-repository';
+
 const adventureBookingSchema = Joi.object({
   userId: Joi.string().required(),
   adventureId: Joi.string().required(),
   guests: Joi.number().integer().min(1).required(),
-  date: Joi.date().iso().required(), // expects ISO 8601 date string
-  // Add other fields as needed, matching AdventureBooking model
+  date: Joi.date().iso().required(),
 });
 
-
 export class AdventureBookingService {
-  /**
-   * Create a new adventure booking.
-   * @param booking - AdventureBooking (input object)
-   * @returns Result<AdventureBooking>
-   */
+  constructor(
+    private bookingRepo: AdventureBookingRepository,
+    private adventureRepo: AdventureRepository
+  ) {}
+
   async createBooking(booking: Omit<AdventureBooking, 'id' | 'createdAt'>): Promise<Result<unknown, DomainError>> {
-    // Validate input using Joi
     const { error } = adventureBookingSchema.validate(booking);
     if (error) {
       return err({ type: 'ValidationError', message: error.message });
@@ -33,8 +29,8 @@ export class AdventureBookingService {
         ...booking,
         createdAt: new Date(),
       };
-      const created = await adventureBookingRepository.create(bookingWithDate);
-      const adventure = await adventureRepository.findById(booking.adventureId);
+      const created = await this.bookingRepo.create(bookingWithDate);
+      const adventure = await this.adventureRepo.findById(booking.adventureId);
       const combined = {
         ...created,
         activityName: adventure?.title,
@@ -49,19 +45,12 @@ export class AdventureBookingService {
     }
   }
 
-  /**
-   * Get all adventure bookings for a user.
-   * @param userId - string
-   * @returns Result<AdventureBooking[]>
-   */
   async getBookingsForUser(userId: string): Promise<Result<AdventureBooking[], DomainError>> {
     try {
-      const all = await adventureBookingRepository.findByUserId(userId);
+      const all = await this.bookingRepo.findByUserId(userId);
       return ok(all);
     } catch (error) {
       return err({ type: 'Unknown', message: 'Failed to fetch bookings' });
     }
   }
 }
-
-export const adventureBookingService = new AdventureBookingService();

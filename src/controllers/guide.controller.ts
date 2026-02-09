@@ -4,8 +4,8 @@ import { NextFunction, Request, Response } from 'express';
 // Types generated from OpenAPI
 import { paths } from '../types/api'; // Adjust import path as needed
 
-// Service stubs (to be implemented in STEP 4)
-import * as guideService from '../services/guide.service';
+// Import service instance from DI container
+import { guideService } from '../di';
 import { DomainError } from '../types/domain-error.type';
 import { ApiError } from '@utils/ApiError';
 

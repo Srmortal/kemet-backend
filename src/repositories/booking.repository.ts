@@ -1,11 +1,12 @@
 import { FirestoreOrm } from '@infrastructure/firestore/firestoreOrm';
 import { Booking } from '../models/booking.model';
 import { firebaseAdmin } from '../config/firebase';
+import type { BookingRepository as BookingRepositoryPort } from '../ports/booking-repository';
 
 const bookingOrm = FirestoreOrm.fromModel(Booking);
 const auth = firebaseAdmin.auth();
 
-export class BookingRepository {
+export class BookingRepository implements BookingRepositoryPort {
   async getPlaceById(placeId: string) {
     // Use FirestoreOrm to query the tourism_sites collection
     const tourismSitesOrm = new FirestoreOrm<{

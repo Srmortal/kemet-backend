@@ -1,4 +1,4 @@
-import { bookGuide } from "../src/services/guide.service";
+import { GuideService } from "../src/services/guide.service";
 
 jest.mock("../src/repositories/guide.repository", () => {
   // Define the mock object here
@@ -45,24 +45,27 @@ describe("Guide Booking Service", () => {
     paymentSummary: { guideService: 300, total: 300 },
   };
 
+  let guideService: GuideService;
+
   beforeEach(() => {
     guideRepository.getGuideById.mockReset();
     guideRepository.isGuideAvailable.mockReset();
     guideRepository.createGuideBooking.mockReset();
+    guideService = new GuideService(guideRepository);
   });
 
   it("returns booking on success", async () => {
     guideRepository.getGuideById.mockResolvedValue(guide);
     guideRepository.isGuideAvailable.mockResolvedValue(true);
     guideRepository.createGuideBooking.mockResolvedValue(booking);
-    const result = await bookGuide(bookingRequest);
+    const result = await guideService.bookGuide(bookingRequest);
     expect(result.ok).toBe(true);
     if (result.ok) expect(result.value).toEqual(booking);
   });
 
   it("returns NotFound if guide does not exist", async () => {
     guideRepository.getGuideById.mockResolvedValue(null);
-    const result = await bookGuide(bookingRequest);
+    const result = await guideService.bookGuide(bookingRequest);
     expect(result.ok).toBe(false);
     if (!result.ok) expect(result.error.type).toBe("NotFound");
   });
@@ -70,14 +73,14 @@ describe("Guide Booking Service", () => {
   it("returns Conflict if guide not available", async () => {
     guideRepository.getGuideById.mockResolvedValue(guide);
     guideRepository.isGuideAvailable.mockResolvedValue(false);
-    const result = await bookGuide(bookingRequest);
+    const result = await guideService.bookGuide(bookingRequest);
     expect(result.ok).toBe(false);
     if (!result.ok) expect(result.error.type).toBe("Conflict");
   });
 
   it("returns error on repository failure", async () => {
     guideRepository.getGuideById.mockRejectedValue(new Error("fail"));
-    const result = await bookGuide(bookingRequest);
+    const result = await guideService.bookGuide(bookingRequest);
     expect(result.ok).toBe(false);
   });
 });

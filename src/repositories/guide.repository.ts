@@ -2,10 +2,11 @@ import { Guide } from "@models/guide.model";
 import { mockGuides } from "@utils/generateMockGuides";
 import { GuideBooking } from "@models/guide-booking.model";
 import { FirestoreOrm } from "@infrastructure/firestore/firestoreOrm";
+import type { GuideRepository as GuideRepositoryPort } from "../ports/guide-repository";
 
 const bookingOrm = FirestoreOrm.fromModel(GuideBooking);
 
-export const guideRepository = {
+export const guideRepository: GuideRepositoryPort = {
   getAllGuides: async (): Promise<Guide[]> => {
     return mockGuides;
   },

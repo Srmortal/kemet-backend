@@ -2,7 +2,7 @@
 
 
 import { Request, Response, NextFunction } from 'express';
-import { getUserProfileService } from '../services/user.service';
+import { userService } from '../di'; 
 import { components } from '../types/api';
 import { ApiError } from '../utils/ApiError';
 
@@ -13,7 +13,7 @@ export const getUserProfile = async (
   next: NextFunction
 ) => {
   const userId = req.user?.id;
-  const result = await getUserProfileService(userId);
+  const result = await userService.getUserProfileService(userId);
   if (result.ok) {
     const user = result.value;
     const profile: components['schemas']['ProfileDetailsDto'] = {

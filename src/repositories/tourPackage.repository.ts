@@ -1,9 +1,10 @@
 import { generateMockTourPackages } from '../utils/mockTourPackages';
+import type { TourPackageRepository as TourPackageRepositoryPort } from '../ports/tour-package-repository';
 
 export type TourPackage = ReturnType<typeof generateMockTourPackages>[number];
 const tourPackages: TourPackage[] = generateMockTourPackages(20);
 
-export class TourPackageRepository {
+export class TourPackageRepository implements TourPackageRepositoryPort {
   async getAll(options: { category?: string; page?: number; limit?: number }) {
     let result = tourPackages;
     if (options.category) {

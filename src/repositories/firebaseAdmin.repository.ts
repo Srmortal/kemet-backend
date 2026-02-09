@@ -1,8 +1,9 @@
 // src/repositories/firebaseAdmin.repository.ts
 import { firebaseAdmin } from '@config/firebase';
 import type { ActionCodeSettings } from 'firebase-admin/auth';
+import type { FirebaseAdminRepository as FirebaseAdminRepositoryPort } from '../ports/firebase-admin-repository';
 
-export class FirebaseAdminRepository {
+export class FirebaseAdminRepository implements FirebaseAdminRepositoryPort {
   // Auth operations
   async createUser(params: { email: string; password?: string; displayName?: string; emailVerified?: boolean }) {
     return firebaseAdmin.auth().createUser({

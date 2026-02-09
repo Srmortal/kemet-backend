@@ -1,4 +1,4 @@
-import { getGuides, getGuideById } from "../src/services/guide.service";
+import { GuideService } from "../src/services/guide.service";
 import { Guide } from "../src/models/guide.model";
 
 jest.mock("../src/repositories/guide.repository", () => {
@@ -49,24 +49,27 @@ describe("Guide Service", () => {
     ],
   };
 
+  let guideService: GuideService;
+
   beforeEach(() => {
     guideRepository.getAllGuides.mockReset();
     guideRepository.getGuideById.mockReset();
     guideRepository.isGuideAvailable.mockReset();
     guideRepository.createGuideBooking.mockReset();
+    guideService = new GuideService(guideRepository);
   });
 
   describe("getGuides", () => {
     it("returns all guides", async () => {
       guideRepository.getAllGuides.mockResolvedValue([sampleGuide]);
-      const result = await getGuides({ page: 1, limit: 10 });
+      const result = await guideService.getGuides({ page: 1, limit: 10 });
       expect(result.ok).toBe(true);
       if (result.ok) expect(result.value.guides).toEqual([sampleGuide]);
     });
 
     it("handles repository errors", async () => {
       guideRepository.getAllGuides.mockRejectedValue(new Error("fail"));
-      const result = await getGuides({ page: 1, limit: 10 });
+      const result = await guideService.getGuides({ page: 1, limit: 10 });
       expect(result.ok).toBe(false);
     });
   });
@@ -74,21 +77,21 @@ describe("Guide Service", () => {
   describe("getGuideById", () => {
     it("returns guide if found", async () => {
       guideRepository.getGuideById.mockResolvedValue(sampleGuide);
-      const result = await getGuideById("1");
+      const result = await guideService.getGuideById("1");
       expect(result.ok).toBe(true);
       if (result.ok) expect(result.value).toEqual(sampleGuide);
     });
 
     it("returns error if not found", async () => {
       guideRepository.getGuideById.mockResolvedValue(null);
-      const result = await getGuideById("2");
+      const result = await guideService.getGuideById("2");
       expect(result.ok).toBe(false);
       if (!result.ok) expect(result.error.type).toBe("NotFound");
     });
 
     it("handles repository errors", async () => {
       guideRepository.getGuideById.mockRejectedValue(new Error("fail"));
-      const result = await getGuideById("1");
+      const result = await guideService.getGuideById("1");
       expect(result.ok).toBe(false);
     });
   });

@@ -1,23 +1,8 @@
-// ...existing code...
 import { HybridCache } from '@utils/hybridCache';
 import type { Result } from '../types/result.types';
 import { ok, err } from '../types/result.types';
 import type { DomainError } from '../types/domain-error.type';
-import { tourismRepository } from '@repositories/tourism.repository';
-
-// --- Define plain object shapes instead of DTOs ---
-type TourismPlace = {
-  id?: string;
-  title: string;
-  description?: string;
-  location?: string;
-  governorate?: string;
-  category?: string;
-  price?: number;
-  rating?: number;
-  createdAt?: Date;
-  [key: string]: unknown;
-};
+import type { TourismRepository, TourismPlace } from '../ports/tourism-repository';
 
 type GetPlacesParams = {
   location?: string;
@@ -63,17 +48,14 @@ type StatsResult = {
   avgRating: number | string;
   priceRange: { min: number; max: number };
 };
-// ---------------------------------------------------
 
 const PAGE_SIZE = 20;
-const CACHE_TTL = 2 * 60 * 1000; // 2 minutes
-
-// Hybrid cache: Redis (distributed) + In-memory (fast)
+const CACHE_TTL = 2 * 60 * 1000;
 const cache = new HybridCache(20, 5, CACHE_TTL);
 
-// ...existing code...
+export class TourismService {
+  constructor(private repo: TourismRepository) {}
 
-class TourismService {
   private async getCache<T>(key: string): Promise<T | null> {
     return (await cache.get<T>(key)) || null;
   }
@@ -82,17 +64,11 @@ class TourismService {
     await cache.set(key, data);
   }
 
-  // ...existing code...
-
   private normalizePagination(page?: number, limit?: number) {
     const pageNum = Math.max(1, page || 1);
     const pageSize = Math.min(100, Math.max(1, limit || PAGE_SIZE));
     return { pageNum, pageSize };
   }
-
-  // NOTE: FirestoreOrm does not support advanced queries out of the box.
-  // For filtering/sorting, we use the underlying Firestore query API, but always through the ORM's collection reference.
-  // ...existing code...
 
   async getPlaces(params: GetPlacesParams): Promise<Result<PlacesResult>> {
     const cacheKey = `places:${JSON.stringify(params)}`;
@@ -102,8 +78,7 @@ class TourismService {
     const { location, category, sortBy = '-date', page, limit } = params;
     const { pageNum, pageSize } = this.normalizePagination(page, limit);
 
-    // Use repository method for all query logic
-    const { places, totalCount } = await tourismRepository.getPlacesWithFilters({
+    const { places, totalCount } = await this.repo.getPlacesWithFilters({
       location,
       category,
       sortBy,
@@ -138,10 +113,10 @@ class TourismService {
     const cached = await this.getCache<TourismPlace>(cacheKey);
     if (cached) return ok(cached);
 
-    const place = await tourismRepository.getById(id);
+    const place = await this.repo.getById(id);
     if (!place) return err({ type: 'NotFound', message: 'Tourism place not found' });
     
-    const enriched = tourismRepository.enrichPlaceData(place);
+    const enriched = this.repo.enrichPlaceData(place);
     await this.setCache(cacheKey, enriched);
     return ok(enriched);
   }
@@ -151,7 +126,7 @@ class TourismService {
     const cached = await this.getCache<LocationsResult>(cacheKey);
     if (cached) return ok(cached);
 
-    const allPlaces = await tourismRepository.getAll();
+    const allPlaces = await this.repo.getAll();
     const locations = new Set<string>();
     allPlaces.forEach(place => {
       if (place.governorate) {
@@ -171,7 +146,7 @@ class TourismService {
     const cached = await this.getCache<CategoriesResult>(cacheKey);
     if (cached) return ok(cached);
 
-    const allPlaces = await tourismRepository.getAll();
+    const allPlaces = await this.repo.getAll();
     const categories = new Set<string>();
     allPlaces.forEach(place => {
       if (place.category) categories.add(place.category);
@@ -186,7 +161,7 @@ class TourismService {
     const cached = await this.getCache<StatsResult>(cacheKey);
     if (cached) return ok(cached);
 
-    const allPlaces = await tourismRepository.getAll();
+    const allPlaces = await this.repo.getAll();
     const stats = {
       totalPlaces: allPlaces.length,
       locations: new Set<string>(),
@@ -228,5 +203,3 @@ class TourismService {
     return ok(result);
   }
 }
-
-export const tourismService = new TourismService();

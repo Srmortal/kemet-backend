@@ -89,3 +89,8 @@ paths:
     $ref: './paths/FirebaseAdmin.yaml#/~1firebase-admin~1email-verification-link'
   /firebase-admin/password-reset-link:
     $ref: './paths/FirebaseAdmin.yaml#/~1firebase-admin~1password-reset-link'
+
+  /analytics/metrics:
+    $ref: './paths/analytics.yaml#/~1analytics~1metrics'
+  /analytics/events:
+    $ref: './paths/analytics.yaml#/~1analytics~1events'

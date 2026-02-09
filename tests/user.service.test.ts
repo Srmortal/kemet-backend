@@ -1,12 +1,11 @@
 import { describe, it, expect } from '@jest/globals';
-// import { UserService } from '../src/services/user.service';
-
-
-import { getUserProfileService } from '../src/services/user.service';
+import { UserService } from '../src/services/user.service';
 import { userRepository } from '../src/repositories/user.repository';
+import { userAuthRepository } from '../src/repositories/userAuth.repository';
 import { Result } from '../src/types/result.types';
 
 jest.mock('../src/repositories/user.repository');
+jest.mock('../src/repositories/userAuth.repository');
 
 const mockUser = {
   id: 'user-123',
@@ -23,14 +22,16 @@ const mockUser = {
   expiryDate: '2030-01-01',
 };
 
-describe('getUserProfileService', () => {
+describe('UserService', () => {
+  const userService = new UserService(userRepository, userAuthRepository);
+
   afterEach(() => {
     jest.clearAllMocks();
   });
 
   it('returns ok result with user if found', async () => {
     (userRepository.getById as jest.Mock).mockResolvedValue(mockUser);
-    const result = await getUserProfileService('user-123');
+    const result = await userService.getUserProfileService('user-123');
     expect(result.ok).toBe(true);
     if (result.ok) {
       expect(result.value).toMatchObject({
@@ -43,7 +44,7 @@ describe('getUserProfileService', () => {
 
   it('returns err result if user not found', async () => {
     (userRepository.getById as jest.Mock).mockResolvedValue(null);
-    const result = await getUserProfileService('user-404');
+    const result = await userService.getUserProfileService('user-404');
     expect(result.ok).toBe(false);
     if (!result.ok) {
       expect(result.error).toMatchObject({ type: 'NotFound' });
@@ -52,7 +53,7 @@ describe('getUserProfileService', () => {
 
   it('never throws errors', async () => {
     (userRepository.getById as jest.Mock).mockImplementation(() => { throw new Error('fail'); });
-    const result = await getUserProfileService('user-err');
+    const result = await userService.getUserProfileService('user-err');
     expect(result.ok).toBe(false);
     if (!result.ok) {
       expect(result.error).toMatchObject({ type: 'Unknown' });

@@ -9,6 +9,7 @@ import tourPackagesRoutes from './tourPackages.routes';
 import guidesRoutes from './guides.routes';
 import { firebaseAuth } from '@middleware/firebaseAuth';
 //import currencyExchangeRoutes from './currencyExchange.routes';
+import analyticsRoutes from './analytics.routes';
 
 const router = Router();
 
@@ -24,5 +25,6 @@ router.use('/adventures', adventureRoutes);
 //router.use('/exchange', currencyExchangeRoutes);
 router.use('/tour-packages', tourPackagesRoutes);
 router.use('/guides', guidesRoutes);
+router.use('/analytics', analyticsRoutes);
 
 export default router;

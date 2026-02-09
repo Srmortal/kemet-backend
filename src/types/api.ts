@@ -548,6 +548,46 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/analytics/metrics": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get business analytics metrics
+         * @description Returns aggregated business metrics and reports from the PostgreSQL data source.
+         */
+        get: operations["getAnalyticsMetrics"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/analytics/events": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Trigger an analytics event
+         * @description Records a client event for analytics processing.
+         */
+        post: operations["postAnalyticsEvent"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -648,7 +688,6 @@ export interface components {
             countryName?: string;
             /** Format: email */
             email: string;
-            city?: string;
             /** Format: date */
             dob?: string;
             bookingsCount: number;
@@ -2125,6 +2164,155 @@ export interface operations {
                 content: {
                     "application/json": {
                         link: string;
+                    };
+                };
+            };
+        };
+    };
+    getAnalyticsMetrics: {
+        parameters: {
+            query?: {
+                /** @description Start date for the analytics period (inclusive). */
+                startDate?: string;
+                /** @description End date for the analytics period (inclusive). */
+                endDate?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Analytics metrics successfully retrieved */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        metrics: {
+                            /** @description Name of the metric */
+                            name?: string;
+                            /** @description Value of the metric */
+                            value?: number;
+                        }[];
+                        /**
+                         * Format: date-time
+                         * @description Time the report was generated
+                         */
+                        generatedAt: string;
+                    };
+                };
+            };
+            /** @description Invalid query parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @description Error code */
+                        code: number;
+                        /** @description Error message */
+                        message: string;
+                    };
+                };
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @description Error code */
+                        code: number;
+                        /** @description Error message */
+                        message: string;
+                    };
+                };
+            };
+        };
+    };
+    postAnalyticsEvent: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    /** @description Name of the event */
+                    event_name: string;
+                    /** @description User identifier (optional if anonymous) */
+                    user_id?: string;
+                    /** @description Anonymous identifier */
+                    anonymous_id?: string;
+                    /**
+                     * Format: date-time
+                     * @description Client event time (server may override)
+                     */
+                    timestamp?: string;
+                    context?: {
+                        /** @description ios | android | web */
+                        platform?: string;
+                        app_version?: string;
+                        os_version?: string;
+                        device_model?: string;
+                    };
+                    properties?: {
+                        [key: string]: unknown;
+                    };
+                };
+            };
+        };
+        responses: {
+            /** @description Event accepted */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        success: boolean;
+                    };
+                };
+            };
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        code: number;
+                        message: string;
+                    };
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        code: number;
+                        message: string;
+                    };
+                };
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        code: number;
+                        message: string;
                     };
                 };
             };
