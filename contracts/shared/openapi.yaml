@@ -1,0 +1,83 @@
+openapi: 3.1.0
+info:
+  title: Shared Module
+  description: ''
+  version: 1.0.0
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+tags: []
+paths: {}
+components:
+  schemas:
+    SendEmailRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        userName:
+          type: string
+        bookingId:
+          type: string
+        placeTitle:
+          type: string
+        date:
+          type: string
+          format: date
+        guests:
+          type: integer
+          minimum: 1
+        totalPrice:
+          type: number
+      required:
+        - email
+        - userName
+        - bookingId
+        - placeTitle
+        - date
+        - guests
+        - totalPrice
+    SendEmailResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+      required:
+        - success
+        - message
+    CreateBookingRequest:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+          description: Date of the adventure (e.g. 2024-12-31)
+        time:
+          type: string
+          format: time
+          description: Time of the adventure (e.g. 02:00 PM)
+        guests:
+          type: integer
+          minimum: 1
+          description: Number of guests/participants
+        specialRequests:
+          type: string
+          description: Special requests (optional)
+      required:
+        - date
+        - time
+        - guests
+  responses: {}
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+    adminApiKey:
+      type: apiKey
+      in: header
+      name: X-Admin-Api-Key
+servers: []
+security: []

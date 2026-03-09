@@ -1,8 +1,0 @@
-bearerAuth:
-  type: http
-  scheme: bearer
-  bearerFormat: JWT
-adminApiKey:
-  type: apiKey
-  in: header
-  name: X-Admin-Api-Key

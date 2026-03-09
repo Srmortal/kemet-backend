@@ -1,16 +1,18 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
-    "module": "commonjs",
-    "lib": ["ES2020"],
-    "types": ["node", "jest"],
-    "typeRoots": [
-      "./node_modules/@types",
-      "./src/@types"
-    ],
-    "outDir": "./dist",
-    "rootDir": "./src",
-    // === Strict Type Checking ===
+    /* ================================
+       TARGET & MODULE
+    ================================= */
+    "target": "ES2023",
+    "module": "NodeNext",
+    "lib": ["ES2023"],
+    "moduleResolution": "nodenext",
+    "verbatimModuleSyntax": true,
+    "moduleDetection": "force",
+
+    /* ================================
+       STRICTNESS (Enterprise-Level)
+    ================================= */
     "strict": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
@@ -19,48 +21,63 @@
     "strictPropertyInitialization": true,
     "noImplicitThis": true,
     "alwaysStrict": true,
-    // === Additional Strictness ===
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
+
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    // "exactOptionalPropertyTypes": true,  // TODO: Enable after refactoring in-memory user store to Firestore
-    // "noPropertyAccessFromIndexSignature": true,  // TODO: Enable after wrapping process.env in a typed config object
-    // === Module Resolution ===
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true,
-    "moduleResolution": "node",
-    "allowSyntheticDefaultImports": true,
-    // === Source Maps & Declarations ===
+
+    /* Enable when ready */
+    "exactOptionalPropertyTypes": true,
+
+    /* ================================
+       OUTPUT
+    ================================= */
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "incremental": true,
+    "tsBuildInfoFile": "./dist/.tsbuildinfo",
     "sourceMap": true,
     "declaration": true,
     "declarationMap": true,
     "removeComments": true,
-    // === Path Aliases ===
-    "baseUrl": "./src",
+
+    /* ================================
+       INTEROP
+    ================================= */
+    "resolveJsonModule": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+
+    /* ================================
+       TYPES
+    ================================= */
+    "types": ["node"],
+    "typeRoots": ["./node_modules/@types", "./src/infrastructure/@types"],
+
+    /* ================================
+       TS 6 SAFETY & PREDICTABILITY
+    ================================= */
+    "noUncheckedSideEffectImports": true,
+
+    /* ================================
+       PATH ALIASES (Feature-First)
+    ================================= */
     "paths": {
-      "@controllers/*": ["controllers/*"],
-      "@routes/*": ["routes/*"],
-      "@models/*": ["models/*"],
-      "@middleware/*": ["middleware/*"],
-      "@utils/*": ["utils/*"],
-      "@config/*": ["config/*"],
-      "@services/*": ["services/*"],
-      "@validators/*": ["validators/*"],
-      "@dto/*": ["dto/*"],
-      "@infrastructure/*": ["infrastructure/*"],
-      "@repositories/*": ["repositories/*"]
+      "#app/*": ["./src/*"]
     },
+
+    /* ================================
+       DECORATORS (if needed)
+    ================================= */
     "experimentalDecorators": true
   },
+
   "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist", "**/*.test.ts", "scripts/**/*", "tests/**/*"],
+  "exclude": ["node_modules", "dist", "scripts", "prisma.config.ts", "tests"],
+
   "ts-node": {
     "files": true,
     "compilerOptions": {
-      "module": "commonjs"
+      "module": "nodenext"
     }
   }
 }

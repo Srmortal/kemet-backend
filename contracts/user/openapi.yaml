@@ -1,0 +1,105 @@
+openapi: 3.1.0
+info:
+  title: user
+  description: ''
+  version: 1.0.0
+tags: []
+paths:
+  /profile:
+    get:
+      summary: Get authenticated user profile
+      deprecated: false
+      description: ''
+      operationId: getUserProfile
+      tags: []
+      parameters: []
+      responses:
+        '200':
+          description: User profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProfileDetails'
+          headers: {}
+        '401':
+          description: Unauthorized
+          headers: {}
+      security:
+        - bearerAuth: []
+      x-middleware:
+        auth: true
+        role: user
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        userId:
+          type: string
+        email:
+          type: string
+          format: email
+        isEmailVerified:
+          type: boolean
+        firstName:
+          type: string
+        lastName:
+          type: string
+        displayName:
+          type: string
+        avatarUrl:
+          type: string
+          format: uri
+        role:
+          type: string
+          enum:
+            - user
+            - admin
+        isActive:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - userId
+        - email
+    ProfileDetails:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        bio:
+          type: string
+        phoneNumber:
+          type: string
+        countryName:
+          type: string
+        email:
+          type: string
+          format: email
+        dob:
+          type: string
+          format: date
+        bookingsCount:
+          type: integer
+        favouritesCount:
+          type: integer
+      required:
+        - firstName
+        - lastName
+        - email
+        - bookingsCount
+        - favouritesCount
+  responses: {}
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+servers: []
+security:
+  - bearerAuth: []

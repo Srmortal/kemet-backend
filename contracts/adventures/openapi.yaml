@@ -1,0 +1,311 @@
+openapi: 3.1.0
+info:
+  title: adventures
+  description: ''
+  version: 1.0.0
+tags: []
+paths:
+  /:
+    get:
+      summary: List all adventures
+      deprecated: false
+      description: ''
+      operationId: listAdventures
+      tags: []
+      parameters: []
+      responses:
+        '200':
+          description: List of adventures
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AdventureListItem'
+          headers: {}
+      security:
+        - bearerAuth: []
+      x-middleware:
+        auth: false
+  /{id}:
+    get:
+      summary: Get adventure by ID
+      deprecated: false
+      description: ''
+      operationId: getAdventureById
+      tags: []
+      parameters:
+        - name: id
+          in: path
+          description: ''
+          required: true
+          example: ''
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Adventure details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdventureDetails'
+          headers: {}
+        '404':
+          description: Adventure not found
+          headers: {}
+      security:
+        - bearerAuth: []
+      x-middleware:
+        auth: false
+  /{id}/book:
+    post:
+      summary: Book an adventure
+      deprecated: false
+      description: ''
+      operationId: bookAdventure
+      tags: []
+      parameters:
+        - name: id
+          in: path
+          description: ''
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateBookingRequest'
+            examples: {}
+        required: true
+      responses:
+        '201':
+          description: Booking created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdventureBooking'
+          headers: {}
+        '400':
+          description: Invalid request
+          headers: {}
+      security:
+        - bearerAuth: []
+      x-middleware:
+        auth: true
+        role: user
+  /bookings:
+    get:
+      summary: Get user's adventure bookings
+      deprecated: false
+      description: ''
+      operationId: getUserAdventureBookings
+      tags: []
+      parameters: []
+      responses:
+        '200':
+          description: List of user bookings
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AdventureBookingListItem'
+          headers: {}
+      security:
+        - bearerAuth: []
+      x-middleware:
+        auth: true
+        role: user
+components:
+  schemas:
+    AdventureBookingListItem:
+      type: object
+      properties:
+        bookingId:
+          type: string
+        adventureId:
+          type: string
+      required:
+        - bookingId
+        - adventureId
+    AdventureListItem:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        location:
+          type: string
+        rating:
+          type: number
+        price:
+          type: number
+        duration:
+          type: string
+          description: Duration (e.g. "6 hours")
+        maxGroupSize:
+          type: integer
+        difficulty:
+          type: string
+          description: Difficulty level (e.g. "Moderate")
+        tags:
+          type: array
+          items:
+            type: string
+        image:
+          type: string
+          description: Image or icon URL
+          format: uri
+      required:
+        - id
+        - name
+        - description
+        - location
+        - rating
+        - price
+        - duration
+        - maxGroupSize
+        - difficulty
+        - tags
+        - image
+    AdventureDetails:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        location:
+          type: string
+        rating:
+          type: number
+        price:
+          type: number
+        duration:
+          type: string
+          description: Duration (e.g. "6 hours")
+        maxGroupSize:
+          type: integer
+        difficulty:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+        image:
+          type: string
+          format: uri
+        included:
+          type: array
+          items:
+            type: string
+          description: Items/services included in the adventure
+        availableLanguages:
+          type: array
+          items:
+            type: string
+          description: Languages available for the adventure
+        highlights:
+          type: array
+          items:
+            type: string
+          description: Key highlights of the adventure
+      required:
+        - id
+        - name
+        - description
+        - location
+        - rating
+        - price
+        - duration
+        - maxGroupSize
+        - difficulty
+        - tags
+        - image
+        - included
+        - availableLanguages
+        - highlights
+    AdventureBooking:
+      type: object
+      properties:
+        bookingId:
+          type: string
+        activityName:
+          type: string
+          description: Name of the adventure activity
+        category:
+          type: string
+        date:
+          type: string
+          format: date
+          description: Date of the activity (e.g. 2024-12-31)
+        time:
+          type: string
+          format: time
+          description: Time of the activity (e.g. 02:00 PM)
+        participants:
+          type: integer
+          minimum: 1
+          description: Number of participants
+        total:
+          type: number
+          description: Total price for the booking
+        rating:
+          type: number
+          description: Average rating for the adventure
+          minimum: 0
+          maximum: 5
+        reviewsCount:
+          type: integer
+          description: Number of reviews for the adventure
+        createdAt:
+          type: string
+          format: date-time
+          description: ISO 8601 creation timestamp
+      required:
+        - bookingId
+        - activityName
+        - category
+        - date
+        - time
+        - participants
+        - total
+        - rating
+        - reviewsCount
+        - createdAt
+    CreateBookingRequest:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+          description: Date of the adventure (e.g. 2024-12-31)
+        time:
+          type: string
+          format: time
+          description: Time of the adventure (e.g. 02:00 PM)
+        guests:
+          type: integer
+          minimum: 1
+          description: Number of guests/participants
+        specialRequests:
+          type: string
+          description: Special requests (optional)
+      required:
+        - date
+        - time
+        - guests
+  responses: {}
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+servers: []
+security:
+  - bearerAuth: []

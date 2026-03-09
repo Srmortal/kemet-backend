@@ -11,9 +11,8 @@ dist/
 build/
 
 # Environment variables
-.env
-.env.local
-.env.production
+*.local
+*.local.*
 
 # IDE
 .vscode/
@@ -45,3 +44,6 @@ firebase-service-account.json
 
 # Backups containing sensitive data
 backups/
+
+# SSL certificates for local development
+nginx/certs/

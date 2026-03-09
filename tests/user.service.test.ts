@@ -1,62 +1,75 @@
-import { describe, it, expect } from '@jest/globals';
-import { UserService } from '../src/services/user.service';
-import { userRepository } from '../src/repositories/user.repository';
-import { userAuthRepository } from '../src/repositories/userAuth.repository';
-import { Result } from '../src/types/result.types';
+import type { UserRepository } from "@features/user/infrastructure/user.repository";
+import type { User } from "@features/user/port/user.types";
+import { UserService } from "@features/user/user.service";
+import {
+  afterEach,
+  beforeEach,
+  describe,
+  expect,
+  it,
+  jest,
+} from "@jest/globals";
 
-jest.mock('../src/repositories/user.repository');
-jest.mock('../src/repositories/userAuth.repository');
+const mockUser: User = {
+  id: "user-123",
+  email: "test@example.com",
+  displayName: "Test User",
+  avatar: "https://example.com/avatar.jpg",
+  roles: ["user"],
+  isActive: true,
+  username: "testuser",
+  createdAt: "2023-01-01",
+} as const;
 
-const mockUser = {
-  id: 'user-123',
-  email: 'test@example.com',
-  name: 'Test User',
-  bookingsCount: 2,
-  favouritesCount: 1,
-  role: 'user',
-  admin: false,
-  passportNumber: 'A1234567',
-  nationality: 'EGY',
-  dateOfBirth: '1990-01-01',
-  gender: 'M',
-  expiryDate: '2030-01-01',
-};
+describe("UserService", () => {
+  let userRepository: jest.Mocked<UserRepository>;
+  let userService: UserService;
 
-describe('UserService', () => {
-  const userService = new UserService(userRepository, userAuthRepository);
+  beforeEach(() => {
+    userRepository = {
+      getById: jest.fn(),
+    } as unknown as jest.Mocked<UserRepository>;
+
+    userService = new UserService(userRepository);
+  });
 
   afterEach(() => {
     jest.clearAllMocks();
   });
 
-  it('returns ok result with user if found', async () => {
-    (userRepository.getById as jest.Mock).mockResolvedValue(mockUser);
-    const result = await userService.getUserProfileService('user-123');
+  it("returns ok result with user if found", async () => {
+    userRepository.getById.mockResolvedValue(mockUser);
+    const result = await userService.getUserProfileService("user-123");
+
     expect(result.ok).toBe(true);
     if (result.ok) {
       expect(result.value).toMatchObject({
-        id: 'user-123',
-        email: 'test@example.com',
-        name: 'Test User',
+        id: "user-123",
+        email: "test@example.com",
+        name: "Test User",
       });
     }
   });
 
-  it('returns err result if user not found', async () => {
-    (userRepository.getById as jest.Mock).mockResolvedValue(null);
-    const result = await userService.getUserProfileService('user-404');
+  it("returns err result if user not found", async () => {
+    userRepository.getById.mockResolvedValue(null);
+    const result = await userService.getUserProfileService("user-404");
+
     expect(result.ok).toBe(false);
     if (!result.ok) {
-      expect(result.error).toMatchObject({ type: 'NotFound' });
+      expect(result.error).toMatchObject({ type: "NotFound" });
     }
   });
 
-  it('never throws errors', async () => {
-    (userRepository.getById as jest.Mock).mockImplementation(() => { throw new Error('fail'); });
-    const result = await userService.getUserProfileService('user-err');
+  it("never throws errors", async () => {
+    userRepository.getById.mockImplementation(() => {
+      throw new Error("fail");
+    });
+    const result = await userService.getUserProfileService("user-err");
+
     expect(result.ok).toBe(false);
     if (!result.ok) {
-      expect(result.error).toMatchObject({ type: 'Unknown' });
+      expect(result.error).toMatchObject({ type: "Unknown" });
     }
   });
 });

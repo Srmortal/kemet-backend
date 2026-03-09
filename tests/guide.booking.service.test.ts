@@ -1,28 +1,20 @@
-import { GuideService } from "../src/services/guide.service";
+import { GuideService } from "@features/guide/guide.service";
+import type { Guide, GuideBooking } from "@features/guide/port";
+import { describe, expect, it, jest } from "@jest/globals";
 
-jest.mock("../src/repositories/guide.repository", () => {
-  // Define the mock object here
-  return {
-    __esModule: true,
-    guideRepository: {
-      getAllGuides: jest.fn(),
-      getGuideById: jest.fn(),
-      isGuideAvailable: jest.fn(),
-      createGuideBooking: jest.fn(),
-    },
-  };
-});
-
-// Import the mock after jest.mock so it's the same instance
-import { guideRepository as originalGuideRepository } from "../src/repositories/guide.repository";
-
-// Cast repository methods to jest.Mock for type safety in tests
-const guideRepository = {
-  getAllGuides: originalGuideRepository.getAllGuides as jest.Mock,
-  getGuideById: originalGuideRepository.getGuideById as jest.Mock,
-  isGuideAvailable: originalGuideRepository.isGuideAvailable as jest.Mock,
-  createGuideBooking: originalGuideRepository.createGuideBooking as jest.Mock,
+const mockGuideRepository = {
+  getAllGuides: jest.fn<() => Promise<Guide[]>>(),
+  getGuideById: jest.fn<() => Promise<Guide | null>>(),
+  isGuideAvailable: jest.fn<() => Promise<boolean>>(),
+  createGuideBooking: jest.fn<() => Promise<GuideBooking>>(),
 };
+
+jest.mock("@features/guide/port/guide-repository", () => ({
+  __esModule: true,
+  guideRepository: mockGuideRepository,
+}));
+
+const guideRepository = mockGuideRepository;
 
 describe("Guide Booking Service", () => {
   const bookingRequest = {
@@ -35,7 +27,14 @@ describe("Guide Booking Service", () => {
     email: "ahmed@example.com",
     phone: "+201234567890",
   };
-  const guide = { id: "1", name: "Dr. Khaled Mostafa" };
+  const guide: Guide = {
+    id: "1",
+    name: "Dr. Khaled Mostafa",
+    rating: 4.9,
+    reviews: 542,
+    languages: ["English", "Arabic"],
+    specialties: ["Pyramids of Giza", "Egyptian Museum"],
+  };
   const booking = {
     bookingReference: "GUIDE-96608874",
     guide,
@@ -60,14 +59,18 @@ describe("Guide Booking Service", () => {
     guideRepository.createGuideBooking.mockResolvedValue(booking);
     const result = await guideService.bookGuide(bookingRequest);
     expect(result.ok).toBe(true);
-    if (result.ok) expect(result.value).toEqual(booking);
+    if (result.ok) {
+      expect(result.value).toEqual(booking);
+    }
   });
 
   it("returns NotFound if guide does not exist", async () => {
     guideRepository.getGuideById.mockResolvedValue(null);
     const result = await guideService.bookGuide(bookingRequest);
     expect(result.ok).toBe(false);
-    if (!result.ok) expect(result.error.type).toBe("NotFound");
+    if (!result.ok) {
+      expect(result.error.type).toBe("NotFound");
+    }
   });
 
   it("returns Conflict if guide not available", async () => {
@@ -75,7 +78,9 @@ describe("Guide Booking Service", () => {
     guideRepository.isGuideAvailable.mockResolvedValue(false);
     const result = await guideService.bookGuide(bookingRequest);
     expect(result.ok).toBe(false);
-    if (!result.ok) expect(result.error.type).toBe("Conflict");
+    if (!result.ok) {
+      expect(result.error.type).toBe("Conflict");
+    }
   });
 
   it("returns error on repository failure", async () => {

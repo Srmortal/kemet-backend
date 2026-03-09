@@ -1,77 +1,112 @@
-import { AnalyticsRepository } from '../src/ports/analytics-repository';
-import { AnalyticsMetricsQuery, AnalyticsReport } from '../src/types/analytics';
-import { AnalyticsService } from '../src/services/analytics.service';
-import { AnalyticsEvent } from '../generated/prisma';
+import { AnalyticsService } from "@features/analytics/analytics.service";
+import type { AnalyticsRepository } from "@features/analytics/analytics-repository";
+import { describe, expect, it, jest } from "@jest/globals";
+import type {
+  AnalyticsMetricsQuery,
+  AnalyticsReport,
+} from "#app/modules/analytics/analytics.types";
+import type { AnalyticsEvent } from "../generated/prisma";
 
-describe('AnalyticsService', () => {
+describe("AnalyticsService", () => {
   let repo: AnalyticsRepository;
   let service: AnalyticsService;
 
   beforeEach(() => {
     repo = {
-      getMetrics: jest.fn(),
-      postEvent: jest.fn()
+      getMetrics: jest.fn() as jest.MockedFunction<
+        (query: AnalyticsMetricsQuery) => Promise<AnalyticsReport>
+      >,
+      postEvent: jest.fn() as jest.MockedFunction<
+        (event: AnalyticsEvent) => Promise<void>
+      >,
     };
     service = new AnalyticsService(repo);
   });
 
-  it('returns metrics for a valid date range', async () => {
-    const query: AnalyticsMetricsQuery = { startDate: '2026-02-01', endDate: '2026-02-09' };
+  it("returns metrics for a valid date range", async () => {
+    const query: AnalyticsMetricsQuery = {
+      startDate: "2026-02-01",
+      endDate: "2026-02-09",
+    };
     const metricsResult: AnalyticsReport = {
       metrics: [
-        { name: 'login', value: 100 },
-        { name: 'purchase', value: 20 }
+        { name: "login", value: 100 },
+        { name: "purchase", value: 20 },
       ],
-      metricsQuery: query
+      metricsQuery: query,
     };
-    (repo.getMetrics as jest.Mock).mockResolvedValue(metricsResult);
+    (
+      repo.getMetrics as jest.MockedFunction<
+        (query: AnalyticsMetricsQuery) => Promise<AnalyticsReport>
+      >
+    ).mockResolvedValue(metricsResult);
 
     const result = await service.getAnalyticsMetrics(query);
-    expect(result).toEqual(metricsResult);
+    expect(result.ok && result.value).toEqual(metricsResult);
     expect(repo.getMetrics).toHaveBeenCalledWith(query);
   });
 
-  it('returns empty metrics if no actions found', async () => {
-    const query: AnalyticsMetricsQuery = { startDate: '2026-01-01', endDate: '2026-01-02' };
+  it("returns empty metrics if no actions found", async () => {
+    const query: AnalyticsMetricsQuery = {
+      startDate: "2026-01-01",
+      endDate: "2026-01-02",
+    };
     const metricsResult: AnalyticsReport = {
       metrics: [],
-      metricsQuery: query
+      metricsQuery: query,
     };
-    (repo.getMetrics as jest.Mock).mockResolvedValue(metricsResult);
+    (
+      repo.getMetrics as jest.MockedFunction<
+        (query: AnalyticsMetricsQuery) => Promise<AnalyticsReport>
+      >
+    ).mockResolvedValue(metricsResult);
 
     const result = await service.getAnalyticsMetrics(query);
-    expect(result.metrics).toHaveLength(0);
+    expect(result.ok && result.value.metrics).toHaveLength(0);
   });
 
-  it('throws error if repository fails', async () => {
-    const query: AnalyticsMetricsQuery = { startDate: '2026-02-01', endDate: '2026-02-09' };
-    (repo.getMetrics as jest.Mock).mockRejectedValue(new Error('DB error'));
+  it("returns error if repository fails", async () => {
+    const query: AnalyticsMetricsQuery = {
+      startDate: "2026-02-01",
+      endDate: "2026-02-09",
+    };
+    (
+      repo.getMetrics as jest.MockedFunction<
+        (query: AnalyticsMetricsQuery) => Promise<AnalyticsReport>
+      >
+    ).mockRejectedValue(new Error("DB error"));
 
-    await expect(service.getAnalyticsMetrics(query)).rejects.toThrow('DB error');
+    const result = await service.getAnalyticsMetrics(query);
+    expect(result.ok).toBe(false);
+    expect(!result.ok && result.error.message).toBe("DB error");
   });
 
-  it('delegates postAnalyticsEvent to repo.postEvent', async () => {
+  it("delegates postAnalyticsEvent to repo.postEvent", async () => {
     const repo: AnalyticsRepository = {
-      getMetrics: jest.fn<Promise<AnalyticsReport>, [AnalyticsMetricsQuery]>(),
-      postEvent: jest.fn<Promise<void>, [AnalyticsEvent]>().mockResolvedValue(undefined),
+      getMetrics: jest.fn() as jest.MockedFunction<
+        (query: AnalyticsMetricsQuery) => Promise<AnalyticsReport>
+      >,
+      postEvent: jest.fn() as jest.MockedFunction<
+        (event: AnalyticsEvent) => Promise<void>
+      >,
     };
 
     const service = new AnalyticsService(repo);
 
     const event: AnalyticsEvent = {
-        id: BigInt(1),
-        eventName: 'feature_used',
-        userId: '123',
-        anonymousId: null,
-        occurredAt: new Date('2026-02-09T10:30:00Z'),
-        platform: 'android',
-        appVersion: '1.4.2',
-        osVersion: '14',
-        deviceModel: 'Pixel 7',
-        properties: {
-            feature: 'search',
-            source: 'navbar',
-        },
+      id: BigInt(1),
+      eventName: "feature_used",
+      userId: "123",
+      anonymousId: null,
+      occurredAt: new Date("2026-02-09T10:30:00Z"),
+      platform: "android",
+      appVersion: "1.4.2",
+      osVersion: "14",
+      deviceModel: "Pixel 7",
+      properties: {
+        feature: "search",
+        source: "navbar",
+      },
     };
 
     await service.postAnalyticsEvent(event);

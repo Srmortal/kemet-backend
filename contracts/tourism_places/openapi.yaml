@@ -1,0 +1,395 @@
+openapi: 3.1.0
+info:
+  title: tourism_places
+  description: ''
+  version: 1.0.0
+tags: []
+paths:
+  /:
+    get:
+      summary: Get all tourism places
+      deprecated: false
+      description: ''
+      operationId: getAllTourismPlaces
+      tags: []
+      parameters:
+        - name: page
+          in: query
+          description: ''
+          required: false
+          schema:
+            type: integer
+        - name: limit
+          in: query
+          description: ''
+          required: false
+          schema:
+            type: integer
+        - name: filter
+          in: query
+          description: ''
+          required: false
+          schema:
+            type: string
+        - name: query
+          in: query
+          description: Search term for tourism places
+          required: false
+          schema:
+            type: string
+        - name: category
+          in: query
+          description: Filter by category
+          required: false
+          schema:
+            type: string
+        - name: location
+          in: query
+          description: Filter by location
+          required: false
+          schema:
+            type: string
+        - name: sortBy
+          in: query
+          description: Field to sort by (e.g., name, rating)
+          required: false
+          schema:
+            type: string
+        - name: order
+          in: query
+          description: Sort order (asc or desc)
+          required: false
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+      responses:
+        '200':
+          description: List of tourism places
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetTourismPlacesResponse'
+          headers: {}
+      security:
+        - bearerAuth: []
+      x-middleware:
+        auth: false
+  /{id}/book:
+    post:
+      summary: Create a new booking
+      deprecated: false
+      description: ''
+      operationId: createTourismBooking
+      tags: []
+      parameters:
+        - name: id
+          in: path
+          description: ''
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateBookingRequest'
+            examples: {}
+        required: true
+      responses:
+        '201':
+          description: Booking created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TourismBooking'
+          headers: {}
+        '400':
+          description: Invalid request
+          headers: {}
+      security:
+        - bearerAuth: []
+      x-middleware:
+        auth: true
+        role: user
+  /stats:
+    get:
+      summary: Get tourism place statistics
+      deprecated: false
+      description: ''
+      operationId: getTourismStatsOverview
+      tags: []
+      parameters: []
+      responses:
+        '200':
+          description: Place statistics
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  totalPlaces:
+                    type: integer
+                  totalCategories:
+                    type: integer
+                required:
+                  - totalPlaces
+                  - totalCategories
+          headers: {}
+      security:
+        - bearerAuth: []
+      x-middleware:
+        auth: false
+  /locations:
+    get:
+      summary: Get available tourism locations
+      deprecated: false
+      description: ''
+      operationId: getTourismLocationsList
+      tags: []
+      parameters: []
+      responses:
+        '200':
+          description: List of locations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    location:
+                      type: string
+                  required:
+                    - location
+          headers: {}
+      security:
+        - bearerAuth: []
+      x-middleware:
+        auth: false
+  /categories:
+    get:
+      summary: Get available tourism categories
+      deprecated: false
+      description: ''
+      operationId: getTourismCategoriesList
+      tags: []
+      parameters: []
+      responses:
+        '200':
+          description: List of categories
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    category:
+                      type: string
+                  required:
+                    - category
+          headers: {}
+      security:
+        - bearerAuth: []
+      x-middleware:
+        auth: false
+  /{id}:
+    get:
+      summary: Get tourism place by ID
+      deprecated: false
+      description: ''
+      operationId: getTourismPlaceById
+      tags: []
+      parameters:
+        - name: id
+          in: path
+          description: ''
+          required: true
+          example: ''
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Tourism place details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TourismPlace'
+          headers: {}
+        '404':
+          description: Place not found
+          headers: {}
+      security:
+        - bearerAuth: []
+      x-middleware:
+        auth: false
+  /bookings:
+    get:
+      summary: Get bookings for authenticated user
+      deprecated: false
+      description: ''
+      operationId: getTourismBookingsForUser
+      tags: []
+      parameters: []
+      responses:
+        '200':
+          description: List of user bookings
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TourismBooking'
+          headers: {}
+      security:
+        - bearerAuth: []
+      x-middleware:
+        auth: true
+        role: user
+components:
+  schemas:
+    TourismPlace:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        location:
+          type: string
+        coordinates:
+          type: object
+          properties:
+            latitude:
+              type: number
+              description: Latitude of the place
+            longitude:
+              type: number
+              description: Longitude of the place
+          required:
+            - latitude
+            - longitude
+          description: Geographic coordinates for map
+        category:
+          type: string
+        rating:
+          type: number
+        price:
+          type: number
+        address:
+          type: string
+          description: Full address of the place
+        reviewsCount:
+          type: integer
+          description: Number of reviews
+        isOpen:
+          type: boolean
+          description: Whether the place is currently open
+        hours:
+          type: object
+          properties:
+            open:
+              type: string
+              description: Opening time (e.g. 8:00 AM)
+            close:
+              type: string
+              description: Closing time (e.g. 5:00 PM)
+          required:
+            - open
+            - close
+          description: Opening hours
+        features:
+          type: array
+          items:
+            type: string
+          description: List of features/tags (e.g. Guided Tours, Photography)
+        image:
+          type: string
+          description: Image URL (may be empty)
+        phoneNumber:
+          type: string
+          description: Phone number for the place (optional)
+      additionalProperties: false
+    GetTourismPlacesResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/TourismPlace'
+        total:
+          type: integer
+        page:
+          type: integer
+        limit:
+          type: integer
+        filters:
+          type: object
+          properties:
+            location:
+              type: string
+              nullable: true
+            category:
+              type: string
+              nullable: true
+            sortBy:
+              type: string
+    TourismBooking:
+      type: object
+      properties:
+        bookingId:
+          type: string
+        siteId:
+          type: string
+        date:
+          type: string
+          format: date
+        guests:
+          type: integer
+          description: Number of guests
+        time:
+          type: string
+          format: time
+          description: Time of booking (optional)
+        specialRequests:
+          type: string
+          description: Special requests (optional)
+      required:
+        - bookingId
+        - siteId
+        - date
+        - guests
+    CreateBookingRequest:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+          description: Date of the adventure (e.g. 2024-12-31)
+        time:
+          type: string
+          format: time
+          description: Time of the adventure (e.g. 02:00 PM)
+        guests:
+          type: integer
+          minimum: 1
+          description: Number of guests/participants
+        specialRequests:
+          type: string
+          description: Special requests (optional)
+      required:
+        - date
+        - time
+        - guests
+  responses: {}
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+servers: []
+security:
+  - bearerAuth: []

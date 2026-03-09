@@ -1,0 +1,293 @@
+openapi: 3.1.0
+info:
+  title: authentication
+  description: ''
+  version: 1.0.0
+tags: []
+paths:
+  /signup:
+    post:
+      summary: Register a new user account
+      deprecated: false
+      description: ''
+      operationId: signUpUser
+      tags: []
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignUpRequest'
+            examples: {}
+        required: true
+      responses:
+        '201':
+          description: User created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SignUpResponse'
+          headers: {}
+        '400':
+          description: Invalid request data
+          headers: {}
+        '409':
+          description: Email already exists
+          headers: {}
+        '500':
+          description: Server error
+          headers: {}
+      security: []
+      x-middleware:
+        auth: false
+  /signin:
+    post:
+      summary: Sign in with email and password
+      deprecated: false
+      description: ''
+      operationId: signInUser
+      tags: []
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignInRequest'
+            examples: {}
+        required: true
+      responses:
+        '200':
+          description: Sign in successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SignInResponse'
+          headers: {}
+        '401':
+          description: Invalid credentials
+          headers: {}
+        '403':
+          description: Account not verified or disabled
+          headers: {}
+        '500':
+          description: Server error
+          headers: {}
+      security: []
+      x-middleware:
+        auth: false
+  /verify:
+    post:
+      summary: Verify OTP code
+      deprecated: false
+      description: ''
+      operationId: verifyOtp
+      tags: []
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VerifyOtpRequest'
+            examples: {}
+        required: true
+      responses:
+        '200':
+          description: OTP verified successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VerifyOtpResponse'
+          headers: {}
+        '400':
+          description: Invalid or expired OTP
+          headers: {}
+        '401':
+          description: Unauthorized
+          headers: {}
+        '500':
+          description: Server error
+          headers: {}
+      security: []
+      x-middleware:
+        auth: false
+  /logout:
+    post:
+      summary: Logout user
+      deprecated: false
+      description: ''
+      operationId: logoutUser
+      tags: []
+      parameters: []
+      responses:
+        '200':
+          description: Logout successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LogoutResponse'
+          headers: {}
+      security:
+        - bearerAuth: []
+      x-middleware:
+        auth: true
+        role: user
+components:
+  schemas:
+    SignUpRequest:
+      allOf:
+        - type: object
+          properties:
+            fullName:
+              type: string
+            passportNumber:
+              type: string
+              pattern: ^[A-PR-WYa-pr-wy][1-9]\d\s?\d{4}[1-9]$
+            nationality:
+              type: string
+              maxLength: 3
+            dateOfBirth:
+              type: string
+              format: date
+            gender:
+              type: string
+              enum:
+                - M
+                - F
+            expiryDate:
+              type: string
+              format: date
+          required:
+            - fullName
+            - passportNumber
+            - nationality
+            - dateOfBirth
+            - gender
+            - expiryDate
+        - type: object
+          properties:
+            email:
+              type: string
+              format: email
+            password:
+              type: string
+              minLength: 8
+            firstName:
+              type: string
+            lastName:
+              type: string
+          required:
+            - email
+            - password
+            - firstName
+            - lastName
+    SignUpResponse:
+      type: object
+      properties:
+        userId:
+          type: string
+        email:
+          type: string
+          format: email
+        firstName:
+          type: string
+        lastName:
+          type: string
+        requiresOtpVerification:
+          type: boolean
+        message:
+          type: string
+      required:
+        - userId
+        - email
+        - requiresOtpVerification
+    SignInRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+      required:
+        - email
+        - password
+    SignInResponse:
+      type: object
+      properties:
+        accessToken:
+          type: string
+        refreshToken:
+          type: string
+        user:
+          type: object
+          properties:
+            userId:
+              type: string
+            email:
+              type: string
+              format: email
+            firstName:
+              type: string
+            lastName:
+              type: string
+            role:
+              type: string
+              enum:
+                - user
+                - admin
+          required:
+            - userId
+            - email
+      required:
+        - accessToken
+        - user
+    VerifyOtpRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        otp:
+          type: string
+          pattern: ^[0-9]{6}$
+      required:
+        - email
+        - otp
+    VerifyOtpResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+        accessToken:
+          type: string
+        user:
+          type: object
+          properties:
+            userId:
+              type: string
+            email:
+              type: string
+              format: email
+          required:
+            - userId
+            - email
+      required:
+        - success
+        - message
+    LogoutResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          description: status
+      required:
+        - status
+  responses: {}
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+servers: []
+security: []

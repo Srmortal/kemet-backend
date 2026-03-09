@@ -1,0 +1,46 @@
+services:
+  nginx:
+    image: nginx:alpine
+    container_name: nginx_container
+    ports:
+      - "8080:80"
+      - "8443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./nginx/certs:/etc/nginx/certs:ro
+      - nginx_logs:/var/log/nginx
+    depends_on:
+      - api
+    restart: unless-stopped
+    networks:
+      - backend
+  api:
+    image: node:20-alpine
+    container_name: api
+    expose:
+      - "3000"
+    environment:
+      NODE_ENV: development
+      POSTGRES_ANALYTICS_URL: postgresql://postgres:1234@localhost:54668/analytics_db
+      REDIS_HOST: localhost
+      REDIS_PORT: 6379
+      PG_MAX_CONNECTIONS: 20
+      PG_CONNECTION_TIMEOUT: 5000
+      PG_IDLE_TIMEOUT: 10000
+    build: .
+    restart: always
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - backend
+volumes:
+  nginx_logs:
+
+networks:
+  backend:
+    driver: bridge

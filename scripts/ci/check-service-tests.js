@@ -1,22 +1,43 @@
-const fs = require('fs');
-const path = require('path');
+const fs = require("node:fs");
+const path = require("node:path");
 
-const servicesDir = path.join(__dirname, '../../src/services');
-const testsDir = path.join(__dirname, '../../tests');
+const featuresDir = path.join(import.meta.dirname, "../../src/features");
+const testsDir = path.join(import.meta.dirname, "../../tests");
 
 function fail(msg) {
   console.error(`\n[SERVICE TEST ENFORCEMENT ERROR]\n${msg}\n`);
   process.exit(1);
 }
 
-const serviceFiles = fs.readdirSync(servicesDir).filter(f => f.endsWith('.ts'));
-const testFiles = fs.readdirSync(testsDir);
+function getAllServiceFiles(dir) {
+  const entries = fs.readdirSync(dir, { withFileTypes: true });
 
-for (const service of serviceFiles) {
-  const base = service.replace('.ts', '');
-  const testMatch = testFiles.find(f => f.includes(base));
-  if (!testMatch) {
-    fail(`No test found for service: ${service}`);
+  return entries.flatMap((entry) => {
+    const fullPath = path.join(dir, entry.name);
+
+    if (entry.isDirectory()) {
+      return getAllServiceFiles(fullPath);
+    }
+
+    if (entry.isFile() && entry.name.endsWith(".service.ts")) {
+      return [fullPath];
+    }
+
+    return [];
+  });
+}
+
+const serviceFiles = getAllServiceFiles(featuresDir);
+
+for (const servicePath of serviceFiles) {
+  const serviceName = path.basename(servicePath).replace(".ts", "");
+  const expectedTest = `${serviceName}.test.ts`;
+
+  const testExists = fs.existsSync(path.join(testsDir, expectedTest));
+
+  if (!testExists) {
+    fail(`No test found for service: ${servicePath}`);
   }
 }
-console.log('All services have matching tests.');
+
+console.log("All services have matching tests.");

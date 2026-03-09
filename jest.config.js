@@ -1,47 +1,42 @@
-// eslint-disable-next-line no-undef
-module.exports = {
-  preset: 'ts-jest',
-  testEnvironment: 'node',
-  // Explicitly configure ts-jest to be permissive
+/** @type {import('jest').Config} */
+export default {
+  preset: "ts-jest",
+  testEnvironment: "node",
+
+  rootDir: ".",
+
+  /* ===============================
+     TRANSFORM
+  =============================== */
   transform: {
-    '^.+\\.tsx?$': ['ts-jest', {
-      tsconfig: {
-        noUnusedLocals: false,
-        noUnusedParameters: false
-      }
-    }],
-    '^.+\\.jsx?$': ['ts-jest', {
-      tsconfig: {
-        allowJs: true,
-        noUnusedLocals: false,
-        noUnusedParameters: false
-      }
-    }]
+    "^.+\\.tsx?$": [
+      "ts-jest",
+      {
+        tsconfig: "tsconfig.test.json",
+      },
+    ],
   },
-  // Ensure @faker-js is processed by ts-jest
-  transformIgnorePatterns: [
-    "node_modules/(?!@faker-js)"
-  ],
+
+  /* ===============================
+     PATH ALIASES (Feature-First)
+  =============================== */
   moduleNameMapper: {
-    '^@controllers/(.*)$': '<rootDir>/src/controllers/$1',
-    '^@services/(.*)$': '<rootDir>/src/services/$1',
-    '^@models/(.*)$': '<rootDir>/src/models/$1',
-    '^@utils/(.*)$': '<rootDir>/src/utils/$1',
-    '^@config/(.*)$': '<rootDir>/src/config/$1',
-    '^@middleware/(.*)$': '<rootDir>/src/middleware/$1',
-    '^@routes/(.*)$': '<rootDir>/src/routes/$1',
-    '^@validators/(.*)$': '<rootDir>/src/validators/$1',
-    '^@dto/(.*)$': '<rootDir>/src/types/dto/$1',
-    '^@repositories/(.*)$': '<rootDir>/src/repositories/$1',
-    '^@infrastructure/(.*)$': '<rootDir>/src/infrastructure/$1',
+    "^#app/(.*)$": "<rootDir>/src/$1",
   },
+
   modulePathIgnorePatterns: ["<rootDir>/dist/"],
-  setupFiles: ["<rootDir>/jest.setup.js"],
-  testMatch: [
-    "<rootDir>/tests/**/*.test.ts",
-    "<rootDir>/tests/**/*.spec.ts"
-  ],
-  testPathIgnorePatterns: [
-    "<rootDir>/src/"
-  ],
+
+  /* ===============================
+     TEST LOCATION
+  =============================== */
+  testMatch: ["<rootDir>/tests/**/*.test.ts", "<rootDir>/tests/**/*.spec.ts"],
+
+  testPathIgnorePatterns: ["<rootDir>/src/"],
+
+  /* ===============================
+     PERFORMANCE & CLEANLINESS
+  =============================== */
+  clearMocks: true,
+  restoreMocks: true,
+  resetMocks: true,
 };

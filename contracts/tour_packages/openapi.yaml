@@ -1,0 +1,312 @@
+openapi: 3.1.0
+info:
+  title: tour_packages
+  description: ''
+  version: 1.0.0
+tags: []
+paths:
+  /:
+    get:
+      summary: Get all tour packages
+      deprecated: false
+      description: ''
+      operationId: getAllTourPackages
+      tags: []
+      parameters:
+        - name: category
+          in: query
+          description: ''
+          required: false
+          schema:
+            type: string
+        - name: page
+          in: query
+          description: ''
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+        - name: limit
+          in: query
+          description: ''
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':
+          description: List of tour packages
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TourPackageSummary'
+          headers: {}
+      security:
+        - bearerAuth: []
+      x-middleware:
+        auth: false
+  /{id}:
+    get:
+      summary: Get tour package details
+      deprecated: false
+      description: ''
+      operationId: getTourPackageById
+      tags: []
+      parameters:
+        - name: id
+          in: path
+          description: ''
+          required: true
+          example: ''
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Tour package details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TourPackageDetails'
+          headers: {}
+        '404':
+          description: Tour package not found
+          headers: {}
+      security:
+        - bearerAuth: []
+      x-middleware:
+        auth: false
+  /{id}/book:
+    post:
+      summary: Book a tour package
+      deprecated: false
+      description: ''
+      operationId: bookTourPackage
+      tags: []
+      parameters:
+        - name: id
+          in: path
+          description: ''
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTourPackageBookingRequest'
+            examples: {}
+        required: true
+      responses:
+        '201':
+          description: Tour package booking created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateTourPackageBookingResponse'
+          headers: {}
+        '400':
+          description: Invalid request
+          headers: {}
+        '404':
+          description: Tour package not found
+          headers: {}
+      security:
+        - bearerAuth: []
+      x-middleware:
+        auth: false
+components:
+  schemas:
+    TourPackageSummary:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        image:
+          type: string
+        pricePerPerson:
+          type: number
+        discount:
+          type: number
+          description: Discount percentage (optional)
+        rating:
+          type: number
+        location:
+          type: string
+      required:
+        - id
+        - name
+        - image
+        - pricePerPerson
+        - rating
+        - location
+    TourPackageDetails:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        image:
+          type: string
+        pricePerPerson:
+          type: number
+        discount:
+          type: number
+          description: Discount percentage (optional)
+        rating:
+          type: number
+        location:
+          type: string
+        availableLanguages:
+          type: array
+          items:
+            type: string
+        included:
+          type: array
+          items:
+            type: string
+        itinerary:
+          type: array
+          items:
+            type: string
+        duration:
+          type: string
+        groupSize:
+          type: object
+          properties:
+            min:
+              type: integer
+            max:
+              type: integer
+          required:
+            - min
+            - max
+      required:
+        - id
+        - name
+        - image
+        - pricePerPerson
+        - rating
+        - location
+        - availableLanguages
+        - included
+        - itinerary
+        - duration
+        - groupSize
+    CreateTourPackageBookingRequest:
+      type: object
+      properties:
+        tourDate:
+          type: string
+          format: date
+        numberOfPeople:
+          type: integer
+          minimum: 1
+        fullName:
+          type: string
+        email:
+          type: string
+          format: email
+        phoneNumber:
+          type: string
+          pattern: ^\+?[1-9]\d{1,14}$
+        hotelName:
+          type: string
+          description: Hotel name for pickup (optional)
+        specialRequests:
+          type: string
+          description: Special requests (optional)
+      required:
+        - tourDate
+        - numberOfPeople
+        - fullName
+        - email
+        - phoneNumber
+    CreateTourPackageBookingResponse:
+      type: object
+      properties:
+        bookingId:
+          type: string
+        bookingReference:
+          type: string
+          description: Reference code for the booking (for display/QR)
+        status:
+          type: string
+          enum:
+            - confirmed
+            - pending
+        message:
+          type: string
+        tourId:
+          type: string
+        tourName:
+          type: string
+        tourDate:
+          type: string
+          format: date
+        pickupTime:
+          type: string
+          description: Pickup time for the tour
+        durationHours:
+          type: integer
+          description: Duration of the tour in hours
+        difficulty:
+          type: string
+          description: Difficulty level of the tour
+        city:
+          type: string
+        included:
+          type: array
+          items:
+            type: string
+        numberOfPeople:
+          type: integer
+        guestName:
+          type: string
+        guestEmail:
+          type: string
+          format: email
+        guestPhone:
+          type: string
+        totalAmount:
+          type: number
+        discount:
+          type: number
+        currentPrice:
+          type: number
+        discountPercentage:
+          type: number
+          description: Discount percentage applied
+      required:
+        - bookingId
+        - bookingReference
+        - status
+        - message
+        - tourId
+        - tourName
+        - tourDate
+        - pickupTime
+        - durationHours
+        - difficulty
+        - city
+        - included
+        - numberOfPeople
+        - guestName
+        - guestEmail
+        - guestPhone
+        - totalAmount
+        - discount
+        - currentPrice
+        - discountPercentage
+  responses: {}
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+servers: []
+security:
+  - bearerAuth: []

@@ -1,0 +1,213 @@
+openapi: 3.1.0
+info:
+  title: Analytics
+  description: ''
+  version: 1.0.0
+tags:
+  - name: Analytics
+paths:
+  /metrics:
+    get:
+      summary: Get business analytics metrics
+      deprecated: false
+      description: >-
+        Returns aggregated business metrics and reports from the PostgreSQL data
+        source.
+      operationId: getAnalyticsMetrics
+      tags:
+        - Analytics
+      parameters:
+        - name: startDate
+          in: query
+          description: Start date for the analytics period (inclusive).
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: endDate
+          in: query
+          description: End date for the analytics period (inclusive).
+          required: false
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Analytics metrics successfully retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  metrics:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          description: Name of the metric
+                        value:
+                          type: number
+                          description: Value of the metric
+                  generatedAt:
+                    type: string
+                    format: date-time
+                    description: Time the report was generated
+                required:
+                  - metrics
+                  - generatedAt
+          headers: {}
+        '400':
+          description: Invalid query parameters
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    description: Error code
+                  message:
+                    type: string
+                    description: Error message
+                required:
+                  - code
+                  - message
+          headers: {}
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    description: Error code
+                  message:
+                    type: string
+                    description: Error message
+                required:
+                  - code
+                  - message
+          headers: {}
+      security: []
+  /events:
+    post:
+      summary: Trigger an analytics event
+      deprecated: false
+      description: Records a client event for analytics processing.
+      operationId: postAnalyticsEvent
+      tags:
+        - Analytics
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                event_name:
+                  type: string
+                  description: Name of the event
+                user_id:
+                  type: string
+                  description: User identifier (optional if anonymous)
+                anonymous_id:
+                  type: string
+                  description: Anonymous identifier
+                timestamp:
+                  type: string
+                  format: date-time
+                  description: Client event time (server may override)
+                context:
+                  type: object
+                  properties:
+                    platform:
+                      type: string
+                      description: ios | android | web
+                    app_version:
+                      type: string
+                    os_version:
+                      type: string
+                    device_model:
+                      type: string
+                  additionalProperties: false
+                properties:
+                  type: object
+                  additionalProperties: true
+                  properties: {}
+              required:
+                - event_name
+            examples: {}
+        required: true
+      responses:
+        '200':
+          description: Event accepted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                required:
+                  - success
+          headers: {}
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  message:
+                    type: string
+                required:
+                  - code
+                  - message
+          headers: {}
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  message:
+                    type: string
+                required:
+                  - code
+                  - message
+          headers: {}
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  message:
+                    type: string
+                required:
+                  - code
+                  - message
+          headers: {}
+      security:
+        - bearerAuth: []
+components:
+  schemas: {}
+  responses: {}
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+servers: []
+security: []
