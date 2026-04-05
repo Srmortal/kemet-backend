@@ -10,7 +10,7 @@ export class StripePaymentGateway implements PaymentGateway {
   private readonly stripe: Stripe;
 
   constructor(apiKey: string) {
-    this.stripe = new Stripe(apiKey, { apiVersion: "2026-01-28.clover" });
+    this.stripe = new Stripe(apiKey, { apiVersion: "2026-02-25.clover" });
   }
 
   async createPaymentIntent(params: {
