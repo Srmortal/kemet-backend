@@ -125,7 +125,6 @@ paths:
       x-middleware:
         auth: true
         role: user
-webhooks: {}
 components:
   schemas:
     GetAdventuresResponse:
