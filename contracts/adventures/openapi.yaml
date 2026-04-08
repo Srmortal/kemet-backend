@@ -13,16 +13,14 @@ paths:
       operationId: listAdventures
       tags: []
       parameters:
-        - in: query
-          name: query
+        - name: page
+          in: query
           schema:
-            type: object
-            properties:
-              page:
-                type: integer
-              limit:
-                type: integer
-            additionalProperties: false
+            type: integer
+        - name: limit
+          in: query
+          schema:
+            type: integer
       responses:
         '200':
           description: List of adventures
