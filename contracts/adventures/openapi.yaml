@@ -1,6 +1,6 @@
 openapi: 3.1.0
 info:
-  title: adventures
+  title: Kemet API
   description: ''
   version: 1.0.0
 tags: []
@@ -12,19 +12,28 @@ paths:
       description: ''
       operationId: listAdventures
       tags: []
-      parameters: []
+      parameters:
+        - name: page
+          in: query
+          description: ''
+          required: false
+          schema:
+            type: integer
+        - name: limit
+          in: query
+          description: ''
+          required: false
+          schema:
+            type: integer
       responses:
         '200':
           description: List of adventures
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/AdventureListItem'
+                $ref: '#/components/schemas/GetAdventuresResponse'
           headers: {}
-      security:
-        - bearerAuth: []
+      security: []
       x-middleware:
         auth: false
   /{id}:
@@ -53,8 +62,7 @@ paths:
         '404':
           description: Adventure not found
           headers: {}
-      security:
-        - bearerAuth: []
+      security: []
       x-middleware:
         auth: false
   /{id}/book:
@@ -69,6 +77,7 @@ paths:
           in: path
           description: ''
           required: true
+          example: ''
           schema:
             type: string
       requestBody:
@@ -76,7 +85,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/CreateBookingRequest'
-            examples: {}
         required: true
       responses:
         '201':
@@ -89,8 +97,7 @@ paths:
         '400':
           description: Invalid request
           headers: {}
-      security:
-        - bearerAuth: []
+      security: []
       x-middleware:
         auth: true
         role: user
@@ -112,173 +119,37 @@ paths:
                 items:
                   $ref: '#/components/schemas/AdventureBookingListItem'
           headers: {}
-      security:
-        - bearerAuth: []
+      security: []
       x-middleware:
         auth: true
         role: user
+webhooks: {}
 components:
   schemas:
-    AdventureBookingListItem:
+    GetAdventuresResponse:
       type: object
       properties:
-        bookingId:
-          type: string
-        adventureId:
-          type: string
-      required:
-        - bookingId
-        - adventureId
-    AdventureListItem:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        description:
-          type: string
-        location:
-          type: string
-        rating:
-          type: number
-        price:
-          type: number
-        duration:
-          type: string
-          description: Duration (e.g. "6 hours")
-        maxGroupSize:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/AdventureListItem'
+        page:
           type: integer
-        difficulty:
-          type: string
-          description: Difficulty level (e.g. "Moderate")
-        tags:
-          type: array
-          items:
-            type: string
-        image:
-          type: string
-          description: Image or icon URL
-          format: uri
-      required:
-        - id
-        - name
-        - description
-        - location
-        - rating
-        - price
-        - duration
-        - maxGroupSize
-        - difficulty
-        - tags
-        - image
-    AdventureDetails:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        description:
-          type: string
-        location:
-          type: string
-        rating:
-          type: number
-        price:
-          type: number
-        duration:
-          type: string
-          description: Duration (e.g. "6 hours")
-        maxGroupSize:
+        limit:
           type: integer
-        difficulty:
-          type: string
-        tags:
-          type: array
-          items:
-            type: string
-        image:
-          type: string
-          format: uri
-        included:
-          type: array
-          items:
-            type: string
-          description: Items/services included in the adventure
-        availableLanguages:
-          type: array
-          items:
-            type: string
-          description: Languages available for the adventure
-        highlights:
-          type: array
-          items:
-            type: string
-          description: Key highlights of the adventure
-      required:
-        - id
-        - name
-        - description
-        - location
-        - rating
-        - price
-        - duration
-        - maxGroupSize
-        - difficulty
-        - tags
-        - image
-        - included
-        - availableLanguages
-        - highlights
-    AdventureBooking:
-      type: object
-      properties:
-        bookingId:
-          type: string
-        activityName:
-          type: string
-          description: Name of the adventure activity
-        category:
-          type: string
-        date:
-          type: string
-          format: date
-          description: Date of the activity (e.g. 2024-12-31)
-        time:
-          type: string
-          format: time
-          description: Time of the activity (e.g. 02:00 PM)
-        participants:
+        hasNext:
+          type: boolean
+        totalPages:
           type: integer
-          minimum: 1
-          description: Number of participants
         total:
-          type: number
-          description: Total price for the booking
-        rating:
-          type: number
-          description: Average rating for the adventure
-          minimum: 0
-          maximum: 5
-        reviewsCount:
           type: integer
-          description: Number of reviews for the adventure
-        createdAt:
-          type: string
-          format: date-time
-          description: ISO 8601 creation timestamp
       required:
-        - bookingId
-        - activityName
-        - category
-        - date
-        - time
-        - participants
+        - data
+        - page
+        - limit
+        - hasNext
+        - totalPages
         - total
-        - rating
-        - reviewsCount
-        - createdAt
     CreateBookingRequest:
       type: object
       properties:
@@ -301,11 +172,278 @@ components:
         - date
         - time
         - guests
-  responses: {}
-  securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: bearer
+    AdventureBooking:
+      type: object
+      properties:
+        bookingId:
+          type: string
+          example: BK789012
+        activityName:
+          type: string
+          description: Name of the adventure activity
+          example: Kayaking Adventure
+        category:
+          type: string
+          example: Water Sports
+        date:
+          type: string
+          format: date
+          description: Date of the activity (e.g. 2024-12-31)
+          example: '2024-08-15'
+        time:
+          type: string
+          format: time
+          description: Time of the activity (e.g. 02:00 PM)
+          example: 10:30 AM
+        participants:
+          type: integer
+          minimum: 1
+          description: Number of participants
+          example: 3
+        total:
+          type: number
+          description: Total price for the booking
+          example: 225.5
+        rating:
+          type: number
+          description: Average rating for the adventure
+          minimum: 0
+          maximum: 5
+          example: 4.8
+        reviewsCount:
+          type: integer
+          description: Number of reviews for the adventure
+          example: 42
+        createdAt:
+          type: string
+          format: date-time
+          description: ISO 8601 creation timestamp
+          example: '2024-06-20T09:15:00Z'
+      required:
+        - bookingId
+        - activityName
+        - category
+        - date
+        - time
+        - participants
+        - total
+        - rating
+        - reviewsCount
+        - createdAt
+    AdventureDetails:
+      type: object
+      properties:
+        id:
+          type: string
+          examples:
+            - adv-001
+        name:
+          type: string
+          examples:
+            - Mountain Hiking Adventure
+        description:
+          type: string
+          examples:
+            - An exciting hike through scenic mountains with breathtaking views.
+        location:
+          type: string
+          examples:
+            - Rocky Mountains, Colorado
+        rating:
+          type: number
+          format: float
+          minimum: 0
+          maximum: 5
+          exclusiveMinimum: 0
+          exclusiveMaximum: 5
+          title: rating
+          examples:
+            - 4.5
+        price:
+          type: number
+          format: float
+          minimum: 0
+          exclusiveMinimum: 0
+          title: price
+          examples:
+            - 99.99
+        duration:
+          type: string
+          description: Duration (e.g. "6 hours")
+          examples:
+            - 6 hours
+        maxGroupSize:
+          type: integer
+          minimum: 0
+          format: int32
+          exclusiveMinimum: 0
+          examples:
+            - 10
+        difficulty:
+          type: string
+          examples:
+            - Moderate
+        tags:
+          type: array
+          items:
+            type: string
+          examples:
+            - - hiking
+              - nature
+              - adventure
+        image:
+          type: string
+          format: uri
+          examples:
+            - https://example.com/adventure.jpg
+        included:
+          type: array
+          items:
+            type: string
+          description: Items/services included in the adventure
+          examples:
+            - - Guide
+              - Snacks
+              - Equipment
+        availableLanguages:
+          type: array
+          items:
+            type: string
+          description: Languages available for the adventure
+          examples:
+            - - English
+              - Spanish
+        highlights:
+          type: array
+          items:
+            type: string
+          description: Key highlights of the adventure
+          examples:
+            - - Panoramic views
+              - Wildlife spotting
+        featured:
+          type: boolean
+          examples:
+            - true
+      required:
+        - id
+        - name
+        - description
+        - location
+        - rating
+        - price
+        - duration
+        - maxGroupSize
+        - difficulty
+        - tags
+        - image
+        - included
+        - availableLanguages
+        - highlights
+        - featured
+    AdventureListItem:
+      type: object
+      properties:
+        id:
+          type: string
+          example: tour-001
+        name:
+          type: string
+          example: City Sightseeing Tour
+        description:
+          type: string
+          example: A comprehensive tour of the city's landmarks.
+        location:
+          type: string
+          example: New York, USA
+        rating:
+          type: number
+          minimum: 0
+          maximum: 5
+          exclusiveMinimum: 0
+          exclusiveMaximum: 5
+          format: float
+          title: rating
+          example: 4.5
+        price:
+          type: number
+          title: price
+          format: float
+          minimum: 0
+          exclusiveMinimum: 0
+          example: 99.99
+        duration:
+          type: string
+          description: Duration (e.g. "6 hours")
+          example: 6 hours
+        maxGroupSize:
+          type: integer
+          format: int32
+          minimum: 0
+          exclusiveMinimum: 0
+          example: 20
+        difficulty:
+          type: string
+          description: Difficulty level (e.g. "Moderate")
+          example: Moderate
+        tags:
+          type: array
+          items:
+            type: string
+          example:
+            - adventure
+            - sightseeing
+        image:
+          type: string
+          description: Image or icon URL
+          format: uri
+          example: https://example.com/image.jpg
+        highlights:
+          type: array
+          items:
+            type: string
+          example:
+            - Visit famous landmarks
+            - Enjoy local cuisine
+        included:
+          type: array
+          items:
+            type: string
+          example:
+            - Guide
+            - Transportation
+            - Lunch
+        featured:
+          type: boolean
+          example: true
+      required:
+        - id
+        - name
+        - description
+        - location
+        - rating
+        - price
+        - duration
+        - maxGroupSize
+        - difficulty
+        - tags
+        - image
+        - highlights
+        - included
+        - featured
+    AdventureBookingListItem:
+      type: object
+      properties:
+        bookingId:
+          type: string
+          examples:
+            - BK12345
+        adventureId:
+          type: string
+          examples:
+            - ADV67890
+      required:
+        - bookingId
+        - adventureId
+  securitySchemes: {}
 servers: []
-security:
-  - bearerAuth: []
