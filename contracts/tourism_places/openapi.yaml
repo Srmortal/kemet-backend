@@ -1,10 +1,111 @@
 openapi: 3.1.0
 info:
-  title: tourism_places
+  title: Kemet API
   description: ''
   version: 1.0.0
 tags: []
 paths:
+  /bookings:
+    get:
+      summary: Get bookings for authenticated user
+      deprecated: false
+      description: ''
+      operationId: getTourismBookingsForUser
+      tags: []
+      parameters: []
+      responses:
+        '200':
+          description: List of user bookings
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TourismBooking'
+          headers: {}
+      security: []
+      x-middleware:
+        auth: true
+        role: user
+  /stats:
+    get:
+      summary: Get tourism place statistics
+      deprecated: false
+      description: ''
+      operationId: getTourismStatsOverview
+      tags: []
+      parameters: []
+      responses:
+        '200':
+          description: Place statistics
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  totalPlaces:
+                    type: integer
+                  totalCategories:
+                    type: integer
+                required:
+                  - totalPlaces
+                  - totalCategories
+          headers: {}
+      security: []
+      x-middleware:
+        auth: false
+  /locations:
+    get:
+      summary: Get available tourism locations
+      deprecated: false
+      description: ''
+      operationId: getTourismLocationsList
+      tags: []
+      parameters: []
+      responses:
+        '200':
+          description: List of locations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    location:
+                      type: string
+                  required:
+                    - location
+          headers: {}
+      security: []
+      x-middleware:
+        auth: false
+  /categories:
+    get:
+      summary: Get available tourism categories
+      deprecated: false
+      description: ''
+      operationId: getTourismCategoriesList
+      tags: []
+      parameters: []
+      responses:
+        '200':
+          description: List of categories
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    category:
+                      type: string
+                  required:
+                    - category
+          headers: {}
+      security: []
+      x-middleware:
+        auth: false
   /:
     get:
       summary: Get all tourism places
@@ -72,8 +173,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/GetTourismPlacesResponse'
           headers: {}
-      security:
-        - bearerAuth: []
+      security: []
       x-middleware:
         auth: false
   /{id}/book:
@@ -88,6 +188,7 @@ paths:
           in: path
           description: ''
           required: true
+          example: ''
           schema:
             type: string
       requestBody:
@@ -95,7 +196,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/CreateBookingRequest'
-            examples: {}
         required: true
       responses:
         '201':
@@ -108,93 +208,10 @@ paths:
         '400':
           description: Invalid request
           headers: {}
-      security:
-        - bearerAuth: []
+      security: []
       x-middleware:
         auth: true
         role: user
-  /stats:
-    get:
-      summary: Get tourism place statistics
-      deprecated: false
-      description: ''
-      operationId: getTourismStatsOverview
-      tags: []
-      parameters: []
-      responses:
-        '200':
-          description: Place statistics
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  totalPlaces:
-                    type: integer
-                  totalCategories:
-                    type: integer
-                required:
-                  - totalPlaces
-                  - totalCategories
-          headers: {}
-      security:
-        - bearerAuth: []
-      x-middleware:
-        auth: false
-  /locations:
-    get:
-      summary: Get available tourism locations
-      deprecated: false
-      description: ''
-      operationId: getTourismLocationsList
-      tags: []
-      parameters: []
-      responses:
-        '200':
-          description: List of locations
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    location:
-                      type: string
-                  required:
-                    - location
-          headers: {}
-      security:
-        - bearerAuth: []
-      x-middleware:
-        auth: false
-  /categories:
-    get:
-      summary: Get available tourism categories
-      deprecated: false
-      description: ''
-      operationId: getTourismCategoriesList
-      tags: []
-      parameters: []
-      responses:
-        '200':
-          description: List of categories
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    category:
-                      type: string
-                  required:
-                    - category
-          headers: {}
-      security:
-        - bearerAuth: []
-      x-middleware:
-        auth: false
   /{id}:
     get:
       summary: Get tourism place by ID
@@ -221,99 +238,46 @@ paths:
         '404':
           description: Place not found
           headers: {}
-      security:
-        - bearerAuth: []
+      security: []
       x-middleware:
         auth: false
-  /bookings:
-    get:
-      summary: Get bookings for authenticated user
-      deprecated: false
-      description: ''
-      operationId: getTourismBookingsForUser
-      tags: []
-      parameters: []
-      responses:
-        '200':
-          description: List of user bookings
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/TourismBooking'
-          headers: {}
-      security:
-        - bearerAuth: []
-      x-middleware:
-        auth: true
-        role: user
+webhooks: {}
 components:
   schemas:
-    TourismPlace:
+    TourismBooking:
       type: object
       properties:
-        id:
+        bookingId:
           type: string
-        title:
+          description: Unique identifier for the booking
+          example: BK-98765
+        siteId:
           type: string
-        description:
+          description: Unique identifier for the site or location
+          example: SITE-005
+        date:
           type: string
-        location:
-          type: string
-        coordinates:
-          type: object
-          properties:
-            latitude:
-              type: number
-              description: Latitude of the place
-            longitude:
-              type: number
-              description: Longitude of the place
-          required:
-            - latitude
-            - longitude
-          description: Geographic coordinates for map
-        category:
-          type: string
-        rating:
-          type: number
-        price:
-          type: number
-        address:
-          type: string
-          description: Full address of the place
-        reviewsCount:
+          format: date
+          description: Date of the booking
+          example: '2023-10-15'
+        guests:
           type: integer
-          description: Number of reviews
-        isOpen:
-          type: boolean
-          description: Whether the place is currently open
-        hours:
-          type: object
-          properties:
-            open:
-              type: string
-              description: Opening time (e.g. 8:00 AM)
-            close:
-              type: string
-              description: Closing time (e.g. 5:00 PM)
-          required:
-            - open
-            - close
-          description: Opening hours
-        features:
-          type: array
-          items:
-            type: string
-          description: List of features/tags (e.g. Guided Tours, Photography)
-        image:
+          description: Number of guests
+          example: 4
+        time:
           type: string
-          description: Image URL (may be empty)
-        phoneNumber:
+          format: time
+          description: Time of booking (optional)
+          example: '19:30'
+        specialRequests:
           type: string
-          description: Phone number for the place (optional)
-      additionalProperties: false
+          description: Special requests (optional)
+          example: Window seat preferred, no nuts allergy
+      required:
+        - bookingId
+        - siteId
+        - date
+        - guests
     GetTourismPlacesResponse:
       type: object
       properties:
@@ -321,48 +285,36 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/TourismPlace'
+          description: Array of item objects
+          example:
+            - id: 1
+              name: Mock Item 1
+            - id: 2
+              name: Mock Item 2
         total:
           type: integer
+          description: Total number of items available
+          example: 50
         page:
           type: integer
+          description: Current page number in pagination
+          example: 1
         limit:
           type: integer
+          description: Maximum number of items per page
+          example: 10
         filters:
-          type: object
-          properties:
-            location:
-              type: string
-              nullable: true
-            category:
-              type: string
-              nullable: true
-            sortBy:
-              type: string
-    TourismBooking:
-      type: object
-      properties:
-        bookingId:
-          type: string
-        siteId:
-          type: string
-        date:
-          type: string
-          format: date
-        guests:
-          type: integer
-          description: Number of guests
-        time:
-          type: string
-          format: time
-          description: Time of booking (optional)
-        specialRequests:
-          type: string
-          description: Special requests (optional)
+          $ref: '#/components/schemas/Filters'
+          description: Filter criteria applied to the data
+          example:
+            status: active
+            category: electronics
       required:
-        - bookingId
-        - siteId
-        - date
-        - guests
+        - items
+        - total
+        - page
+        - limit
+        - filters
     CreateBookingRequest:
       type: object
       properties:
@@ -385,11 +337,163 @@ components:
         - date
         - time
         - guests
-  responses: {}
-  securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: bearer
+    TourismPlace:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the place
+          examples:
+            - place_001
+        title:
+          type: string
+          description: Name or title of the place
+          examples:
+            - Central Park
+        description:
+          type: string
+          description: Detailed description of the place
+          examples:
+            - >-
+              A large public park in New York City, offering recreational
+              activities and scenic views.
+        location:
+          type: string
+          description: General location or area name
+          examples:
+            - Manhattan, New York
+        coordinates:
+          type: object
+          properties:
+            lat:
+              type: number
+              description: Latitude coordinate
+              examples:
+                - 40.785091
+            lng:
+              type: number
+              description: Longitude coordinate
+              examples:
+                - -73.968285
+          description: Geographic coordinates for map
+        category:
+          type: string
+          description: Category or type of place (e.g., Museum, Park, Restaurant)
+          examples:
+            - Park
+        rating:
+          type: number
+          description: Average rating score (typically out of 5)
+          examples:
+            - 4.5
+        price:
+          type: number
+          description: Numeric price value or cost level
+          examples:
+            - 0
+        priceRange:
+          type: string
+          description: Price range (e.g. "200-500 EGP")
+          examples:
+            - Free
+        address:
+          type: string
+          description: Full address of the place
+          examples:
+            - New York, NY 10024, USA
+        reviewsCount:
+          type: integer
+          description: Number of reviews
+          examples:
+            - 1500
+        isOpen:
+          type: boolean
+          description: Whether the place is currently open
+          examples:
+            - true
+        hours:
+          type: object
+          properties:
+            open:
+              type: string
+              description: Opening time (e.g., '09:00')
+              examples:
+                - '06:00'
+            close:
+              type: string
+              description: Closing time (e.g., '17:00')
+              examples:
+                - '22:00'
+          description: Opening hours
+        features:
+          type: array
+          items:
+            type: string
+          description: List of features/tags (e.g. Guided Tours, Photography)
+          examples:
+            - - Walking Trails
+              - Picnic Areas
+              - Boating
+        image:
+          type: string
+          description: Image URL (may be empty)
+          examples:
+            - https://example.com/central-park.jpg
+        phoneNumber:
+          type: string
+          description: Phone number for the place (optional)
+          examples:
+            - +1-212-310-6600
+        badges:
+          type: array
+          items:
+            type: string
+          description: Badges or special labels (e.g. "UNESCO Heritage Site")
+          examples:
+            - - National Historic Landmark
+        specialOffers:
+          type: array
+          items:
+            type: string
+          description: Special offers for the place
+          examples:
+            - - Free entry on weekdays
+        exhibits:
+          type: array
+          items:
+            type: string
+          description: List of exhibits or points of interest
+          examples:
+            - - Bethesda Fountain
+              - The Great Lawn
+              - Central Park Zoo
+        bestTimeToVisit:
+          type: string
+          description: Best time to visit (e.g. "Early morning (8-10 AM)")
+          examples:
+            - Spring or Fall, weekdays to avoid crowds
+        visitDuration:
+          type: string
+          description: Typical visit duration (e.g. "2-3 hours")
+          examples:
+            - 2-4 hours
+      additionalProperties: false
+    Filters:
+      type: object
+      properties:
+        location:
+          type:
+            - string
+            - 'null'
+        category:
+          type:
+            - string
+            - 'null'
+        sortBy:
+          type: string
+      required:
+        - location
+        - category
+        - sortBy
+  securitySchemes: {}
 servers: []
-security:
-  - bearerAuth: []
