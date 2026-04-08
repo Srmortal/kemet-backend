@@ -15,12 +15,18 @@ paths:
       parameters:
         - name: page
           in: query
+          description: ''
+          required: false
           schema:
             type: integer
+            default: 1
         - name: limit
           in: query
+          description: ''
+          required: false
           schema:
             type: integer
+            default: 10
       responses:
         '200':
           description: List of adventures
@@ -146,86 +152,6 @@ components:
         - hasNext
         - totalPages
         - total
-    CreateBookingRequest:
-      type: object
-      properties:
-        date:
-          type: string
-          format: date
-          description: Date of the adventure (e.g. 2024-12-31)
-        time:
-          type: string
-          format: time
-          description: Time of the adventure (e.g. 02:00 PM)
-        guests:
-          type: integer
-          minimum: 1
-          description: Number of guests/participants
-        specialRequests:
-          type: string
-          description: Special requests (optional)
-      required:
-        - date
-        - time
-        - guests
-    AdventureBooking:
-      type: object
-      properties:
-        bookingId:
-          type: string
-          example: BK789012
-        activityName:
-          type: string
-          description: Name of the adventure activity
-          example: Kayaking Adventure
-        category:
-          type: string
-          example: Water Sports
-        date:
-          type: string
-          format: date
-          description: Date of the activity (e.g. 2024-12-31)
-          example: '2024-08-15'
-        time:
-          type: string
-          format: time
-          description: Time of the activity (e.g. 02:00 PM)
-          example: 10:30 AM
-        participants:
-          type: integer
-          minimum: 1
-          description: Number of participants
-          example: 3
-        total:
-          type: number
-          description: Total price for the booking
-          example: 225.5
-        rating:
-          type: number
-          description: Average rating for the adventure
-          minimum: 0
-          maximum: 5
-          example: 4.8
-        reviewsCount:
-          type: integer
-          description: Number of reviews for the adventure
-          example: 42
-        createdAt:
-          type: string
-          format: date-time
-          description: ISO 8601 creation timestamp
-          example: '2024-06-20T09:15:00Z'
-      required:
-        - bookingId
-        - activityName
-        - category
-        - date
-        - time
-        - participants
-        - total
-        - rating
-        - reviewsCount
-        - createdAt
     AdventureDetails:
       type: object
       properties:
@@ -337,6 +263,100 @@ components:
         - availableLanguages
         - highlights
         - featured
+    CreateBookingRequest:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+          description: Date of the adventure (e.g. 2024-12-31)
+        time:
+          type: string
+          format: time
+          description: Time of the adventure (e.g. 02:00 PM)
+        guests:
+          type: integer
+          minimum: 1
+          description: Number of guests/participants
+        specialRequests:
+          type: string
+          description: Special requests (optional)
+      required:
+        - date
+        - time
+        - guests
+    AdventureBooking:
+      type: object
+      properties:
+        bookingId:
+          type: string
+          example: BK789012
+        activityName:
+          type: string
+          description: Name of the adventure activity
+          example: Kayaking Adventure
+        category:
+          type: string
+          example: Water Sports
+        date:
+          type: string
+          format: date
+          description: Date of the activity (e.g. 2024-12-31)
+          example: '2024-08-15'
+        time:
+          type: string
+          format: time
+          description: Time of the activity (e.g. 02:00 PM)
+          example: 10:30 AM
+        participants:
+          type: integer
+          minimum: 1
+          description: Number of participants
+          example: 3
+        total:
+          type: number
+          description: Total price for the booking
+          example: 225.5
+        rating:
+          type: number
+          description: Average rating for the adventure
+          minimum: 0
+          maximum: 5
+          example: 4.8
+        reviewsCount:
+          type: integer
+          description: Number of reviews for the adventure
+          example: 42
+        createdAt:
+          type: string
+          format: date-time
+          description: ISO 8601 creation timestamp
+          example: '2024-06-20T09:15:00Z'
+      required:
+        - bookingId
+        - activityName
+        - category
+        - date
+        - time
+        - participants
+        - total
+        - rating
+        - reviewsCount
+        - createdAt
+    AdventureBookingListItem:
+      type: object
+      properties:
+        bookingId:
+          type: string
+          examples:
+            - BK12345
+        adventureId:
+          type: string
+          examples:
+            - ADV67890
+      required:
+        - bookingId
+        - adventureId
     AdventureListItem:
       type: object
       properties:
@@ -427,19 +447,5 @@ components:
         - highlights
         - included
         - featured
-    AdventureBookingListItem:
-      type: object
-      properties:
-        bookingId:
-          type: string
-          examples:
-            - BK12345
-        adventureId:
-          type: string
-          examples:
-            - ADV67890
-      required:
-        - bookingId
-        - adventureId
   securitySchemes: {}
 servers: []
