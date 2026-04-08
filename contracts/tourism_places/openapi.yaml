@@ -241,7 +241,6 @@ paths:
       security: []
       x-middleware:
         auth: false
-webhooks: {}
 components:
   schemas:
     TourismBooking:
