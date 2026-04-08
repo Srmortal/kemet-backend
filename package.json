@@ -32,7 +32,6 @@
     "pm2:status": "pm2 status",
     "pm2:flush": "pm2 flush",
     "generate:contracts": "tsx scripts/generate-contracts.ts",
-    "prepare":"npm run generate:contracts",
     "check": "ultracite check",
     "fix": "ultracite fix"
   },
